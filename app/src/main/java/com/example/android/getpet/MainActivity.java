@@ -16,7 +16,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
-//This is main activity
+//This is my main activity
 
 public class MainActivity extends AppCompatActivity {
 
