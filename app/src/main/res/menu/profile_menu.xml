@@ -9,6 +9,11 @@
         app:showAsAction="always"
         />
 
-
+    <item
+        android:id="@+id/menu_item_mypetlist"
+        android:icon="@drawable/pet_list"
+        android:title="PetList"
+        app:showAsAction="always"
+        />
 
 </menu>

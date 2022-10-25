@@ -2,6 +2,7 @@ package com.example.android.getpet;
 
 public class Pets {
 
+    private String key;
     private String animal;
     private String breed;
     private String age;
@@ -23,6 +24,14 @@ public class Pets {
 
     public void setAnimal(String animal) {
         this.animal = animal;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public String getBreed() {
@@ -57,7 +66,8 @@ public class Pets {
         this.gender = gender;
     }
 
-    public Pets(String animal, String breed, String age, String size, String gender,String profilePic) {
+    public Pets(String key, String animal, String breed, String age, String size, String gender, String profilePic) {
+        this.key = key;
         this.animal = animal;
         this.breed = breed;
         this.age = age;
@@ -66,6 +76,5 @@ public class Pets {
         this.profilePic = profilePic;
     }
 
-    public Pets() {
-    }
+    public Pets(){}
 }

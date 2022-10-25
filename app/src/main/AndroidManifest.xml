@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GetPet">
         <activity
+            android:name=".userPetList"
+            android:exported="false" />
+        <activity
             android:name=".PetDetailsActivity"
             android:exported="false" />
         <activity

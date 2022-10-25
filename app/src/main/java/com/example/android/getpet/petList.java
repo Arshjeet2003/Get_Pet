@@ -86,6 +86,9 @@ public class petList extends AppCompatActivity {
         if(item.getItemId()==R.id.menu_item_profile){
             startActivity(new Intent(petList.this,profile.class));
         }
+        if(item.getItemId()==R.id.menu_item_mypetlist){
+            startActivity(new Intent(petList.this,userPetList.class));
+        }
         return super.onOptionsItemSelected(item);
     }
 

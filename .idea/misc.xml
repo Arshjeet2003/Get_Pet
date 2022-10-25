@@ -9,7 +9,10 @@
         <entry key="app/src/main/res/layout/activity_pet_list.xml" value="0.29128205128205126" />
         <entry key="app/src/main/res/layout/activity_pets_editor.xml" value="0.2907692307692308" />
         <entry key="app/src/main/res/layout/activity_profile.xml" value="0.2907692307692308" />
+        <entry key="app/src/main/res/layout/activity_user_pet_list.xml" value="0.26944444444444443" />
         <entry key="app/src/main/res/layout/pet_holder.xml" value="0.2907692307692308" />
+        <entry key="app/src/main/res/layout/user_pet_holder.xml" value="0.26944444444444443" />
+        <entry key="app/src/main/res/menu/mypetlist_menu.xml" value="0.26944444444444443" />
         <entry key="app/src/main/res/menu/profile_menu.xml" value="0.2907692307692308" />
         <entry key="app/src/main/res/menu/save_menu.xml" value="0.30512820512820515" />
       </map>
