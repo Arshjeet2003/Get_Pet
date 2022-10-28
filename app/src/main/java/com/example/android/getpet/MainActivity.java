@@ -2,7 +2,6 @@ package com.example.android.getpet;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -30,12 +29,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        name = findViewById(R.id.name_et);
+        name =  findViewById(R.id.name_et);
         email = findViewById(R.id.email_et);
         password = findViewById(R.id.Password_et);
         number = findViewById(R.id.Number_et);
         submit = findViewById(R.id.submit_tv);
-        login = findViewById(R.id.login_tv);
+        login =  findViewById(R.id.login_tv);
 
         if(FirebaseAuth.getInstance().getCurrentUser()!=null){
             startActivity(new Intent(MainActivity.this,petList.class));
@@ -68,10 +67,10 @@ public class MainActivity extends AppCompatActivity {
                   @Override
                   public void onComplete(@NonNull Task<AuthResult> task) {
                       if(task.isSuccessful()){
-                          FirebaseDatabase.getInstance().getReference("user/"+FirebaseAuth.getInstance().getCurrentUser().getUid())
+                          FirebaseDatabase.getInstance().getReference("users/"+FirebaseAuth.getInstance().getCurrentUser().getUid())
                                    .setValue(new User(name.getText().toString(),number.getText().toString(),email.getText().toString(),""));
                           startActivity(new Intent(MainActivity.this,petList.class));
-                          Toast.makeText(MainActivity.this,"Sign up successfull",Toast.LENGTH_SHORT).show();
+                          Toast.makeText(MainActivity.this,"Sign up successful",Toast.LENGTH_SHORT).show();
                       }
                       else{
                           Toast.makeText(MainActivity.this,task.getException().getLocalizedMessage(),Toast.LENGTH_SHORT).show();

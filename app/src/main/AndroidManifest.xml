@@ -12,6 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GetPet">
         <activity
+            android:name=".menuChats"
+            android:exported="false" />
+        <activity
+            android:name=".ChatActivity"
+            android:exported="false" />
+        <activity
             android:name=".userPetList"
             android:exported="false" />
         <activity

@@ -16,4 +16,11 @@
         app:showAsAction="always"
         />
 
+    <item
+        android:id="@+id/menu_item_chats"
+        android:icon="@drawable/message"
+        android:title="Messages"
+        app:showAsAction="always"
+        />
+
 </menu>

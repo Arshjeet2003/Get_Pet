@@ -21,7 +21,10 @@ import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.UploadTask;
@@ -41,6 +44,8 @@ public class PetsEditorActivity extends AppCompatActivity {
     private String url;
     private Boolean booleanUpdate;
     private String mKey;
+    private User userData;
+    private String petKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +63,7 @@ public class PetsEditorActivity extends AppCompatActivity {
         Intent intent = getIntent();
         booleanUpdate = intent.getBooleanExtra("User_data",false);
         mKey = intent.getStringExtra("User_key");
+        petKey = UUID.randomUUID().toString();
 
         if(booleanUpdate){
             animal_et.setText(intent.getStringExtra("User_animal"));
@@ -66,11 +72,12 @@ public class PetsEditorActivity extends AppCompatActivity {
             size_et.setText(intent.getStringExtra("User_size"));
             gender_et.setText(intent.getStringExtra("User_gender"));
 
-            String UserPetimageUrl = intent.getStringExtra("User_pic");
-            Glide.with(getApplicationContext()).load(UserPetimageUrl).error(R.drawable.account_img)
+            String UserPetImageUrl = intent.getStringExtra("User_pic");
+            Glide.with(getApplicationContext()).load(UserPetImageUrl).error(R.drawable.account_img)
                     .placeholder(R.drawable.account_img)
                     .into(pic_et);
-            url = UserPetimageUrl;
+            url = UserPetImageUrl;
+            petKey = intent.getStringExtra("petKey");
         }
 
         pic_et.setOnClickListener(new View.OnClickListener() {
@@ -81,6 +88,8 @@ public class PetsEditorActivity extends AppCompatActivity {
                 startActivityForResult(photoIntent,1);
             }
         });
+
+        getUserDetails();
 
     }
 
@@ -128,32 +137,56 @@ public class PetsEditorActivity extends AppCompatActivity {
         }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-                double progress = 100.0*snapshot.getBytesTransferred()/ snapshot.getTotalByteCount();
+                double progress = 100.0*snapshot.getBytesTransferred()/snapshot.getTotalByteCount();
                 progressDialog.setMessage(" Uploaded "+(int)progress+"%");
             }
         });
     }
 
+    private void getUserDetails(){
+        FirebaseDatabase.getInstance().getReference("users")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                            if(dataSnapshot.getKey().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                userData = dataSnapshot.getValue(User.class);
+                                return;
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+    }
+
     private void savePetsData(){
         String key = UUID.randomUUID().toString();
-        FirebaseDatabase.getInstance().getReference("user/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/pet/"+key)
-                    .setValue(new Pets(key, animal_et.getText().toString(),breed_et.getText().toString(),
-                            age_et.getText().toString(),size_et.getText().toString(),gender_et.getText().toString(),url));
+        FirebaseDatabase.getInstance().getReference("PetsOfUsers/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/pet/"+key)
+                .setValue(new Pets(petKey,key, animal_et.getText().toString(),breed_et.getText().toString(),
+                        age_et.getText().toString(),size_et.getText().toString(),gender_et.getText().toString(),url
+                        ,FirebaseAuth.getInstance().getCurrentUser().getUid(),userData.getName(),userData.getEmail(),userData.getProfilePic()));
 
-        FirebaseDatabase.getInstance().getReference("user/pet/"+key)
-                .setValue(new Pets(key, animal_et.getText().toString(),breed_et.getText().toString(),
-                        age_et.getText().toString(),size_et.getText().toString(),gender_et.getText().toString(),url));
+        FirebaseDatabase.getInstance().getReference("pet/"+key)
+                .setValue(new Pets(petKey,key, animal_et.getText().toString(),breed_et.getText().toString(),
+                        age_et.getText().toString(),size_et.getText().toString(),gender_et.getText().toString(),url
+                ,FirebaseAuth.getInstance().getCurrentUser().getUid(),userData.getName(),userData.getEmail(),userData.getProfilePic()));
 
     }
 
     private void updatePetsData() {
-        FirebaseDatabase.getInstance().getReference("user/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/pet/"+mKey)
-                .setValue(new Pets(mKey, animal_et.getText().toString(),breed_et.getText().toString(),
-                        age_et.getText().toString(),size_et.getText().toString(),gender_et.getText().toString(),url));
+        FirebaseDatabase.getInstance().getReference("PetsOfUsers/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/pet/"+mKey)
+                .setValue(new Pets(petKey,mKey, animal_et.getText().toString(),breed_et.getText().toString(),
+                        age_et.getText().toString(),size_et.getText().toString(),gender_et.getText().toString(),url
+                        ,FirebaseAuth.getInstance().getCurrentUser().getUid(),userData.getName(),userData.getEmail(),userData.getProfilePic()));
 
-        FirebaseDatabase.getInstance().getReference("user/pet/"+mKey)
-                .setValue(new Pets(mKey, animal_et.getText().toString(),breed_et.getText().toString(),
-                        age_et.getText().toString(),size_et.getText().toString(),gender_et.getText().toString(),url));
+        FirebaseDatabase.getInstance().getReference("pet/"+mKey)
+                .setValue(new Pets(petKey,mKey, animal_et.getText().toString(),breed_et.getText().toString(),
+                        age_et.getText().toString(),size_et.getText().toString(),gender_et.getText().toString(),url
+                        ,FirebaseAuth.getInstance().getCurrentUser().getUid(),userData.getName(),userData.getEmail(),userData.getProfilePic()));
 
     }
 

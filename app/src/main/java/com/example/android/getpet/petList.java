@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -31,6 +32,7 @@ public class petList extends AppCompatActivity {
     private SwipeRefreshLayout swipeRefreshLayout;
     PetsAdapter.OnPetsClickListener onPetsClickListener;
     private FloatingActionButton floatingActionButton;
+    private TextView noData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,7 @@ public class petList extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler);
         floatingActionButton = findViewById(R.id.fab);
         swipeRefreshLayout = findViewById(R.id.swip);
+        noData = findViewById(R.id.Nodata_tv);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -64,12 +67,17 @@ public class petList extends AppCompatActivity {
             @Override
             public void onPetsClicked(int position) {
                 Intent intent = new Intent(petList.this,PetDetailsActivity.class);
+                intent.putExtra("OwnerName",pets.get(position).getOwnerName());
+                intent.putExtra("OwnerEmail",pets.get(position).getOwnerEmail());
+                intent.putExtra("OwnerProfilePic",pets.get(position).getOwnerProfilePic());
+                intent.putExtra("OwnerProfileKey",pets.get(position).getOwnerKey());
                 intent.putExtra("animal",pets.get(position).getAnimal());
                 intent.putExtra("breed",pets.get(position).getBreed());
                 intent.putExtra("age",pets.get(position).getAge());
                 intent.putExtra("size",pets.get(position).getSize());
                 intent.putExtra("gender",pets.get(position).getGender());
                 intent.putExtra("pic",pets.get(position).getProfilePic());
+                intent.putExtra("PetKey",pets.get(position).getKey());
                 startActivity(intent);
             }
         };
@@ -89,12 +97,15 @@ public class petList extends AppCompatActivity {
         if(item.getItemId()==R.id.menu_item_mypetlist){
             startActivity(new Intent(petList.this,userPetList.class));
         }
+        if(item.getItemId()==R.id.menu_item_chats){
+            startActivity(new Intent(petList.this,menuChats.class));
+        }
         return super.onOptionsItemSelected(item);
     }
 
     private void getPets(){
         pets.clear();
-        FirebaseDatabase.getInstance().getReference("user/pet").addListenerForSingleValueEvent(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference("pet").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
@@ -105,6 +116,9 @@ public class petList extends AppCompatActivity {
                 progressBar.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.VISIBLE);
                 recyclerView.setAdapter(petsAdapter);
+                if(petsAdapter.getItemCount()==0){
+                    noData.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override

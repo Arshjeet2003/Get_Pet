@@ -2,6 +2,8 @@ package com.example.android.getpet;
 
 public class Pets {
 
+
+    private String petKey;
     private String key;
     private String animal;
     private String breed;
@@ -9,6 +11,65 @@ public class Pets {
     private String size;
     private String gender;
     private String profilePic;
+    private String OwnerKey;
+    private String OwnerName;
+    private String OwnerEmail;
+    private String OwnerProfilePic;
+
+    public Pets(String petKey, String key, String animal, String breed, String age, String size, String gender, String profilePic, String ownerKey, String ownerName, String ownerEmail, String ownerProfilePic) {
+        this.petKey = petKey;
+        this.key = key;
+        this.animal = animal;
+        this.breed = breed;
+        this.age = age;
+        this.size = size;
+        this.gender = gender;
+        this.profilePic = profilePic;
+        OwnerKey = ownerKey;
+        OwnerName = ownerName;
+        OwnerEmail = ownerEmail;
+        OwnerProfilePic = ownerProfilePic;
+    }
+
+    public String getPetKey() {
+        return petKey;
+    }
+
+    public void setPetKey(String petKey) {
+        this.petKey = petKey;
+    }
+
+    public String getOwnerKey() {
+        return OwnerKey;
+    }
+
+    public void setOwnerKey(String ownerkey) {
+        OwnerKey = ownerkey;
+    }
+
+    public String getOwnerName() {
+        return OwnerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        OwnerName = ownerName;
+    }
+
+    public String getOwnerEmail() {
+        return OwnerEmail;
+    }
+
+    public void setOwnerEmail(String ownerEmail) {
+        OwnerEmail = ownerEmail;
+    }
+
+    public String getOwnerProfilePic() {
+        return OwnerProfilePic;
+    }
+
+    public void setOwnerProfilePic(String ownerProfilePic) {
+        OwnerProfilePic = ownerProfilePic;
+    }
 
     public String getProfilePic() {
         return profilePic;
@@ -64,16 +125,6 @@ public class Pets {
 
     public void setGender(String gender) {
         this.gender = gender;
-    }
-
-    public Pets(String key, String animal, String breed, String age, String size, String gender, String profilePic) {
-        this.key = key;
-        this.animal = animal;
-        this.breed = breed;
-        this.age = age;
-        this.size = size;
-        this.gender = gender;
-        this.profilePic = profilePic;
     }
 
     public Pets(){}

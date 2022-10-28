@@ -61,6 +61,7 @@ public class userPetList extends AppCompatActivity {
                 intent.putExtra("User_size",User_pets.get(position).getSize());
                 intent.putExtra("User_gender",User_pets.get(position).getGender());
                 intent.putExtra("User_pic",User_pets.get(position).getProfilePic());
+                intent.putExtra("PetKey",User_pets.get(position).getPetKey());
                 startActivity(intent);
             }
         };
@@ -69,7 +70,7 @@ public class userPetList extends AppCompatActivity {
 
     private void getUserPets(){
         User_pets.clear();
-        FirebaseDatabase.getInstance().getReference("user/"+ FirebaseAuth.getInstance().getCurrentUser().getUid()+"/pet").addListenerForSingleValueEvent(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference("PetsOfUsers/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/pet").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
