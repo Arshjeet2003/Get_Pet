@@ -25,7 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.44" />
+        app:layout_constraintGuide_percent="0.4476" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline12"
@@ -46,14 +46,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.58" />
+        app:layout_constraintGuide_percent="0.583" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.63" />
+        app:layout_constraintGuide_percent="0.636" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline17"
@@ -67,28 +67,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.72" />
+        app:layout_constraintGuide_percent="0.726" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline19"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.39" />
+        app:layout_constraintGuide_percent="0.393" />
 
     <EditText
         android:id="@+id/name_et"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:gravity="bottom|center"
         android:background="@null"
+        android:gravity="center"
         android:hint="John"
         android:inputType="text"
         android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline11"
         app:layout_constraintEnd_toStartOf="@+id/guideline13"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline10"
-        app:layout_constraintTop_toTopOf="@+id/guideline19" />
+        app:layout_constraintTop_toTopOf="@+id/guideline19"
+        app:layout_constraintVertical_bias="1.0" />
 
     <EditText
         android:id="@+id/email_et"
@@ -108,7 +110,7 @@
         android:id="@+id/Number_et"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:gravity="bottom|center"
+        android:gravity="center"
         android:hint="9999999999"
         android:inputType="number"
         android:background="@null"
@@ -122,9 +124,9 @@
         android:id="@+id/Password_et"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:gravity="bottom|center"
         android:background="@null"
-        android:hint="password"
+        android:gravity="center"
+        android:hint="Password"
         android:inputType="textPassword"
         android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline18"

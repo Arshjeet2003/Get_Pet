@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Get Pet</string>
+    <string name="title_activity_location">LocationActivity</string>
 </resources>

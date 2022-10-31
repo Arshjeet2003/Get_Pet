@@ -20,7 +20,14 @@
         android:id="@+id/menu_item_chats"
         android:icon="@drawable/message"
         android:title="Messages"
-        app:showAsAction="always"
+        app:showAsAction="ifRoom"
+        />
+
+    <item
+        android:id="@+id/menu_item_globalChat"
+        android:icon="@drawable/global_chat"
+        android:title="Global Chat"
+        app:showAsAction="never"
         />
 
 </menu>
