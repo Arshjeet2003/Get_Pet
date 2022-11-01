@@ -47,11 +47,14 @@ public class GlobalChatActivity extends AppCompatActivity {
         sendingArrow = findViewById(R.id.gb_imageSend);
 
         messages = new ArrayList<>();
-        initializeGlobalChat();
+
+//      initializeGlobalChat();
+
         Intent intent = getIntent();
         senderName = intent.getStringExtra("sender_name");
         senderEmail = intent.getStringExtra("sender_email");
         senderPic = intent.getStringExtra("sender_pic");
+
 
         attachMessageListener();
 
@@ -77,9 +80,9 @@ public class GlobalChatActivity extends AppCompatActivity {
                 messages.clear();
                 for(DataSnapshot dataSnapshot:snapshot.getChildren()){
                     messages.add(dataSnapshot.getValue(MyMessage.class));
-                    MyMessage message = dataSnapshot.getValue(MyMessage.class);
-                    Toast.makeText(getApplicationContext(),message.getContent(),Toast.LENGTH_SHORT).show();
                 }
+                Toast.makeText(getApplicationContext(),"going to take data from mess",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), messages.get(0).getContent(),Toast.LENGTH_SHORT).show();
                 globalMessageAdapter.notifyDataSetChanged();
                 recyclerView.scrollToPosition(messages.size()-1);
                 recyclerView.setVisibility(View.VISIBLE);

@@ -24,6 +24,7 @@
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"/>
 
+
         </androidx.cardview.widget.CardView>
 
         <TextView
@@ -55,6 +56,13 @@
             android:layout_marginLeft="20dp"
             android:textSize="20sp"
             android:text="gender"/>
+
+        <ImageView
+            android:id="@+id/fav_empty"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="bottom|right"
+            android:src="@drawable/outline_fav" />
 
     </LinearLayout>
 

@@ -109,13 +109,34 @@ public class petList extends AppCompatActivity {
             startActivity(new Intent(petList.this,menuChats.class));
         }
         if(item.getItemId()==R.id.menu_item_globalChat){
-            Intent intent = new Intent(petList.this,GlobalChatActivity.class);
-            intent.putExtra("sender_name",senderName);
-            intent.putExtra("sender_email",senderEmail);
-            intent.putExtra("sender_pic",senderPic);
-            startActivity(intent);
+//            Intent intent = new Intent(petList.this,GlobalChatActivity.class);
+//            intent.putExtra("sender_name",senderName);
+//            intent.putExtra("sender_email",senderEmail);
+//            intent.putExtra("sender_pic",senderPic);
+//            startActivity(intent);
+        }
+        if(item.getItemId()==R.id.menu_item_fav){
+            showFavPets();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showFavPets() {
+        pets.clear();
+        FirebaseDatabase.getInstance().getReference("userFav/"+FirebaseAuth.getInstance().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    pets.add(dataSnapshot.getValue(Pets.class));
+                }
+                setAdapter();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void getPets(){
@@ -126,14 +147,7 @@ public class petList extends AppCompatActivity {
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                     pets.add(dataSnapshot.getValue(Pets.class));
                 }
-                petsAdapter = new PetsAdapter(pets,petList.this,onPetsClickListener);
-                recyclerView.setLayoutManager(new LinearLayoutManager(petList.this));
-                progressBar.setVisibility(View.GONE);
-                recyclerView.setVisibility(View.VISIBLE);
-                recyclerView.setAdapter(petsAdapter);
-                if(petsAdapter.getItemCount()==0){
-                    noData.setVisibility(View.VISIBLE);
-                }
+                setAdapter();
             }
 
             @Override
@@ -158,5 +172,19 @@ public class petList extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void setAdapter(){
+        petsAdapter = new PetsAdapter(pets,petList.this,onPetsClickListener);
+        recyclerView.setLayoutManager(new LinearLayoutManager(petList.this));
+        progressBar.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
+        recyclerView.setAdapter(petsAdapter);
+        if(petsAdapter.getItemCount()==0){
+            noData.setVisibility(View.VISIBLE);
+        }
+        else{
+            noData.setVisibility(View.GONE);
+        }
     }
 }

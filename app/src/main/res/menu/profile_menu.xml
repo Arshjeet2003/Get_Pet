@@ -30,4 +30,10 @@
         app:showAsAction="never"
         />
 
+    <item
+        android:id="@+id/menu_item_fav"
+        android:title="Favourites"
+        app:showAsAction="never"
+        />
+
 </menu>

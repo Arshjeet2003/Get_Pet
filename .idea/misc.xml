@@ -3,10 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/favourites.xml" value="0.3037037037037037" />
         <entry key="app/src/main/res/drawable/message.xml" value="0.30666666666666664" />
         <entry key="app/src/main/res/drawable/message_input_background.xml" value="0.25462962962962965" />
         <entry key="app/src/main/res/drawable/send.xml" value="0.25462962962962965" />
         <entry key="app/src/main/res/layout/activity_chat.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_favourites.xml" value="0.2953125" />
         <entry key="app/src/main/res/layout/activity_global_chat.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/activity_location.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/activity_login_page.xml" value="0.30512820512820515" />
@@ -20,7 +22,7 @@
         <entry key="app/src/main/res/layout/global_chat_holder.xml" value="0.1" />
         <entry key="app/src/main/res/layout/global_message_holder.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/message_holder.xml" value="0.335" />
-        <entry key="app/src/main/res/layout/pet_holder.xml" value="0.2907692307692308" />
+        <entry key="app/src/main/res/layout/pet_holder.xml" value="0.2953125" />
         <entry key="app/src/main/res/layout/sfa.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/user_pet_holder.xml" value="0.26944444444444443" />
         <entry key="app/src/main/res/layout/users_holder.xml" value="0.2953125" />

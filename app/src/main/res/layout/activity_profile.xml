@@ -49,8 +49,7 @@
         app:layout_constraintStart_toStartOf="@+id/uploadImage_b"
         app:layout_constraintTop_toBottomOf="@+id/uploadImage_b" />
 
-<<<<<<< HEAD
+
 </androidx.constraintlayout.widget.ConstraintLayout>
-=======
-</androidx.constraintlayout.widget.ConstraintLayout>
->>>>>>> 2c81da40b86d575802f6da3c7e52301d1f39760b
+
+

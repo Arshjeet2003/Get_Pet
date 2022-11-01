@@ -2,17 +2,17 @@ package com.example.android.getpet;
 
 public class MyMessage {
 
+    private String senderName;
+    private String senderEmail;
+    private String senderPic;
+    private String content;
+
     public MyMessage(String senderName, String senderEmail, String senderPic, String content) {
         this.senderName = senderName;
         this.senderEmail = senderEmail;
         this.senderPic = senderPic;
         this.content = content;
     }
-
-    private String senderName;
-    private String senderEmail;
-    private String senderPic;
-    private String content;
 
     public MyMessage() {
     }
