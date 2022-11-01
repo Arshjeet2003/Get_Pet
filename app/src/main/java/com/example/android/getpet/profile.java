@@ -1,26 +1,16 @@
 package com.example.android.getpet;
 
-<<<<<<< HEAD
-=======
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
->>>>>>> 2c81da40b86d575802f6da3c7e52301d1f39760b
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-<<<<<<< HEAD
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,16 +19,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
-=======
-import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
->>>>>>> 2c81da40b86d575802f6da3c7e52301d1f39760b
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.UploadTask;
@@ -52,10 +32,6 @@ public class profile extends AppCompatActivity {
     private Button logout;
     private Button uploadImage;
     private ImageView imgProfile;
-<<<<<<< HEAD
-=======
-    private String mUrl;
->>>>>>> 2c81da40b86d575802f6da3c7e52301d1f39760b
     private Uri imagepath;   // global variable to store the image from gallery and then show it on profile photo icon
 
     @Override
@@ -68,13 +44,6 @@ public class profile extends AppCompatActivity {
         uploadImage = findViewById(R.id.uploadImage_b);
         imgProfile = findViewById(R.id.profile_img);
 
-<<<<<<< HEAD
-=======
-        getDataForProfilePic();
-//        Toast.makeText(profile.this, mUrl, Toast.LENGTH_SHORT).show();
-
-
->>>>>>> 2c81da40b86d575802f6da3c7e52301d1f39760b
         uploadImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -163,10 +132,7 @@ public class profile extends AppCompatActivity {
                     Toast.makeText(profile.this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                 }
                 progressDialog.dismiss(); //on completion in either case dismiss process dialog
-<<<<<<< HEAD
 
-=======
->>>>>>> 2c81da40b86d575802f6da3c7e52301d1f39760b
             }
 
         }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
@@ -181,40 +147,12 @@ public class profile extends AppCompatActivity {
         });
     }
 
-<<<<<<< HEAD
 
     private void uploadProfilePicture(String url){
         /* After downloading image url from database we update it in realtime database by referencing using user UID(path).
          Path will be : user + / + Unique UID associated with user + / + profilePicture */
-=======
-    private void getDataForProfilePic() {
-            FirebaseDatabase.getInstance().getReference("users/"+FirebaseAuth.getInstance().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                 mUrl = snapshot.getValue(User.class).getProfilePic();
-                Glide.with(getApplicationContext()).load(mUrl).error(R.drawable.account_img)
-                .placeholder(R.drawable.account_img)
-                .into(imgProfile);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
-
-    private void uploadProfilePicture(String url){
-        /* After downloading image url from database we update it in realtime database by referencing using user UID(path).
-         Path will be : user + / + Unique UID associated with users + / + profilePic */
->>>>>>> 2c81da40b86d575802f6da3c7e52301d1f39760b
         FirebaseDatabase.getInstance().getReference("users/" + FirebaseAuth.getInstance().getCurrentUser()
                 .getUid() + "/profilePic").setValue(url);
 
     }
-<<<<<<< HEAD
 }
-=======
-
-}
->>>>>>> 2c81da40b86d575802f6da3c7e52301d1f39760b
