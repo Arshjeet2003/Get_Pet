@@ -46,9 +46,9 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
         Intent intent = getIntent();
         mFlag = intent.getBooleanExtra("flagVal",false);
         if(mFlag){
-            mLat = Double.parseDouble(intent.getStringExtra(String.valueOf(R.string.LocationActivity_intent_latitudeData)));
-            mLong = Double.parseDouble(intent.getStringExtra(String.valueOf(R.string.LocationActivity_intent_longitudeData)));
-            petName = intent.getStringExtra(String.valueOf(R.string.LocationActivity_intent_PetNameData));
+            mLat = Double.parseDouble(intent.getStringExtra(getResources().getString(R.string.LocationActivity_intent_latitudeData)));
+            mLong = Double.parseDouble(intent.getStringExtra(getResources().getString(R.string.LocationActivity_intent_longitudeData)));
+            petName = intent.getStringExtra(getResources().getString(R.string.LocationActivity_intent_PetNameData));
         }
         else{
             setmyLoc.setVisibility(View.GONE);

@@ -54,15 +54,15 @@ public class menuChats extends AppCompatActivity {
             @Override
             public void onChatClicked(int position) {
                 Intent intent1 = new Intent(menuChats.this, ChatActivity.class);
-                intent1.putExtra("PetKey", chatRooms.get(position).getPetKey());
-                intent1.putExtra("receiverName", chatRooms.get(position).getReceiverName());
-                intent1.putExtra("receiverEmail", chatRooms.get(position).getReceiverEmail());
-                intent1.putExtra("receiverProfilePic", chatRooms.get(position).getReceiverProfilePic());
-                intent1.putExtra("receiverKey", chatRooms.get(position).getReceiverKey());
-                intent1.putExtra("senderName",chatRooms.get(position).getSenderName());
-                intent1.putExtra("senderEmail",chatRooms.get(position).getSenderEmail());
-                intent1.putExtra("senderPic",chatRooms.get(position).getSenderProfilePic());
-                intent1.putExtra("senderKey",chatRooms.get(position).getSenderKey());
+                intent1.putExtra(getResources().getString(R.string.ChatActivity_intent_petKey), chatRooms.get(position).getPetKey());
+                intent1.putExtra(getResources().getString(R.string.ChatActivity_intent_receiverName), chatRooms.get(position).getReceiverName());
+                intent1.putExtra(getResources().getString(R.string.ChatActivity_intent_receiverEmail), chatRooms.get(position).getReceiverEmail());
+                intent1.putExtra(getResources().getString(R.string.ChatActivity_intent_receiverPic), chatRooms.get(position).getReceiverProfilePic());
+                intent1.putExtra(getResources().getString(R.string.ChatActivity_intent_receiverKey), chatRooms.get(position).getReceiverKey());
+                intent1.putExtra(getResources().getString(R.string.ChatActivity_intent_senderName),chatRooms.get(position).getSenderName());
+                intent1.putExtra(getResources().getString(R.string.ChatActivity_intent_senderEmail),chatRooms.get(position).getSenderEmail());
+                intent1.putExtra(getResources().getString(R.string.ChatActivity_intent_senderPic),chatRooms.get(position).getSenderProfilePic());
+                intent1.putExtra(getResources().getString(R.string.ChatActivity_intent_senderKey ),chatRooms.get(position).getSenderKey());
                 startActivity(intent1);
             }
         };

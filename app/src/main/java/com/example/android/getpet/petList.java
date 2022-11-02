@@ -83,7 +83,7 @@ public class petList extends AppCompatActivity {
                 intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_age),pets.get(position).getAge());
                 intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_size),pets.get(position).getSize());
                 intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_gender),pets.get(position).getGender());
-                intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_OwnerProfilePic),pets.get(position).getProfilePic());
+                intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_pic),pets.get(position).getProfilePic());
                 intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_PetKey),pets.get(position).getKey());
                 intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_PetLat),pets.get(position).getPetLat());
                 intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_PetLong),pets.get(position).getPetLong());

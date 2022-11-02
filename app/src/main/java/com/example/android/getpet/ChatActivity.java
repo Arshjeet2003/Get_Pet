@@ -59,15 +59,15 @@ public class ChatActivity extends AppCompatActivity {
 
         //Getting data from PetDetailsActivity
         Intent intent = getIntent();
-        petKey = intent.getStringExtra(String.valueOf(R.string.ChatActivity_intent_petKey));
-        receiverKey = intent.getStringExtra(String.valueOf(R.string.ChatActivity_intent_receiverKey));
-        receiverName = intent.getStringExtra(String.valueOf(R.string.ChatActivity_intent_receiverName));
-        receiverEmail = intent.getStringExtra(String.valueOf(R.string.ChatActivity_intent_receiverEmail));
-        receiverPic = intent.getStringExtra(String.valueOf(R.string.ChatActivity_intent_receiverPic));
-        senderKey = intent.getStringExtra(String.valueOf(R.string.ChatActivity_intent_senderKey));
-        senderName = intent.getStringExtra(String.valueOf(R.string.ChatActivity_intent_senderName));
-        senderEmail = intent.getStringExtra(String.valueOf(R.string.ChatActivity_intent_senderEmail));
-        senderPic = intent.getStringExtra(String.valueOf(R.string.ChatActivity_intent_senderPic));
+        petKey = intent.getStringExtra(getResources().getString(R.string.ChatActivity_intent_petKey));
+        receiverKey = intent.getStringExtra(getResources().getString(R.string.ChatActivity_intent_receiverKey));
+        receiverName = intent.getStringExtra(getResources().getString(R.string.ChatActivity_intent_receiverName));
+        receiverEmail = intent.getStringExtra(getResources().getString(R.string.ChatActivity_intent_receiverEmail));
+        receiverPic = intent.getStringExtra(getResources().getString(R.string.ChatActivity_intent_receiverPic));
+        senderKey = intent.getStringExtra(getResources().getString(R.string.ChatActivity_intent_senderKey));
+        senderName = intent.getStringExtra(getResources().getString(R.string.ChatActivity_intent_senderName));
+        senderEmail = intent.getStringExtra(getResources().getString(R.string.ChatActivity_intent_senderEmail));
+        senderPic = intent.getStringExtra(getResources().getString(R.string.ChatActivity_intent_senderPic));
 
         Chatting_with.setText(receiverName);
         setUpChatRoom();
