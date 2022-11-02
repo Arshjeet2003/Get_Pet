@@ -32,6 +32,7 @@ public class profile extends AppCompatActivity {
     private Button logout;
     private Button uploadImage;
     private ImageView imgProfile;
+    private String mUrl;
     private Uri imagePath;   // global variable to store the image from gallery and then show it on profile photo icon
 
     @Override
@@ -43,7 +44,9 @@ public class profile extends AppCompatActivity {
         logout = findViewById(R.id.logout_tv);
         uploadImage = findViewById(R.id.uploadImage_b);
         imgProfile = findViewById(R.id.profile_img);
-
+        
+        getDataForProfilePic();
+        
         uploadImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -161,7 +164,23 @@ public class profile extends AppCompatActivity {
         });
     }
 
+    private void getDataForProfilePic() {
+            FirebaseDatabase.getInstance().getReference("users/"+FirebaseAuth.getInstance().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                 mUrl = snapshot.getValue(User.class).getProfilePic();
+                Glide.with(getApplicationContext()).load(mUrl).error(R.drawable.account_img)
+                .placeholder(R.drawable.account_img)
+                .into(imgProfile);
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    
     //Uploading profile picture of user.
     private void uploadProfilePicture(String url){
         /* After downloading image url from database we update it in realtime database by referencing using user UID(path).
