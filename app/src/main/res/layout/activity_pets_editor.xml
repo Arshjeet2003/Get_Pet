@@ -11,7 +11,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Animal"
+            android:hint="Animal Name"
             android:inputType="textPersonName"
             app:layout_constraintBottom_toTopOf="@+id/guideline7"
             app:layout_constraintEnd_toEndOf="parent"
@@ -65,11 +65,22 @@
             app:layout_constraintTop_toTopOf="@+id/guideline9" />
 
     <EditText
+        android:id="@+id/animal_"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Animal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/setLocation_tv"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline11"
+        app:layout_constraintVertical_bias="0.428" />
+
+    <EditText
         android:id="@+id/age_et"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Age"
+        android:hint="Age (in months)"
         android:inputType="number"
         app:layout_constraintBottom_toTopOf="@+id/guideline11"
         app:layout_constraintEnd_toEndOf="parent"
@@ -126,7 +137,6 @@
         android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline11" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
