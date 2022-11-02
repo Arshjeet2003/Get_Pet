@@ -20,15 +20,16 @@
             android:layout_gravity="center"
 
             app:layout_constraintBottom_toTopOf="@+id/guideline63"
+            app:layout_constraintEnd_toStartOf="@+id/guideline48"
             app:layout_constraintStart_toStartOf="@+id/guideline45"
-            app:layout_constraintTop_toTopOf="@+id/guideline50" >
+            app:layout_constraintTop_toTopOf="@+id/guideline50">
 
             <ImageView
-                android:id="@+id/imageView3"
+                android:id="@+id/img_pet"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:srcCompat="@drawable/account_img"
                 android:scaleType="centerCrop"
+                tools:srcCompat="@drawable/account_img"
 
                 />
         </androidx.cardview.widget.CardView>
@@ -90,24 +91,25 @@
             app:layout_constraintGuide_percent="0.75" />
 
         <TextView
-            android:id="@+id/textView11"
+            android:id="@+id/animal"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:fontFamily="@font/atma_semibold"
             android:gravity="center"
-
+            android:textColor="@color/black"
             android:textSize="34sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/guideline64"
-            app:layout_constraintEnd_toStartOf="@+id/guideline65"
+            app:layout_constraintEnd_toStartOf="@+id/guideline48"
             app:layout_constraintStart_toStartOf="@+id/guideline45"
             app:layout_constraintTop_toTopOf="@+id/guideline67" />
 
         <TextView
-            android:id="@+id/textView12"
+            android:id="@+id/breed"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:fontFamily="@font/atma_semibold"
+            android:textColor="@color/black"
             android:gravity="center"
             android:textSize="30sp"
             app:layout_constraintBottom_toTopOf="@+id/guideline66"

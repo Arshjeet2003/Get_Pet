@@ -31,7 +31,7 @@ public class UserPetAdapter extends RecyclerView.Adapter<UserPetAdapter.UserPets
     //Inflating user_pet_holder xml file.
     @Override
     public UserPetAdapter.UserPetsHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.user_pet_holder,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.pet_holder,parent,false);
         return new UserPetAdapter.UserPetsHolder(view);
     }
 
@@ -40,7 +40,7 @@ public class UserPetAdapter extends RecyclerView.Adapter<UserPetAdapter.UserPets
     public void onBindViewHolder(@NonNull UserPetAdapter.UserPetsHolder holder, int position) {
 
         holder.User_animal.setText(userPets.get(position).getAnimal());
-        holder.User_gender.setText(userPets.get(position).getGender());
+//        holder.User_gender.setText(userPets.get(position).getGender());
         holder.User_breed.setText(userPets.get(position).getBreed());
         Glide.with(context).load(userPets.get(position).getProfilePic()).error(R.drawable.account_img)
                 .placeholder(R.drawable.account_img).into(holder.User_pic);
@@ -57,7 +57,7 @@ public class UserPetAdapter extends RecyclerView.Adapter<UserPetAdapter.UserPets
     class UserPetsHolder extends RecyclerView.ViewHolder{
 
         TextView User_animal;
-        TextView User_gender;
+//        TextView User_gender;
         TextView User_breed;
         ImageView User_pic;
 
@@ -71,10 +71,10 @@ public class UserPetAdapter extends RecyclerView.Adapter<UserPetAdapter.UserPets
                 }
             });
 
-            User_animal = itemView.findViewById(R.id.user_animal);
-            User_gender = itemView.findViewById(R.id.user_gender);
-            User_breed = itemView.findViewById(R.id.user_breed);
-            User_pic = itemView.findViewById(R.id.user_img_pet);
+            User_animal = itemView.findViewById(R.id.animal);
+//            User_gender = itemView.findViewById(R.id.user_gender);
+            User_breed = itemView.findViewById(R.id.breed);
+            User_pic = itemView.findViewById(R.id.img_pet);
         }
     }
 

@@ -53,6 +53,7 @@ import java.util.UUID;
 
 public class PetsEditorActivity extends AppCompatActivity{
 
+    private EditText animalName_et;
     private EditText animal_et;
     private EditText breed_et;
     private EditText age_et;
@@ -76,7 +77,8 @@ public class PetsEditorActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pets_editor);
 
-        animal_et = findViewById(R.id.animal_et);
+        animalName_et = findViewById(R.id.animal_et);
+        animal_et = findViewById(R.id.animal_);
         breed_et = findViewById(R.id.breed_et);
         age_et = findViewById(R.id.age_et);
         size_et = findViewById(R.id.size_et);
@@ -96,6 +98,7 @@ public class PetsEditorActivity extends AppCompatActivity{
 
         if(booleanUpdate){
             animal_et.setText(intent.getStringExtra("User_animal"));
+            animalName_et.setText(intent.getStringExtra("User_animalName"));
             breed_et.setText(intent.getStringExtra("User_breed"));
             age_et.setText(intent.getStringExtra("User_age"));
             size_et.setText(intent.getStringExtra("User_size"));
@@ -131,9 +134,7 @@ public class PetsEditorActivity extends AppCompatActivity{
         });
 
         getUserDetails();
-
     }
-
 
     //Getting user's location.
     @SuppressLint("MissingPermission")
@@ -243,13 +244,13 @@ public class PetsEditorActivity extends AppCompatActivity{
     private void savePetsData(){
         String key = UUID.randomUUID().toString();
         FirebaseDatabase.getInstance().getReference("user's_pet/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/pet/"+key)
-                .setValue(new Pets(petKey,key, animal_et.getText().toString(),breed_et.getText().toString(),
+                .setValue(new Pets(petKey,key,animalName_et.getText().toString(),animal_et.getText().toString(),breed_et.getText().toString(),
                         age_et.getText().toString(),size_et.getText().toString(),gender_et.getText().toString(),url
                         ,FirebaseAuth.getInstance().getCurrentUser().getUid(),userData.getName(),userData.getEmail(),userData.getProfilePic()
                 ,mLat,mLong));
 
         FirebaseDatabase.getInstance().getReference("pet/"+key)
-                .setValue(new Pets(petKey,key, animal_et.getText().toString(),breed_et.getText().toString(),
+                .setValue(new Pets(petKey,key,animalName_et.getText().toString(),animal_et.getText().toString(),breed_et.getText().toString(),
                         age_et.getText().toString(),size_et.getText().toString(),gender_et.getText().toString(),url
                 ,FirebaseAuth.getInstance().getCurrentUser().getUid(),userData.getName(),userData.getEmail(),userData.getProfilePic(),
                         mLat,mLong));
@@ -259,13 +260,13 @@ public class PetsEditorActivity extends AppCompatActivity{
     //Updating the already created pet data.
     private void updatePetsData() {
         FirebaseDatabase.getInstance().getReference("user's_pet/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/pet/"+mKey)
-                .setValue(new Pets(petKey,mKey, animal_et.getText().toString(),breed_et.getText().toString(),
+                .setValue(new Pets(petKey,mKey,animalName_et.getText().toString(),animal_et.getText().toString(),breed_et.getText().toString(),
                         age_et.getText().toString(),size_et.getText().toString(),gender_et.getText().toString(),url
                         ,FirebaseAuth.getInstance().getCurrentUser().getUid(),userData.getName(),userData.getEmail(),userData.getProfilePic(),
                         mLat,mLong));
 
         FirebaseDatabase.getInstance().getReference("pet/"+mKey)
-                .setValue(new Pets(petKey,mKey, animal_et.getText().toString(),breed_et.getText().toString(),
+                .setValue(new Pets(petKey,mKey,animalName_et.getText().toString(),animal_et.getText().toString(),breed_et.getText().toString(),
                         age_et.getText().toString(),size_et.getText().toString(),gender_et.getText().toString(),url
                         ,FirebaseAuth.getInstance().getCurrentUser().getUid(),userData.getName(),userData.getEmail(),userData.getProfilePic(),
                         mLat,mLong));

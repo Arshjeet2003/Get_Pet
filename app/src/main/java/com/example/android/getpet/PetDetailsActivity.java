@@ -46,7 +46,7 @@ public class PetDetailsActivity extends AppCompatActivity {
     private TextView chat;
     private TextView favourites;
     private String key, ownerName, ownerEmail, ownerPic, ownerKey, petLat, petLong;
-    private String petKey ,petName, breed, age, size, gender;
+    private String petKey ,petName, breed, age, size, gender,animal;
     private String senderName, senderEmail, senderPic;
 
     @Override
@@ -71,6 +71,7 @@ public class PetDetailsActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         key = intent.getStringExtra("keyData");
+        animal = intent.getStringExtra("animal");
         petName = intent.getStringExtra(getResources().getString(R.string.PetDetailsActivity_intent_petName));
         breed = intent.getStringExtra(getResources().getString(R.string.PetDetailsActivity_intent_breed));
         age = intent.getStringExtra(getResources().getString(R.string.PetDetailsActivity_intent_age));
@@ -156,7 +157,7 @@ public class PetDetailsActivity extends AppCompatActivity {
                         pet[0] = snapshot.getValue(Pets.class);
                         if(pet[0]==null){
                             FirebaseDatabase.getInstance().getReference("favourites/"+FirebaseAuth.getInstance().getUid()+"/"+key)
-                                    .setValue(new Pets(petKey,key,petName,breed,age,size,gender,imageUrl,ownerKey,ownerName,ownerEmail,ownerPic,petLat,petLong));
+                                    .setValue(new Pets(petKey,key,animal,petName,breed,age,size,gender,imageUrl,ownerKey,ownerName,ownerEmail,ownerPic,petLat,petLong));
                         }
                         else{
                             FirebaseDatabase.getInstance().getReference("favourites/"+FirebaseAuth.getInstance().getUid()+"/").child(key).removeValue();

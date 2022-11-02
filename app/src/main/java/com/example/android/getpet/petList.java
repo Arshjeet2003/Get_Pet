@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -67,44 +68,46 @@ public class petList extends AppCompatActivity {
         okay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 String breed_data = filterBreed.getText().toString();
                 String animal_data = filterAnimal.getText().toString();
                 String age_data = filterAge.getText().toString();
                 String size_data = filterSize.getText().toString();
                 String gender_data = filterGender.getText().toString();
 
+
                 for(Pets pet : pets){
-                    if(breed_data.equals(pet.getBreed().toString())){
+                    if(breed_data.equals(pet.getBreed())){
                         filteredPetList.add(pet);
                     }
                 }
 
                 for(Pets pet : pets){
-                    if(animal_data.equals(pet.getAnimal().toString())){
+                    if(animal_data.equals(pet.getAnimal())){
                         filteredPetList.add(pet);
                     }
                 }
 
                 for(Pets pet : pets){
-                    if(age_data.equals(pet.getAge().toString())){
+                    if(age_data.equals(pet.getAge())){
                         filteredPetList.add(pet);
                     }
                 }
                 for(Pets pet : pets){
-                    if(size_data.equals(pet.getSize().toString())){
+                    if(size_data.equals(pet.getSize())){
                         filteredPetList.add(pet);
 
                     }
                 }
                 for(Pets pet : pets){
-                    if(gender_data.equals(pet.getGender().toString())){
+                    if(gender_data.equals(pet.getGender())){
                         filteredPetList.add(pet);
                     }
                 }
 
                 petsAdapter = new PetsAdapter(filteredPetList,petList.this,onPetsClickListener);
-                recyclerView.setLayoutManager(new LinearLayoutManager(petList.this));
                 pets.clear();
+                recyclerView.setLayoutManager(new LinearLayoutManager(petList.this));
                 recyclerView.setVisibility(View.VISIBLE);
                 recyclerView.setAdapter(petsAdapter);
             }
@@ -115,6 +118,7 @@ public class petList extends AppCompatActivity {
             @Override
             public void onRefresh() {
                 getPets();
+                filteredPetList.clear();
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
@@ -135,11 +139,12 @@ public class petList extends AppCompatActivity {
             public void onPetsClicked(int position) {
                 Intent intent = new Intent(petList.this,PetDetailsActivity.class);
                 intent.putExtra("keyData",pets.get(position).getKey());
+                intent.putExtra("animal",pets.get(position).getAnimal());
                 intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_OwnerName),pets.get(position).getOwnerName());
                 intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_OwnerEmail),pets.get(position).getOwnerEmail());
                 intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_OwnerProfilePic),pets.get(position).getOwnerProfilePic());
                 intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_OwnerProfileKey),pets.get(position).getOwnerKey());
-                intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_petName),pets.get(position).getAnimal());
+                intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_petName),pets.get(position).getAnimalName());
                 intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_breed),pets.get(position).getBreed());
                 intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_age),pets.get(position).getAge());
                 intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_size),pets.get(position).getSize());

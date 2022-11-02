@@ -45,7 +45,7 @@ public class PetsAdapter extends RecyclerView.Adapter<PetsAdapter.PetsHolder> {
     public void onBindViewHolder(PetsHolder holder, @SuppressLint("RecyclerView") int position) {
 
         holder.animal.setText(pets.get(position).getAnimal());
-        holder.gender.setText(pets.get(position).getGender());
+//        holder.gender.setText(pets.get(position).getGender());
         holder.breed.setText(pets.get(position).getBreed());
 
         //Using Glide library to put image of pet in imageView.
@@ -63,7 +63,7 @@ public class PetsAdapter extends RecyclerView.Adapter<PetsAdapter.PetsHolder> {
     class PetsHolder extends RecyclerView.ViewHolder{
 
         TextView animal;
-        TextView gender;
+//        TextView gender;
         TextView breed;
         ImageView pic;
 //        ImageView favourites;
@@ -79,7 +79,7 @@ public class PetsAdapter extends RecyclerView.Adapter<PetsAdapter.PetsHolder> {
             });
 
             animal = itemView.findViewById(R.id.animal);
-            gender = itemView.findViewById(R.id.gender);
+//            gender = itemView.findViewById(R.id.gender);
             breed = itemView.findViewById(R.id.breed);
             pic = itemView.findViewById(R.id.img_pet);
 

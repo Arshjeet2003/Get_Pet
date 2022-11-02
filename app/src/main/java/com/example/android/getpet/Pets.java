@@ -5,6 +5,7 @@ public class Pets {
 
     private String petKey;
     private String key;
+    private String animalName;
     private String animal;
     private String breed;
     private String age;
@@ -18,9 +19,10 @@ public class Pets {
     private String petLat;
     private String petLong;
 
-    public Pets(String petKey, String key, String animal, String breed, String age, String size, String gender, String profilePic, String ownerKey, String ownerName, String ownerEmail, String ownerProfilePic, String petLat, String petLong) {
+    public Pets(String petKey, String key, String animalName, String animal, String breed, String age, String size, String gender, String profilePic, String ownerKey, String ownerName, String ownerEmail, String ownerProfilePic, String petLat, String petLong) {
         this.petKey = petKey;
         this.key = key;
+        this.animalName = animalName;
         this.animal = animal;
         this.breed = breed;
         this.age = age;
@@ -33,6 +35,14 @@ public class Pets {
         OwnerProfilePic = ownerProfilePic;
         this.petLat = petLat;
         this.petLong = petLong;
+    }
+
+    public String getAnimalName() {
+        return animalName;
+    }
+
+    public void setAnimalName(String animalName) {
+        this.animalName = animalName;
     }
 
     public String getPetKey() {

@@ -57,6 +57,7 @@ public class userPetList extends AppCompatActivity {
                 Intent intent = new Intent(userPetList.this,PetsEditorActivity.class);
                 intent.putExtra("User_data",true);
                 intent.putExtra("User_key", User_pets.get(position).getKey());
+                intent.putExtra("User_animalName",User_pets.get(position).getAnimalName());
                 intent.putExtra("User_animal",User_pets.get(position).getAnimal());
                 intent.putExtra("User_breed",User_pets.get(position).getBreed());
                 intent.putExtra("User_age",User_pets.get(position).getAge());

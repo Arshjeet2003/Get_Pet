@@ -59,11 +59,12 @@ public class FavouritesActivity extends AppCompatActivity {
             public void onPetsClicked(int position) {
                 Intent intent = new Intent(FavouritesActivity.this, PetDetailsActivity.class);
                 intent.putExtra("keyData", pets.get(position).getKey());
+                intent.putExtra("animal",pets.get(position).getAnimal());
                 intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_OwnerName), pets.get(position).getOwnerName());
                 intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_OwnerEmail), pets.get(position).getOwnerEmail());
                 intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_OwnerProfilePic), pets.get(position).getOwnerProfilePic());
                 intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_OwnerProfileKey), pets.get(position).getOwnerKey());
-                intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_petName), pets.get(position).getAnimal());
+                intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_petName), pets.get(position).getAnimalName());
                 intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_breed), pets.get(position).getBreed());
                 intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_age), pets.get(position).getAge());
                 intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_size), pets.get(position).getSize());
