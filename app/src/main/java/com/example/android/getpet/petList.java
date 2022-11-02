@@ -25,6 +25,13 @@ import java.util.ArrayList;
 
 public class petList extends AppCompatActivity {
 
+    private EditText filterBreed;
+    private EditText filterAnimal;
+    private EditText filterSize;
+    private EditText filterAge;
+    private EditText filterGender;
+    private TextView okay;
+    private ArrayList<Pets> filteredPetList;
     private RecyclerView recyclerView;
     private ArrayList<Pets> pets;
     private ProgressBar progressBar;
@@ -43,13 +50,66 @@ public class petList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pet_list);
 
+        filterSize = findViewById(R.id.srchSize);
+        filterAnimal = findViewById(R.id.srchanimal);
+        filterAge = findViewById(R.id.srchAge);
+        filterBreed = findViewById(R.id.srchBreed);
+        filterGender = findViewById(R.id.srchGender);
+        okay = findViewById(R.id.okay_tv);
         progressBar = findViewById(R.id.progressbar);
         pets = new ArrayList<>();
+        filteredPetList = new ArrayList<>();
         recyclerView = findViewById(R.id.recycler);
         floatingActionButton = findViewById(R.id.fab);
         swipeRefreshLayout = findViewById(R.id.swip);
         noData = findViewById(R.id.Nodata_tv);
 
+        okay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String breed_data = filterBreed.getText().toString();
+                String animal_data = filterAnimal.getText().toString();
+                String age_data = filterAge.getText().toString();
+                String size_data = filterSize.getText().toString();
+                String gender_data = filterGender.getText().toString();
+
+                for(Pets pet : pets){
+                    if(breed_data.equals(pet.getBreed().toString())){
+                        filteredPetList.add(pet);
+                    }
+                }
+
+                for(Pets pet : pets){
+                    if(animal_data.equals(pet.getAnimal().toString())){
+                        filteredPetList.add(pet);
+                    }
+                }
+
+                for(Pets pet : pets){
+                    if(age_data.equals(pet.getAge().toString())){
+                        filteredPetList.add(pet);
+                    }
+                }
+                for(Pets pet : pets){
+                    if(size_data.equals(pet.getSize().toString())){
+                        filteredPetList.add(pet);
+
+                    }
+                }
+                for(Pets pet : pets){
+                    if(gender_data.equals(pet.getGender().toString())){
+                        filteredPetList.add(pet);
+                    }
+                }
+
+                petsAdapter = new PetsAdapter(filteredPetList,petList.this,onPetsClickListener);
+                recyclerView.setLayoutManager(new LinearLayoutManager(petList.this));
+                pets.clear();
+                recyclerView.setVisibility(View.VISIBLE);
+                recyclerView.setAdapter(petsAdapter);
+            }
+        });
+        
         //Loading pets again on refreshing.
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
