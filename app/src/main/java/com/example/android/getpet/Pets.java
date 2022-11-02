@@ -17,9 +17,8 @@ public class Pets {
     private String OwnerProfilePic;
     private String petLat;
     private String petLong;
-    private Boolean isFav;
 
-    public Pets(String petKey, String key, String animal, String breed, String age, String size, String gender, String profilePic, String ownerKey, String ownerName, String ownerEmail, String ownerProfilePic, String petLat, String petLong, Boolean isFav) {
+    public Pets(String petKey, String key, String animal, String breed, String age, String size, String gender, String profilePic, String ownerKey, String ownerName, String ownerEmail, String ownerProfilePic, String petLat, String petLong) {
         this.petKey = petKey;
         this.key = key;
         this.animal = animal;
@@ -34,7 +33,6 @@ public class Pets {
         OwnerProfilePic = ownerProfilePic;
         this.petLat = petLat;
         this.petLong = petLong;
-        this.isFav = isFav;
     }
 
     public String getPetKey() {
@@ -149,13 +147,6 @@ public class Pets {
         this.petLong = petLong;
     }
 
-    public Boolean getFav() {
-        return isFav;
-    }
-
-    public void setFav(Boolean fav) {
-        isFav = fav;
-    }
 
     public Pets(){}
 }

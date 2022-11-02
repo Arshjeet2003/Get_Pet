@@ -14,8 +14,8 @@
         <entry key="app/src/main/res/layout/activity_login_page.xml" value="0.30512820512820515" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.29128205128205126" />
         <entry key="app/src/main/res/layout/activity_menu_chats.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_pet_details.xml" value="0.30512820512820515" />
-        <entry key="app/src/main/res/layout/activity_pet_list.xml" value="0.29128205128205126" />
+        <entry key="app/src/main/res/layout/activity_pet_details.xml" value="0.26296296296296295" />
+        <entry key="app/src/main/res/layout/activity_pet_list.xml" value="0.2953125" />
         <entry key="app/src/main/res/layout/activity_pets_editor.xml" value="0.2907692307692308" />
         <entry key="app/src/main/res/layout/activity_profile.xml" value="0.2907692307692308" />
         <entry key="app/src/main/res/layout/activity_user_pet_list.xml" value="0.26944444444444443" />

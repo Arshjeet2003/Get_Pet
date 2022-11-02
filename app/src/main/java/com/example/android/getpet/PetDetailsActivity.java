@@ -16,7 +16,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.PackageManagerCompat;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,8 +30,6 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
-import java.util.ArrayList;
-
 public class PetDetailsActivity extends AppCompatActivity {
 
     private TextView animal_details_et;
@@ -41,11 +38,15 @@ public class PetDetailsActivity extends AppCompatActivity {
     private TextView size_details_et;
     private TextView gender_details_et;
     private TextView getLocation;
+    private TextView ownerName_tv;
+    private TextView desc;
     private ImageView pic_details_et;
+    private ImageView ownerPic_tv;
     private String imageUrl;
     private TextView chat;
-    private String ownerName, ownerEmail, ownerPic, ownerKey, petLat, petLong;
-    private String petKey ,petName;
+    private TextView favourites;
+    private String key, ownerName, ownerEmail, ownerPic, ownerKey, petLat, petLong;
+    private String petKey ,petName, breed, age, size, gender;
     private String senderName, senderEmail, senderPic;
 
     @Override
@@ -59,17 +60,22 @@ public class PetDetailsActivity extends AppCompatActivity {
         size_details_et = findViewById(R.id.size_details_et);
         gender_details_et = findViewById(R.id.gender_details_et);
         pic_details_et = findViewById(R.id.pic_details_iv);
+        desc = findViewById(R.id.desc_details_tv);
+        ownerName_tv = findViewById(R.id.ownerName_details_et);
+        ownerPic_tv = findViewById(R.id.ownerPic_details);
         getLocation = findViewById(R.id.location_tv);
         chat = findViewById(R.id.message_tv);
+        favourites = findViewById(R.id.fav_tv);
 
-        //Getting data from petList Activity.
+        //Getting data from petList Activity or FavouritesActivity or userPetListActivity
         Intent intent = getIntent();
+
+        key = intent.getStringExtra("keyData");
         petName = intent.getStringExtra(getResources().getString(R.string.PetDetailsActivity_intent_petName));
-        animal_details_et.setText(petName);
-        breed_details_et.setText(intent.getStringExtra(getResources().getString(R.string.PetDetailsActivity_intent_breed)));
-        age_details_et.setText(intent.getStringExtra(getResources().getString(R.string.PetDetailsActivity_intent_age)));
-        size_details_et.setText(intent.getStringExtra(getResources().getString(R.string.PetDetailsActivity_intent_size)));
-        gender_details_et.setText(intent.getStringExtra(getResources().getString(R.string.PetDetailsActivity_intent_gender)));
+        breed = intent.getStringExtra(getResources().getString(R.string.PetDetailsActivity_intent_breed));
+        age = intent.getStringExtra(getResources().getString(R.string.PetDetailsActivity_intent_age));
+        size = intent.getStringExtra(getResources().getString(R.string.PetDetailsActivity_intent_size));
+        gender = intent.getStringExtra(getResources().getString(R.string.PetDetailsActivity_intent_gender));
         imageUrl = intent.getStringExtra(getResources().getString(R.string.PetDetailsActivity_intent_pic));
         ownerKey = intent.getStringExtra(getResources().getString(R.string.PetDetailsActivity_intent_OwnerProfileKey));
         ownerName = intent.getStringExtra(getResources().getString(R.string.PetDetailsActivity_intent_OwnerName));
@@ -78,6 +84,13 @@ public class PetDetailsActivity extends AppCompatActivity {
         petKey = intent.getStringExtra(getResources().getString(R.string.PetDetailsActivity_intent_PetKey));
         petLat = intent.getStringExtra(getResources().getString(R.string.PetDetailsActivity_intent_PetLat));
         petLong = intent.getStringExtra(getResources().getString(R.string.PetDetailsActivity_intent_PetLong));
+
+        animal_details_et.setText(petName);
+        breed_details_et.setText(breed);
+        age_details_et.setText(age);
+        size_details_et.setText(size);
+        gender_details_et.setText(gender);
+        ownerName_tv.setText(ownerName);
 
         //Getting data about user from database.
         FirebaseDatabase.getInstance().getReference("users/"+FirebaseAuth.getInstance().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -105,6 +118,10 @@ public class PetDetailsActivity extends AppCompatActivity {
                     .into(pic_details_et);
         }
 
+        Glide.with(getApplicationContext()).load(ownerPic).error(R.drawable.account_img)
+                .placeholder(R.drawable.account_img)
+                .into(ownerPic_tv);
+
         //Chat option will only be available if it is someone else's pet not user's.
         if (ownerEmail.equals(FirebaseAuth.getInstance().getCurrentUser().getEmail())) {
             chat.setVisibility(View.GONE);
@@ -115,16 +132,42 @@ public class PetDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent1 = new Intent(PetDetailsActivity.this, ChatActivity.class);
-                intent1.putExtra("PetKey",petKey);
-                intent1.putExtra("receiverName",ownerName);
-                intent1.putExtra("receiverEmail",ownerEmail);
-                intent1.putExtra("receiverProfilePic",ownerPic);
-                intent1.putExtra("receiverKey",ownerKey);
-                intent1.putExtra("senderName",senderName);
-                intent1.putExtra("senderEmail",senderEmail);
-                intent1.putExtra("senderPic",senderPic);
-                intent1.putExtra("senderKey",FirebaseAuth.getInstance().getUid());
+                intent1.putExtra(getResources().getString(R.string.ChatActivity_intent_petKey),petKey);
+                intent1.putExtra(getResources().getString(R.string.ChatActivity_intent_receiverName),ownerName);
+                intent1.putExtra(getResources().getString(R.string.ChatActivity_intent_receiverEmail),ownerEmail);
+                intent1.putExtra(getResources().getString(R.string.ChatActivity_intent_receiverPic),ownerPic);
+                intent1.putExtra(getResources().getString(R.string.ChatActivity_intent_receiverKey),ownerKey);
+                intent1.putExtra(getResources().getString(R.string.ChatActivity_intent_senderName),senderName);
+                intent1.putExtra(getResources().getString(R.string.ChatActivity_intent_senderEmail),senderEmail);
+                intent1.putExtra(getResources().getString(R.string.ChatActivity_intent_senderPic),senderPic);
+                intent1.putExtra(getResources().getString(R.string.ChatActivity_intent_senderKey),FirebaseAuth.getInstance().getUid());
                 startActivity(intent1);
+            }
+        });
+
+        favourites.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                final Pets[] pet = {null};
+                FirebaseDatabase.getInstance().getReference("favourites/"+FirebaseAuth.getInstance().getUid()+"/"+key).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        pet[0] = snapshot.getValue(Pets.class);
+                        if(pet[0]==null){
+                            FirebaseDatabase.getInstance().getReference("favourites/"+FirebaseAuth.getInstance().getUid()+"/"+key)
+                                    .setValue(new Pets(petKey,key,petName,breed,age,size,gender,imageUrl,ownerKey,ownerName,ownerEmail,ownerPic,petLat,petLong));
+                        }
+                        else{
+                            FirebaseDatabase.getInstance().getReference("favourites/"+FirebaseAuth.getInstance().getUid()+"/").child(key).removeValue();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
             }
         });
 

@@ -246,13 +246,13 @@ public class PetsEditorActivity extends AppCompatActivity{
                 .setValue(new Pets(petKey,key, animal_et.getText().toString(),breed_et.getText().toString(),
                         age_et.getText().toString(),size_et.getText().toString(),gender_et.getText().toString(),url
                         ,FirebaseAuth.getInstance().getCurrentUser().getUid(),userData.getName(),userData.getEmail(),userData.getProfilePic()
-                ,mLat,mLong,false));
+                ,mLat,mLong));
 
         FirebaseDatabase.getInstance().getReference("pet/"+key)
                 .setValue(new Pets(petKey,key, animal_et.getText().toString(),breed_et.getText().toString(),
                         age_et.getText().toString(),size_et.getText().toString(),gender_et.getText().toString(),url
                 ,FirebaseAuth.getInstance().getCurrentUser().getUid(),userData.getName(),userData.getEmail(),userData.getProfilePic(),
-                        mLat,mLong,false));
+                        mLat,mLong));
 
     }
 
@@ -262,13 +262,13 @@ public class PetsEditorActivity extends AppCompatActivity{
                 .setValue(new Pets(petKey,mKey, animal_et.getText().toString(),breed_et.getText().toString(),
                         age_et.getText().toString(),size_et.getText().toString(),gender_et.getText().toString(),url
                         ,FirebaseAuth.getInstance().getCurrentUser().getUid(),userData.getName(),userData.getEmail(),userData.getProfilePic(),
-                        mLat,mLong,false));
+                        mLat,mLong));
 
         FirebaseDatabase.getInstance().getReference("pet/"+mKey)
                 .setValue(new Pets(petKey,mKey, animal_et.getText().toString(),breed_et.getText().toString(),
                         age_et.getText().toString(),size_et.getText().toString(),gender_et.getText().toString(),url
                         ,FirebaseAuth.getInstance().getCurrentUser().getUid(),userData.getName(),userData.getEmail(),userData.getProfilePic(),
-                        mLat,mLong,false));
+                        mLat,mLong));
 
     }
 

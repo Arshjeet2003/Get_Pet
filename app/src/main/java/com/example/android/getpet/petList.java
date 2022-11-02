@@ -74,6 +74,7 @@ public class petList extends AppCompatActivity {
             @Override
             public void onPetsClicked(int position) {
                 Intent intent = new Intent(petList.this,PetDetailsActivity.class);
+                intent.putExtra("keyData",pets.get(position).getKey());
                 intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_OwnerName),pets.get(position).getOwnerName());
                 intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_OwnerEmail),pets.get(position).getOwnerEmail());
                 intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_OwnerProfilePic),pets.get(position).getOwnerProfilePic());
@@ -119,28 +120,9 @@ public class petList extends AppCompatActivity {
 //            startActivity(intent);
         }
         if(item.getItemId()==R.id.menu_item_fav){
-            showFavPets();
+            startActivity(new Intent(petList.this,FavouritesActivity.class));
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    //Showing favourites pets of the user. Getting data of user's favourite pets from database.
-    private void showFavPets() {
-        pets.clear();
-        FirebaseDatabase.getInstance().getReference("userFav/"+FirebaseAuth.getInstance().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    pets.add(dataSnapshot.getValue(Pets.class));
-                }
-                setAdapter();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
     }
 
     //Getting all the pet details from the database.

@@ -18,6 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GetPet">
         <activity
+            android:name=".FavouritesActivity"
+            android:exported="false" />
+        <activity
             android:name=".GlobalChatActivity"
             android:exported="false" />
         <!--
