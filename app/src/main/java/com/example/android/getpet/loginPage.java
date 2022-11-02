@@ -51,6 +51,7 @@ public class loginPage extends AppCompatActivity {
         });
     }
 
+    //Login using email and password.
     private void handleLogin() {
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email.getText().toString(),pass.getText().toString())
          .addOnCompleteListener(new OnCompleteListener<AuthResult>() {

@@ -49,6 +49,7 @@ public class menuChats extends AppCompatActivity {
             }
         });
 
+        //Sending data to ChatActivity
         onChatClickListener = new MenuChatsAdapter.OnChatClickListener() {
             @Override
             public void onChatClicked(int position) {
@@ -68,6 +69,7 @@ public class menuChats extends AppCompatActivity {
         getUsers();
     }
 
+    //Getting all the chats of the user.
     private void getUsers(){
         chatRooms.clear();
         FirebaseDatabase.getInstance().getReference("chats/"+FirebaseAuth.getInstance().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {

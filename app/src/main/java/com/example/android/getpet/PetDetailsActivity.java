@@ -62,22 +62,24 @@ public class PetDetailsActivity extends AppCompatActivity {
         getLocation = findViewById(R.id.location_tv);
         chat = findViewById(R.id.message_tv);
 
+        //Getting data from petList Activity.
         Intent intent = getIntent();
-        petName = intent.getStringExtra("animal");
+        petName = intent.getStringExtra(getResources().getString(R.string.PetDetailsActivity_intent_petName));
         animal_details_et.setText(petName);
-        breed_details_et.setText(intent.getStringExtra("breed"));
-        age_details_et.setText(intent.getStringExtra("age"));
-        size_details_et.setText(intent.getStringExtra("size"));
-        gender_details_et.setText(intent.getStringExtra("gender"));
-        imageUrl = intent.getStringExtra("pic");
-        ownerKey = intent.getStringExtra("OwnerProfileKey");
-        ownerName = intent.getStringExtra("OwnerName");
-        ownerEmail = intent.getStringExtra("OwnerEmail");
-        ownerPic = intent.getStringExtra("OwnerProfilePic");
-        petKey = intent.getStringExtra("PetKey");
-        petLat = intent.getStringExtra("PetLat");
-        petLong = intent.getStringExtra("PetLong");
+        breed_details_et.setText(intent.getStringExtra(getResources().getString(R.string.PetDetailsActivity_intent_breed)));
+        age_details_et.setText(intent.getStringExtra(getResources().getString(R.string.PetDetailsActivity_intent_age)));
+        size_details_et.setText(intent.getStringExtra(getResources().getString(R.string.PetDetailsActivity_intent_size)));
+        gender_details_et.setText(intent.getStringExtra(getResources().getString(R.string.PetDetailsActivity_intent_gender)));
+        imageUrl = intent.getStringExtra(getResources().getString(R.string.PetDetailsActivity_intent_pic));
+        ownerKey = intent.getStringExtra(getResources().getString(R.string.PetDetailsActivity_intent_OwnerProfileKey));
+        ownerName = intent.getStringExtra(getResources().getString(R.string.PetDetailsActivity_intent_OwnerName));
+        ownerEmail = intent.getStringExtra(getResources().getString(R.string.PetDetailsActivity_intent_OwnerEmail));
+        ownerPic = intent.getStringExtra(getResources().getString(R.string.PetDetailsActivity_intent_OwnerProfilePic));
+        petKey = intent.getStringExtra(getResources().getString(R.string.PetDetailsActivity_intent_PetKey));
+        petLat = intent.getStringExtra(getResources().getString(R.string.PetDetailsActivity_intent_PetLat));
+        petLong = intent.getStringExtra(getResources().getString(R.string.PetDetailsActivity_intent_PetLong));
 
+        //Getting data about user from database.
         FirebaseDatabase.getInstance().getReference("users/"+FirebaseAuth.getInstance().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -92,6 +94,7 @@ public class PetDetailsActivity extends AppCompatActivity {
             }
         });
 
+        //Using Glide library to put image of pet in imageView.
         if (imageUrl.isEmpty()) {
             Glide.with(getApplicationContext()).load(R.drawable.account_img).error(R.drawable.account_img)
                     .placeholder(R.drawable.account_img)
@@ -102,10 +105,12 @@ public class PetDetailsActivity extends AppCompatActivity {
                     .into(pic_details_et);
         }
 
+        //Chat option will only be available if it is someone else's pet not user's.
         if (ownerEmail.equals(FirebaseAuth.getInstance().getCurrentUser().getEmail())) {
             chat.setVisibility(View.GONE);
         }
 
+        //Sending data to ChatActivity.
         chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -123,9 +128,12 @@ public class PetDetailsActivity extends AppCompatActivity {
             }
         });
 
+        //Sending data to LocationActivity, Checking for permissions.
         getLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                //Checking if we have permission for location.
                 if(ContextCompat.checkSelfPermission(PetDetailsActivity.this,Manifest.permission.ACCESS_FINE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED){
                     sendIntentToLocationActivity();
@@ -137,6 +145,7 @@ public class PetDetailsActivity extends AppCompatActivity {
         });
     }
 
+    //Getting location permission using Dexter Api.
     private void getPermissions(){
         Dexter.withContext(PetDetailsActivity.this).withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
                 .withListener(new PermissionListener() {
@@ -174,12 +183,13 @@ public class PetDetailsActivity extends AppCompatActivity {
                 }).check();
     }
 
+    //Sending data to LocationActivity
     private void sendIntentToLocationActivity(){
         Intent intent2 = new Intent(PetDetailsActivity.this,LocationActivity.class);
         intent2.putExtra("flagVal",true);
-        intent2.putExtra("petLat",petLat);
-        intent2.putExtra("petLong",petLong);
-        intent2.putExtra("petName",petName);
+        intent2.putExtra(getResources().getString(R.string.LocationActivity_intent_latitudeData),petLat);
+        intent2.putExtra(getResources().getString(R.string.LocationActivity_intent_longitudeData),petLong);
+        intent2.putExtra(getResources().getString(R.string.LocationActivity_intent_PetNameData),petName);
         startActivity(intent2);
     }
 }

@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         submit = findViewById(R.id.submit_tv);
         login =  findViewById(R.id.login_tv);
 
+        //If user is already logged in then open the petList activity.
         if(FirebaseAuth.getInstance().getCurrentUser()!=null){
             startActivity(new Intent(MainActivity.this,petList.class));
             finish();
@@ -61,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    //Handling Signup using Email and Password.
     void handleSignUp(){
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email.getText().toString(),password.getText().toString())
               .addOnCompleteListener(new OnCompleteListener<AuthResult>() {

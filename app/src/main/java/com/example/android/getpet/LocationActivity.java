@@ -42,12 +42,13 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
         mapFragment.getMapAsync(this);
 
 
+        //Getting data from the PetDetailsActivity
         Intent intent = getIntent();
         mFlag = intent.getBooleanExtra("flagVal",false);
         if(mFlag){
-            mLat = Double.parseDouble(intent.getStringExtra("petLat"));
-            mLong = Double.parseDouble(intent.getStringExtra("petLong"));
-            petName = intent.getStringExtra("petName");
+            mLat = Double.parseDouble(intent.getStringExtra(String.valueOf(R.string.LocationActivity_intent_latitudeData)));
+            mLong = Double.parseDouble(intent.getStringExtra(String.valueOf(R.string.LocationActivity_intent_longitudeData)));
+            petName = intent.getStringExtra(String.valueOf(R.string.LocationActivity_intent_PetNameData));
         }
         else{
             setmyLoc.setVisibility(View.GONE);
@@ -62,6 +63,7 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
         mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
+        //Setting up location of pet to be seen by user.
         if(mFlag){
             LatLng PetLatLng = new LatLng(mLat, mLong);
             mMap.addMarker(new MarkerOptions().position(PetLatLng).title(petName));

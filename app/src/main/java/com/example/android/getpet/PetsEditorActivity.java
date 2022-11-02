@@ -14,7 +14,6 @@ import android.graphics.Bitmap;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationListener;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -86,10 +85,14 @@ public class PetsEditorActivity extends AppCompatActivity{
         setLocation = findViewById(R.id.setLocation_tv);
         url = "";
 
+        //Getting data from userPetList Activity.
         Intent intent = getIntent();
         booleanUpdate = intent.getBooleanExtra("User_data",false);
         mKey = intent.getStringExtra("User_key");
         petKey = UUID.randomUUID().toString();
+
+        /*Checking if user wants to update pet's data or wants to add a new pet.
+        If user wants to update the old data then set the old data into the textViews and imageViews.*/
 
         if(booleanUpdate){
             animal_et.setText(intent.getStringExtra("User_animal"));
@@ -109,7 +112,7 @@ public class PetsEditorActivity extends AppCompatActivity{
         //Initialize fusedLocationProviderClient
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
-
+        //Select the picture from internal storage that you want to upload.
         pic_et.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -119,6 +122,7 @@ public class PetsEditorActivity extends AppCompatActivity{
             }
         });
 
+        //Getting permission for user's location.
         setLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -130,6 +134,8 @@ public class PetsEditorActivity extends AppCompatActivity{
 
     }
 
+
+    //Getting user's location.
     @SuppressLint("MissingPermission")
     private void getLocation() {
         fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
@@ -155,6 +161,7 @@ public class PetsEditorActivity extends AppCompatActivity{
         });
     }
 
+    //Getting mobile path for image you have uploaded.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -165,6 +172,7 @@ public class PetsEditorActivity extends AppCompatActivity{
         }
     }
 
+    //Putting image in imageView and uploading to Firebase Storage.
     private void getImageInImageView(){
         Bitmap bitmap = null;
         try {
@@ -173,9 +181,13 @@ public class PetsEditorActivity extends AppCompatActivity{
             e.printStackTrace();
         }
         pic_et.setImageBitmap(bitmap);
+
+
         ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setTitle(" Uploading... ");
         progressDialog.show();
+
+        //Put image in Firebase storage.
         FirebaseStorage.getInstance().getReference("petImages/"+ UUID.randomUUID().toString())
                 .putFile(imagePath).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -198,6 +210,7 @@ public class PetsEditorActivity extends AppCompatActivity{
             }
         }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
             @Override
+            //Shows the progress of upload.
             public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
                 double progress = 100.0*snapshot.getBytesTransferred()/snapshot.getTotalByteCount();
                 progressDialog.setMessage(" Uploaded "+(int)progress+"%");
@@ -205,6 +218,7 @@ public class PetsEditorActivity extends AppCompatActivity{
         });
     }
 
+    //Getting user details.
     private void getUserDetails(){
         FirebaseDatabase.getInstance().getReference("users")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
@@ -225,9 +239,10 @@ public class PetsEditorActivity extends AppCompatActivity{
                 });
     }
 
+    //Saving the new pet data into the database.
     private void savePetsData(){
         String key = UUID.randomUUID().toString();
-        FirebaseDatabase.getInstance().getReference("PetsOfUsers/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/pet/"+key)
+        FirebaseDatabase.getInstance().getReference("user's_pet/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/pet/"+key)
                 .setValue(new Pets(petKey,key, animal_et.getText().toString(),breed_et.getText().toString(),
                         age_et.getText().toString(),size_et.getText().toString(),gender_et.getText().toString(),url
                         ,FirebaseAuth.getInstance().getCurrentUser().getUid(),userData.getName(),userData.getEmail(),userData.getProfilePic()
@@ -241,8 +256,9 @@ public class PetsEditorActivity extends AppCompatActivity{
 
     }
 
+    //Updating the already created pet data.
     private void updatePetsData() {
-        FirebaseDatabase.getInstance().getReference("PetsOfUsers/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/pet/"+mKey)
+        FirebaseDatabase.getInstance().getReference("user's_pet/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/pet/"+mKey)
                 .setValue(new Pets(petKey,mKey, animal_et.getText().toString(),breed_et.getText().toString(),
                         age_et.getText().toString(),size_et.getText().toString(),gender_et.getText().toString(),url
                         ,FirebaseAuth.getInstance().getCurrentUser().getUid(),userData.getName(),userData.getEmail(),userData.getProfilePic(),
@@ -256,13 +272,15 @@ public class PetsEditorActivity extends AppCompatActivity{
 
     }
 
+    //Inflating the menu options.
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
 
-        getMenuInflater().inflate(R.menu.save_menu,menu);
+        getMenuInflater().inflate(R.menu.editor_activity_menu,menu);
         return true;
     }
 
+    //Setting what happens when any menu item is clicked.
     public boolean onOptionsItemSelected(MenuItem item){
         if(item.getItemId()==R.id.menu_item_save){
             if(booleanUpdate){
@@ -276,6 +294,7 @@ public class PetsEditorActivity extends AppCompatActivity{
         return super.onOptionsItemSelected(item);
     }
 
+    //Getting Location permissions using Dexter Api.
     private void getPermissions(){
         Dexter.withContext(PetsEditorActivity.this).withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
                 .withListener(new PermissionListener() {

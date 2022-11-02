@@ -15,6 +15,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
+//Adapter for Global Message Activity
 public class GlobalMessageAdapter extends RecyclerView.Adapter<GlobalMessageAdapter.GlobalMessageHolder> {
 
     private ArrayList<MyMessage> messages;
@@ -27,6 +28,7 @@ public class GlobalMessageAdapter extends RecyclerView.Adapter<GlobalMessageAdap
         this.senderEmail = senderEmail;
     }
 
+    //Inflating message_holder xml file.
     @NonNull
     @Override
     public GlobalMessageAdapter.GlobalMessageHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -34,6 +36,7 @@ public class GlobalMessageAdapter extends RecyclerView.Adapter<GlobalMessageAdap
         return new GlobalMessageAdapter.GlobalMessageHolder(view);
     }
 
+    //Binding data to view holder items.
     @Override
     public void onBindViewHolder(@NonNull GlobalMessageAdapter.GlobalMessageHolder holder, int position) {
 
@@ -41,6 +44,8 @@ public class GlobalMessageAdapter extends RecyclerView.Adapter<GlobalMessageAdap
 
         ConstraintLayout constraintLayout = holder.Clayout;
 
+        /*Using Constraints to stick the messages send by sender to right and stick the messages
+          of the receiver to the left*/
         if(messages.get(position).getSenderEmail().equals(senderEmail)){
             Glide.with(context).load(messages.get(position).getSenderPic()).error(R.drawable.account_img).placeholder(R.drawable.account_img)
                     .into(holder.profImg);
@@ -65,11 +70,13 @@ public class GlobalMessageAdapter extends RecyclerView.Adapter<GlobalMessageAdap
         }
     }
 
+    //Returns the number of items in the list.
     @Override
     public int getItemCount() {
         return messages.size();
     }
 
+    //Setting up holder.
     class GlobalMessageHolder extends RecyclerView.ViewHolder{
 
         ConstraintLayout Clayout;

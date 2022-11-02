@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 
+//Adapter for userPetList Activity.
 public class UserPetAdapter extends RecyclerView.Adapter<UserPetAdapter.UserPetsHolder> {
 
     private ArrayList<Pets> userPets;
@@ -27,13 +28,14 @@ public class UserPetAdapter extends RecyclerView.Adapter<UserPetAdapter.UserPets
         void onUserPetsClicked(int position);
     }
 
-    @NonNull
+    //Inflating user_pet_holder xml file.
     @Override
-    public UserPetAdapter.UserPetsHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public UserPetAdapter.UserPetsHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.user_pet_holder,parent,false);
         return new UserPetAdapter.UserPetsHolder(view);
     }
 
+    //Binding data to view holder items.
     @Override
     public void onBindViewHolder(@NonNull UserPetAdapter.UserPetsHolder holder, int position) {
 
@@ -45,12 +47,13 @@ public class UserPetAdapter extends RecyclerView.Adapter<UserPetAdapter.UserPets
 
     }
 
+    //Returns the number of items in the list.
     @Override
     public int getItemCount() {
         return userPets.size();
     }
 
-
+    //Setting up holder.
     class UserPetsHolder extends RecyclerView.ViewHolder{
 
         TextView User_animal;

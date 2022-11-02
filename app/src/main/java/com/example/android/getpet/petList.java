@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -51,6 +50,7 @@ public class petList extends AppCompatActivity {
         swipeRefreshLayout = findViewById(R.id.swip);
         noData = findViewById(R.id.Nodata_tv);
 
+        //Loading pets again on refreshing.
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -69,35 +69,38 @@ public class petList extends AppCompatActivity {
             }
         });
 
+        //Sending data to PetDetailsActivity.
         onPetsClickListener = new PetsAdapter.OnPetsClickListener() {
             @Override
             public void onPetsClicked(int position) {
                 Intent intent = new Intent(petList.this,PetDetailsActivity.class);
-                intent.putExtra("OwnerName",pets.get(position).getOwnerName());
-                intent.putExtra("OwnerEmail",pets.get(position).getOwnerEmail());
-                intent.putExtra("OwnerProfilePic",pets.get(position).getOwnerProfilePic());
-                intent.putExtra("OwnerProfileKey",pets.get(position).getOwnerKey());
-                intent.putExtra("animal",pets.get(position).getAnimal());
-                intent.putExtra("breed",pets.get(position).getBreed());
-                intent.putExtra("age",pets.get(position).getAge());
-                intent.putExtra("size",pets.get(position).getSize());
-                intent.putExtra("gender",pets.get(position).getGender());
-                intent.putExtra("pic",pets.get(position).getProfilePic());
-                intent.putExtra("PetKey",pets.get(position).getKey());
-                intent.putExtra("PetLat",pets.get(position).getPetLat());
-                intent.putExtra("PetLong",pets.get(position).getPetLong());
+                intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_OwnerName),pets.get(position).getOwnerName());
+                intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_OwnerEmail),pets.get(position).getOwnerEmail());
+                intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_OwnerProfilePic),pets.get(position).getOwnerProfilePic());
+                intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_OwnerProfileKey),pets.get(position).getOwnerKey());
+                intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_petName),pets.get(position).getAnimal());
+                intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_breed),pets.get(position).getBreed());
+                intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_age),pets.get(position).getAge());
+                intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_size),pets.get(position).getSize());
+                intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_gender),pets.get(position).getGender());
+                intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_OwnerProfilePic),pets.get(position).getProfilePic());
+                intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_PetKey),pets.get(position).getKey());
+                intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_PetLat),pets.get(position).getPetLat());
+                intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_PetLong),pets.get(position).getPetLong());
                 startActivity(intent);
             }
         };
     }
 
+    //Inflating menu options.
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
 
-        getMenuInflater().inflate(R.menu.profile_menu,menu);
+        getMenuInflater().inflate(R.menu.petlist_menu,menu);
         return true;
     }
 
+    //Setting what happens when any menu item is clicked.
     public boolean onOptionsItemSelected(MenuItem item){
         if(item.getItemId()==R.id.menu_item_profile){
             startActivity(new Intent(petList.this,profile.class));
@@ -121,6 +124,7 @@ public class petList extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //Showing favourites pets of the user. Getting data of user's favourite pets from database.
     private void showFavPets() {
         pets.clear();
         FirebaseDatabase.getInstance().getReference("userFav/"+FirebaseAuth.getInstance().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -139,6 +143,7 @@ public class petList extends AppCompatActivity {
         });
     }
 
+    //Getting all the pet details from the database.
     private void getPets(){
         pets.clear();
         FirebaseDatabase.getInstance().getReference("pet").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -157,6 +162,7 @@ public class petList extends AppCompatActivity {
         });
     }
 
+    //Getting User details from the database.
     private void getUserData() {
 
         FirebaseDatabase.getInstance().getReference("users/"+ FirebaseAuth.getInstance().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -174,12 +180,15 @@ public class petList extends AppCompatActivity {
         });
     }
 
+    //Setting up the adapter to show the list of pets in the arraylist.
     private void setAdapter(){
         petsAdapter = new PetsAdapter(pets,petList.this,onPetsClickListener);
         recyclerView.setLayoutManager(new LinearLayoutManager(petList.this));
         progressBar.setVisibility(View.GONE);
         recyclerView.setVisibility(View.VISIBLE);
         recyclerView.setAdapter(petsAdapter);
+
+        //If no pets then show the noData textView.
         if(petsAdapter.getItemCount()==0){
             noData.setVisibility(View.VISIBLE);
         }

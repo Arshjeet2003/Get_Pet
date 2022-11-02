@@ -1,5 +1,6 @@
 package com.example.android.getpet;
 
+//Contains information about the sender and receiver.
 public class DetailsOfChatRoom {
 
     private String PetKey;

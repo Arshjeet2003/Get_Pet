@@ -1,4 +1,36 @@
 <resources>
     <string name="app_name">Get Pet</string>
     <string name="title_activity_location">LocationActivity</string>
+
+    <string name="ChatActivity_intent_petKey">PetKey</string>
+    <string name="ChatActivity_intent_receiverKey">receiverKey</string>
+    <string name="ChatActivity_intent_receiverName">receiverName</string>
+    <string name="ChatActivity_intent_receiverEmail">receiverEmail</string>
+    <string name="ChatActivity_intent_receiverPic">receiverProfilePic</string>
+    <string name="ChatActivity_intent_senderKey">senderKey</string>
+    <string name="ChatActivity_intent_senderName">senderName</string>
+    <string name="ChatActivity_intent_senderEmail">senderEmail</string>
+    <string name="ChatActivity_intent_senderPic">senderPic</string>
+
+    <string name="LocationActivity_intent_latitudeData">petLat</string>
+    <string name="LocationActivity_intent_longitudeData">petLong</string>
+    <string name="LocationActivity_intent_PetNameData">petName</string>
+
+    <string name="PetDetailsActivity_intent_petName">petName</string>
+    <string name="PetDetailsActivity_intent_breed">breed</string>
+    <string name="PetDetailsActivity_intent_age">age</string>
+    <string name="PetDetailsActivity_intent_size">size"</string>
+    <string name="PetDetailsActivity_intent_gender">gender</string>
+    <string name="PetDetailsActivity_intent_pic">pic</string>
+    <string name="PetDetailsActivity_intent_OwnerProfileKey">OwnerProfileKey</string>
+    <string name="PetDetailsActivity_intent_OwnerName">OwnerName</string>
+    <string name="PetDetailsActivity_intent_OwnerEmail">OwnerEmail</string>
+    <string name="PetDetailsActivity_intent_OwnerProfilePic">OwnerProfilePic</string>
+    <string name="PetDetailsActivity_intent_PetKey">PetKey</string>
+    <string name="PetDetailsActivity_intent_PetLat">PetLat</string>
+    <string name="PetDetailsActivity_intent_PetLong">PetLong</string>
+
+
+
+
 </resources>

@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import java.util.ArrayList;
 
+//Adapter for ChatActivity
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageHolder> {
 
     public MessageAdapter(ArrayList<Message> messages, String senderImg, String receiverImg, Context context) {
@@ -29,6 +30,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageH
     private String receiverImg;
     private Context context;
 
+    //Inflating message_holder xml file.
     @NonNull
     @Override
     public MessageHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -36,6 +38,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageH
         return new MessageHolder(view);
     }
 
+    //Binding data to view holder items.
     @Override
     public void onBindViewHolder(@NonNull MessageHolder holder, int position) {
 
@@ -43,6 +46,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageH
 
         ConstraintLayout constraintLayout = holder.Clayout;
 
+        /*Using Constraints to stick the messages send by sender to right and stick the messages
+          of the receiver to the left*/
         if(messages.get(position).getSender().equals(FirebaseAuth.getInstance().getCurrentUser().getEmail())){
             Glide.with(context).load(senderImg).error(R.drawable.account_img).placeholder(R.drawable.account_img)
                     .into(holder.profImg);
@@ -67,11 +72,13 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageH
         }
     }
 
+    //Returns the number of items in the list.
     @Override
     public int getItemCount() {
         return messages.size();
     }
 
+    //Setting up holder.
     class MessageHolder extends RecyclerView.ViewHolder{
 
         ConstraintLayout Clayout;

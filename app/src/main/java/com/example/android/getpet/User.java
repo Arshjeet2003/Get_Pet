@@ -1,5 +1,6 @@
 package com.example.android.getpet;
 
+//Contains information about user.
 public class User {
 
     private String name;

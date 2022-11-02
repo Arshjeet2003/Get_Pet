@@ -1,7 +1,7 @@
 package com.example.android.getpet;
 
+//This class contains information about the pets.
 public class Pets {
-
 
     private String petKey;
     private String key;

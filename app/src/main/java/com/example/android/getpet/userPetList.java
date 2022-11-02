@@ -41,6 +41,7 @@ public class userPetList extends AppCompatActivity {
         recyclerView = findViewById(R.id.User_recycler);
         swipeRefreshLayout = findViewById(R.id.User_swip);
 
+        //Refresh to show new data.
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -49,6 +50,7 @@ public class userPetList extends AppCompatActivity {
             }
         });
 
+        //Sending data to PetsEditorActivity
         onUserPetsClickListener = new UserPetAdapter.OnUserPetsClickListener() {
             @Override
             public void onUserPetsClicked(int position) {
@@ -68,9 +70,10 @@ public class userPetList extends AppCompatActivity {
         getUserPets();
     }
 
+    //Getting user's pets' data only.
     private void getUserPets(){
         User_pets.clear();
-        FirebaseDatabase.getInstance().getReference("PetsOfUsers/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/pet").addListenerForSingleValueEvent(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference("user's_pet/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/pet").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){

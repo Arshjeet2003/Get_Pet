@@ -11,14 +11,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 
 public class ChatActivity extends AppCompatActivity {
@@ -59,20 +57,22 @@ public class ChatActivity extends AppCompatActivity {
 
         messages = new ArrayList<>();
 
+        //Getting data from PetDetailsActivity
         Intent intent = getIntent();
-        petKey = intent.getStringExtra("PetKey");
-        receiverKey = intent.getStringExtra("receiverKey");
-        receiverName = intent.getStringExtra("receiverName");
-        receiverEmail = intent.getStringExtra("receiverEmail");
-        receiverPic = intent.getStringExtra("receiverProfilePic");
-        senderKey = intent.getStringExtra("senderKey");
-        senderName = intent.getStringExtra("senderName");
-        senderEmail = intent.getStringExtra("senderEmail");
-        senderPic = intent.getStringExtra("senderPic");
+        petKey = intent.getStringExtra(String.valueOf(R.string.ChatActivity_intent_petKey));
+        receiverKey = intent.getStringExtra(String.valueOf(R.string.ChatActivity_intent_receiverKey));
+        receiverName = intent.getStringExtra(String.valueOf(R.string.ChatActivity_intent_receiverName));
+        receiverEmail = intent.getStringExtra(String.valueOf(R.string.ChatActivity_intent_receiverEmail));
+        receiverPic = intent.getStringExtra(String.valueOf(R.string.ChatActivity_intent_receiverPic));
+        senderKey = intent.getStringExtra(String.valueOf(R.string.ChatActivity_intent_senderKey));
+        senderName = intent.getStringExtra(String.valueOf(R.string.ChatActivity_intent_senderName));
+        senderEmail = intent.getStringExtra(String.valueOf(R.string.ChatActivity_intent_senderEmail));
+        senderPic = intent.getStringExtra(String.valueOf(R.string.ChatActivity_intent_senderPic));
 
         Chatting_with.setText(receiverName);
         setUpChatRoom();
 
+        //Inserting Message objects in database.
         sendingArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -83,15 +83,18 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
+        //Setting up message adapter
         messageAdapter = new MessageAdapter(messages,senderPic,receiverPic,ChatActivity.this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(messageAdapter);
 
+        //Using Glide library to put image of receiver in imageView
         Glide.with(ChatActivity.this).load(receiverPic).error(R.drawable.account_img)
                 .placeholder(R.drawable.account_img).into(imgUser);
 
     }
 
+    //Setting up chatroom for each chat between User and Pet Owner
     private void setUpChatRoom(){
         if(senderName.compareTo(receiverName)>=0){
             mChatroomId = receiverName+ petKey +senderName;
@@ -103,6 +106,10 @@ public class ChatActivity extends AppCompatActivity {
         attachMessageListener();
     }
 
+    /*Putting all the data in chats node in database so that data can be retrieved easily in the chats of the user.
+    When user key is used in database reference, sender is user.
+    When receiver key is used in database reference, sender is pet owner.*/
+
     private void putDataOfChatRoom(){
         FirebaseDatabase.getInstance().getReference("chats/"+FirebaseAuth.getInstance().getUid()+"/"+mChatroomId)
                 .setValue(new DetailsOfChatRoom(petKey,receiverKey,receiverName,receiverEmail,receiverPic,mChatroomId,
@@ -113,6 +120,7 @@ public class ChatActivity extends AppCompatActivity {
                 receiverKey,receiverName,receiverEmail,receiverPic));
     }
 
+    //Retrieving messages from database, adding in messages arraylist.
     private void attachMessageListener(){
         FirebaseDatabase.getInstance().getReference("messages/"+mChatroomId).addValueEventListener(new ValueEventListener() {
             @Override
@@ -121,7 +129,10 @@ public class ChatActivity extends AppCompatActivity {
                 for(DataSnapshot dataSnapshot:snapshot.getChildren()){
                     messages.add(dataSnapshot.getValue(Message.class));
                 }
+                //Notifying message adapter about changes.
                 messageAdapter.notifyDataSetChanged();
+
+                //Scrolling recycler view to last message.
                 recyclerView.scrollToPosition(messages.size()-1);
                 recyclerView.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);

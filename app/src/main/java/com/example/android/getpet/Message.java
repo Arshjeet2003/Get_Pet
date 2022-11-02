@@ -1,5 +1,6 @@
 package com.example.android.getpet;
 
+//Contains information about the messages send.
 public class Message {
 
     private String sender;

@@ -22,6 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+//Class still in working...
 public class GlobalChatActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
@@ -49,11 +50,10 @@ public class GlobalChatActivity extends AppCompatActivity {
         messages = new ArrayList<>();
 
 //      initializeGlobalChat();
-
-        Intent intent = getIntent();
-        senderName = intent.getStringExtra("sender_name");
-        senderEmail = intent.getStringExtra("sender_email");
-        senderPic = intent.getStringExtra("sender_pic");
+//        Intent intent = getIntent();
+//        senderName = intent.getStringExtra("sender_name");
+//        senderEmail = intent.getStringExtra("sender_email");
+//        senderPic = intent.getStringExtra("sender_pic");
 
 
         attachMessageListener();

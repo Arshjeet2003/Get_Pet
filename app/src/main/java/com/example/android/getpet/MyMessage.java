@@ -1,5 +1,6 @@
 package com.example.android.getpet;
 
+//Contains information about only user's message for Global Chat.
 public class MyMessage {
 
     private String senderName;

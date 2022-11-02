@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
+//Adapter for menuChats Activity.
 public class MenuChatsAdapter extends RecyclerView.Adapter<MenuChatsAdapter.MenuChatsHolder> {
 
     private ArrayList<DetailsOfChatRoom> chatRooms;
@@ -30,6 +31,7 @@ public class MenuChatsAdapter extends RecyclerView.Adapter<MenuChatsAdapter.Menu
         void onChatClicked(int position);
     }
 
+    //Inflating users_holder xml file.
     @NonNull
     @Override
     public MenuChatsAdapter.MenuChatsHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -37,6 +39,7 @@ public class MenuChatsAdapter extends RecyclerView.Adapter<MenuChatsAdapter.Menu
         return new MenuChatsAdapter.MenuChatsHolder(view);
     }
 
+    //Binding data to view holder items.
     @Override
     public void onBindViewHolder(@NonNull MenuChatsAdapter.MenuChatsHolder holder, int position) {
 
@@ -46,12 +49,14 @@ public class MenuChatsAdapter extends RecyclerView.Adapter<MenuChatsAdapter.Menu
 
     }
 
+    //Returns the number of items in the list.
     @Override
     public int getItemCount() {
         return chatRooms.size();
     }
 
 
+    //Setting up holder.
     class MenuChatsHolder extends RecyclerView.ViewHolder{
 
         TextView User_name;
