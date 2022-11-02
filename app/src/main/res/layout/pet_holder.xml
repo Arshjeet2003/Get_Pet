@@ -1,69 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="500dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginHorizontal="10dp"
     android:layout_marginTop="10dp"
-    app:cardCornerRadius="14dp"
-    app:cardBackgroundColor="#03A9F4">
+    app:cardCornerRadius="50dp"
+    app:cardBackgroundColor="#87FFFF"
+    android:outlineSpotShadowColor="@color/cardview_dark_background">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="17dp">
+        android:layout_height="match_parent">
 
         <androidx.cardview.widget.CardView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            app:cardCornerRadius="50dp">
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+
+            app:layout_constraintBottom_toTopOf="@+id/guideline63"
+            app:layout_constraintStart_toStartOf="@+id/guideline45"
+            app:layout_constraintTop_toTopOf="@+id/guideline50" >
 
             <ImageView
-                android:id="@+id/img_pet"
+                android:id="@+id/imageView3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"/>
+                tools:srcCompat="@drawable/account_img"
+                android:scaleType="centerCrop"
 
-
+                />
         </androidx.cardview.widget.CardView>
 
-        <TextView
-            android:id="@+id/animal"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline45"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_gravity="center"
-            android:text="animal"
-            android:textSize="20sp"
-            android:textColor="@android:color/white"/>
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.06" />
 
-        <TextView
-            android:id="@+id/breed"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline65"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textColor="@android:color/white"
-            android:layout_marginLeft="20dp"
-            android:textSize="20sp"
-            android:text="breed"/>
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.59" />
 
-        <TextView
-            android:id="@+id/gender"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline48"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textColor="@android:color/white"
-            android:layout_marginLeft="20dp"
-            android:textSize="20sp"
-            android:text="gender"/>
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.93" />
 
-        <ImageView
-            android:id="@+id/fav_empty"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_gravity="bottom|right"
-            android:src="@drawable/outline_fav" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline50"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.05" />
 
-    </LinearLayout>
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline63"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.73" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline64"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.85" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline66"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.94" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline67"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.75" />
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:fontFamily="@font/atma_semibold"
+            android:gravity="center"
+
+            android:textSize="34sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/guideline64"
+            app:layout_constraintEnd_toStartOf="@+id/guideline65"
+            app:layout_constraintStart_toStartOf="@+id/guideline45"
+            app:layout_constraintTop_toTopOf="@+id/guideline67" />
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:fontFamily="@font/atma_semibold"
+            android:gravity="center"
+            android:textSize="30sp"
+            app:layout_constraintBottom_toTopOf="@+id/guideline66"
+            app:layout_constraintEnd_toStartOf="@+id/guideline48"
+            app:layout_constraintStart_toStartOf="@+id/guideline45"
+            app:layout_constraintTop_toTopOf="@+id/guideline64" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>
