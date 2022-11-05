@@ -46,6 +46,8 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
@@ -67,10 +69,12 @@ public class PetsEditorActivity extends AppCompatActivity{
     private String mKey;
     private User userData;
     private String petKey;
+
+    private Boolean booleanLocationData;
     private String mLat;
     private String mLong;
-
-    private FusedLocationProviderClient fusedLocationProviderClient;
+    private String LocAdd;
+    private TextView petAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +89,7 @@ public class PetsEditorActivity extends AppCompatActivity{
         gender_et = findViewById(R.id.gender_et);
         pic_et = findViewById(R.id.pic_iv);
         setLocation = findViewById(R.id.setLocation_tv);
+        petAddress = findViewById(R.id.loc_tv);
         url = "";
 
         //Getting data from userPetList Activity.
@@ -92,6 +97,19 @@ public class PetsEditorActivity extends AppCompatActivity{
         booleanUpdate = intent.getBooleanExtra("User_data",false);
         mKey = intent.getStringExtra("User_key");
         petKey = UUID.randomUUID().toString();
+        booleanLocationData = intent.getBooleanExtra("locationData",false);
+
+        if(booleanLocationData){
+            LocAdd = intent.getStringExtra("locationAdd");
+            mLat = intent.getStringExtra("latitudeData");
+            mLong = intent.getStringExtra("longitudeData");
+            animal_et.setText(intent.getStringExtra("animal_from_LocationActivity"));
+            animalName_et.setText(intent.getStringExtra("animalName_from_LocationActivity"));
+            breed_et.setText(intent.getStringExtra("breed_from_LocationActivity"));
+            age_et.setText(intent.getStringExtra("age_from_LocationActivity"));
+            size_et.setText(intent.getStringExtra("size_from_LocationActivity"));
+            gender_et.setText(intent.getStringExtra("gender_from_LocationActivity"));
+        }
 
         /*Checking if user wants to update pet's data or wants to add a new pet.
         If user wants to update the old data then set the old data into the textViews and imageViews.*/
@@ -109,11 +127,8 @@ public class PetsEditorActivity extends AppCompatActivity{
                     .placeholder(R.drawable.account_img)
                     .into(pic_et);
             url = UserPetImageUrl;
-            petKey = intent.getStringExtra("petKey");
+            mKey = intent.getStringExtra("User_key");
         }
-
-        //Initialize fusedLocationProviderClient
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
         //Select the picture from internal storage that you want to upload.
         pic_et.setOnClickListener(new View.OnClickListener() {
@@ -130,36 +145,20 @@ public class PetsEditorActivity extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 getPermissions();
+                Intent intent1 = new Intent(PetsEditorActivity.this,LocationActivity.class);
+                intent1.putExtra("animalName",animalName_et.getText().toString());
+                intent1.putExtra("animal",animal_et.getText().toString());
+                intent1.putExtra("breed",breed_et.getText().toString());
+                intent1.putExtra("age",age_et.getText().toString());
+                intent1.putExtra("size",size_et.getText().toString());
+                intent1.putExtra("gender",gender_et.getText().toString());
+
+                startActivity(intent1);
             }
         });
 
+        petAddress.setText(LocAdd);
         getUserDetails();
-    }
-
-    //Getting user's location.
-    @SuppressLint("MissingPermission")
-    private void getLocation() {
-        fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
-            @Override
-            public void onComplete(@NonNull Task<Location> task) {
-                //Initialize location
-                Location location = task.getResult();
-                if(location!=null){
-                    //Initialize geoCoder
-                    Geocoder geocoder = new Geocoder(PetsEditorActivity.this, Locale.getDefault());
-                    //Initialize address List
-                    try {
-                        List<Address> addresses = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
-                        mLat = String.valueOf(addresses.get(0).getLatitude());
-                        mLong = String.valueOf(addresses.get(0).getLongitude());
-                    }
-                    catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            }
-        });
     }
 
     //Getting mobile path for image you have uploaded.
@@ -292,7 +291,33 @@ public class PetsEditorActivity extends AppCompatActivity{
             }
             startActivity(new Intent(PetsEditorActivity.this,petList.class));
         }
+        if(item.getItemId()==R.id.menu_item_del){
+            if(booleanUpdate){
+                deletePetsData();
+            }
+            else{
+                startActivity(new Intent(PetsEditorActivity.this,petList.class));
+            }
+        }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void deletePetsData() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(PetsEditorActivity.this);
+        builder.setTitle("Delete Pet")
+                .setMessage("Do you want to delete this pet?")
+                .setNegativeButton("Cancel",null)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        FirebaseDatabase.getInstance().getReference("user's_pet/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/pet")
+                                .child(mKey).removeValue();
+                        FirebaseDatabase.getInstance().getReference("pet")
+                                .child(mKey).removeValue();
+                        Toast.makeText(getApplicationContext(), "Pet Deleted", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(PetsEditorActivity.this,petList.class));
+                    }
+                }).show();
     }
 
     //Getting Location permissions using Dexter Api.
@@ -301,8 +326,8 @@ public class PetsEditorActivity extends AppCompatActivity{
                 .withListener(new PermissionListener() {
                     @Override
                     public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
-                        getLocation();
-                        Toast.makeText(getApplicationContext(),"Your Location has been set",Toast.LENGTH_SHORT).show();
+//                        getLocation();
+//                        Toast.makeText(getApplicationContext(),"Your Location has been set",Toast.LENGTH_SHORT).show();
                     }
 
                     @Override

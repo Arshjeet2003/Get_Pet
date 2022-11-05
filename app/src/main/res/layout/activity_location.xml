@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:map="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -19,6 +20,24 @@
         android:layout_marginBottom="20dp"
         android:layout_marginStart="145dp"
         android:textSize="25sp"
-        android:visibility="gone"
         android:text="Set Location"/>
+
+    <TextView
+        android:id="@+id/locationData_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/map"
+        android:padding="10dp"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:layout_marginTop="15dp"
+        />
+
+    <ImageView
+        android:id="@+id/mapPin"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/pin"
+        android:visibility="gone"
+        android:layout_centerInParent="true"/>
 </RelativeLayout>

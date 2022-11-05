@@ -5,7 +5,12 @@
         android:id="@+id/menu_item_save"
         android:icon="@drawable/check"
         android:title="Save"
-        app:showAsAction="always"
-        />
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_item_del"
+        android:icon="@drawable/delete_icon"
+        android:title="Delete"
+        app:showAsAction="always"/>
 
 </menu>

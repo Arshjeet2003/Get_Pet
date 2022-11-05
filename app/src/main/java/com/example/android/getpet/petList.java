@@ -225,6 +225,7 @@ public class petList extends AppCompatActivity {
 
             }
         });
+
     }
 
     //Setting up the adapter to show the list of pets in the arraylist.
