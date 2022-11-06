@@ -30,8 +30,7 @@
         android:padding="10dp"
         android:gravity="center"
         android:textSize="20sp"
-        android:layout_marginTop="15dp"
-        />
+        android:layout_marginTop="15dp" />
 
     <ImageView
         android:id="@+id/mapPin"
@@ -40,4 +39,5 @@
         android:src="@drawable/pin"
         android:visibility="gone"
         android:layout_centerInParent="true"/>
+
 </RelativeLayout>

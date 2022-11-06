@@ -1,14 +1,18 @@
 package com.example.android.getpet;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -22,7 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class userPetList extends AppCompatActivity {
+public class userPetList extends Fragment {
 
     private RecyclerView recyclerView;
     private ArrayList<Pets> User_pets;
@@ -32,14 +36,18 @@ public class userPetList extends AppCompatActivity {
     UserPetAdapter.OnUserPetsClickListener onUserPetsClickListener;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_pet_list);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+        return inflater.inflate(R.layout.activity_user_pet_list,container,false);
+    }
 
-        progressBar = findViewById(R.id.User_progressbar);
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        progressBar = getView().findViewById(R.id.User_progressbar);
         User_pets = new ArrayList<>();
-        recyclerView = findViewById(R.id.User_recycler);
-        swipeRefreshLayout = findViewById(R.id.User_swip);
+        recyclerView = getView().findViewById(R.id.User_recycler);
+        swipeRefreshLayout = getView().findViewById(R.id.User_swip);
 
         //Refresh to show new data.
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -54,7 +62,7 @@ public class userPetList extends AppCompatActivity {
         onUserPetsClickListener = new UserPetAdapter.OnUserPetsClickListener() {
             @Override
             public void onUserPetsClicked(int position) {
-                Intent intent = new Intent(userPetList.this,PetsEditorActivity.class);
+                Intent intent = new Intent(getActivity(),PetsEditorActivity.class);
                 intent.putExtra("User_data",true);
                 intent.putExtra("User_key", User_pets.get(position).getKey());
                 intent.putExtra("User_animalName",User_pets.get(position).getAnimalName());
@@ -69,28 +77,35 @@ public class userPetList extends AppCompatActivity {
             }
         };
         getUserPets();
+
     }
 
     //Getting user's pets' data only.
     private void getUserPets(){
         User_pets.clear();
-        FirebaseDatabase.getInstance().getReference("user's_pet/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/pet").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    User_pets.add(dataSnapshot.getValue(Pets.class));
+        try {
+            FirebaseDatabase.getInstance().getReference("user's_pet/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/pet").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        User_pets.add(dataSnapshot.getValue(Pets.class));
+                    }
+                    mUserPetsAdapter = new UserPetAdapter(User_pets, getActivity(), onUserPetsClickListener);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                    progressBar.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                    recyclerView.setAdapter(mUserPetsAdapter);
                 }
-                mUserPetsAdapter = new UserPetAdapter(User_pets,userPetList.this,onUserPetsClickListener);
-                recyclerView.setLayoutManager(new LinearLayoutManager(userPetList.this));
-                progressBar.setVisibility(View.GONE);
-                recyclerView.setVisibility(View.VISIBLE);
-                recyclerView.setAdapter(mUserPetsAdapter);
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                }
+            });
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            Toast.makeText(getActivity(), "No Internet Connection.", Toast.LENGTH_SHORT).show();
+        }
     }
 }

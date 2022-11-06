@@ -64,7 +64,7 @@ public class PetsEditorActivity extends AppCompatActivity{
     private ImageView pic_et;
     private TextView setLocation;
     private Uri imagePath;
-    private String url;
+    private String PetPicUrl;
     private Boolean booleanUpdate;
     private String mKey;
     private User userData;
@@ -90,7 +90,7 @@ public class PetsEditorActivity extends AppCompatActivity{
         pic_et = findViewById(R.id.pic_iv);
         setLocation = findViewById(R.id.setLocation_tv);
         petAddress = findViewById(R.id.loc_tv);
-        url = "";
+        PetPicUrl = "";
 
         //Getting data from userPetList Activity.
         Intent intent = getIntent();
@@ -109,6 +109,10 @@ public class PetsEditorActivity extends AppCompatActivity{
             age_et.setText(intent.getStringExtra("age_from_LocationActivity"));
             size_et.setText(intent.getStringExtra("size_from_LocationActivity"));
             gender_et.setText(intent.getStringExtra("gender_from_LocationActivity"));
+
+            Glide.with(getApplicationContext()).load(intent.getStringExtra("petPic_from_LocationActivity")).error(R.drawable.account_img)
+                    .placeholder(R.drawable.account_img)
+                    .into(pic_et);
         }
 
         /*Checking if user wants to update pet's data or wants to add a new pet.
@@ -126,7 +130,7 @@ public class PetsEditorActivity extends AppCompatActivity{
             Glide.with(getApplicationContext()).load(UserPetImageUrl).error(R.drawable.account_img)
                     .placeholder(R.drawable.account_img)
                     .into(pic_et);
-            url = UserPetImageUrl;
+            PetPicUrl = UserPetImageUrl;
             mKey = intent.getStringExtra("User_key");
         }
 
@@ -152,11 +156,10 @@ public class PetsEditorActivity extends AppCompatActivity{
                 intent1.putExtra("age",age_et.getText().toString());
                 intent1.putExtra("size",size_et.getText().toString());
                 intent1.putExtra("gender",gender_et.getText().toString());
-
+                intent1.putExtra("picture",PetPicUrl);
                 startActivity(intent1);
             }
         });
-
         petAddress.setText(LocAdd);
         getUserDetails();
     }
@@ -181,8 +184,10 @@ public class PetsEditorActivity extends AppCompatActivity{
             e.printStackTrace();
         }
         pic_et.setImageBitmap(bitmap);
+            uploadImage();
+    }
 
-
+    private void uploadImage(){
         ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setTitle(" Uploading... ");
         progressDialog.show();
@@ -198,7 +203,7 @@ public class PetsEditorActivity extends AppCompatActivity{
                         public void onComplete(@NonNull Task<Uri> task) {
                             if(task.isSuccessful()){
                                 //task.getResult().toString() Contains the url of the pet picture
-                                url = task.getResult().toString();
+                                PetPicUrl = task.getResult().toString();
                             }
                         }
                     });
@@ -242,34 +247,45 @@ public class PetsEditorActivity extends AppCompatActivity{
     //Saving the new pet data into the database.
     private void savePetsData(){
         String key = UUID.randomUUID().toString();
-        FirebaseDatabase.getInstance().getReference("user's_pet/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/pet/"+key)
-                .setValue(new Pets(petKey,key,animalName_et.getText().toString(),animal_et.getText().toString(),breed_et.getText().toString(),
-                        age_et.getText().toString(),size_et.getText().toString(),gender_et.getText().toString(),url
-                        ,FirebaseAuth.getInstance().getCurrentUser().getUid(),userData.getName(),userData.getEmail(),userData.getProfilePic()
-                ,mLat,mLong));
+        try {
+            FirebaseDatabase.getInstance().getReference("user's_pet/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/pet/" + key)
+                    .setValue(new Pets(petKey, key, animalName_et.getText().toString(), animal_et.getText().toString(), breed_et.getText().toString(),
+                            age_et.getText().toString(), size_et.getText().toString(), gender_et.getText().toString(), PetPicUrl
+                            , FirebaseAuth.getInstance().getCurrentUser().getUid(), userData.getName(), userData.getEmail(), userData.getProfilePic()
+                            , mLat, mLong));
 
-        FirebaseDatabase.getInstance().getReference("pet/"+key)
-                .setValue(new Pets(petKey,key,animalName_et.getText().toString(),animal_et.getText().toString(),breed_et.getText().toString(),
-                        age_et.getText().toString(),size_et.getText().toString(),gender_et.getText().toString(),url
-                ,FirebaseAuth.getInstance().getCurrentUser().getUid(),userData.getName(),userData.getEmail(),userData.getProfilePic(),
-                        mLat,mLong));
-
+            FirebaseDatabase.getInstance().getReference("pet/" + key)
+                    .setValue(new Pets(petKey, key, animalName_et.getText().toString(), animal_et.getText().toString(), breed_et.getText().toString(),
+                            age_et.getText().toString(), size_et.getText().toString(), gender_et.getText().toString(), PetPicUrl
+                            , FirebaseAuth.getInstance().getCurrentUser().getUid(), userData.getName(), userData.getEmail(), userData.getProfilePic(),
+                            mLat, mLong));
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+        }
+        Toast.makeText(getApplicationContext(), "Your pet has been added.", Toast.LENGTH_SHORT).show();
     }
 
     //Updating the already created pet data.
     private void updatePetsData() {
-        FirebaseDatabase.getInstance().getReference("user's_pet/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/pet/"+mKey)
-                .setValue(new Pets(petKey,mKey,animalName_et.getText().toString(),animal_et.getText().toString(),breed_et.getText().toString(),
-                        age_et.getText().toString(),size_et.getText().toString(),gender_et.getText().toString(),url
-                        ,FirebaseAuth.getInstance().getCurrentUser().getUid(),userData.getName(),userData.getEmail(),userData.getProfilePic(),
-                        mLat,mLong));
+        try {
+            FirebaseDatabase.getInstance().getReference("user's_pet/" + FirebaseAuth.getInstance().getUid() + "/pet/" + mKey)
+                    .setValue(new Pets(petKey, mKey, animalName_et.getText().toString(), animal_et.getText().toString(), breed_et.getText().toString(),
+                            age_et.getText().toString(), size_et.getText().toString(), gender_et.getText().toString(), PetPicUrl
+                            , FirebaseAuth.getInstance().getCurrentUser().getUid(), userData.getName(), userData.getEmail(), userData.getProfilePic(),
+                            mLat, mLong));
 
-        FirebaseDatabase.getInstance().getReference("pet/"+mKey)
-                .setValue(new Pets(petKey,mKey,animalName_et.getText().toString(),animal_et.getText().toString(),breed_et.getText().toString(),
-                        age_et.getText().toString(),size_et.getText().toString(),gender_et.getText().toString(),url
-                        ,FirebaseAuth.getInstance().getCurrentUser().getUid(),userData.getName(),userData.getEmail(),userData.getProfilePic(),
-                        mLat,mLong));
-
+            FirebaseDatabase.getInstance().getReference("pet/" + mKey)
+                    .setValue(new Pets(petKey, mKey, animalName_et.getText().toString(), animal_et.getText().toString(), breed_et.getText().toString(),
+                            age_et.getText().toString(), size_et.getText().toString(), gender_et.getText().toString(), PetPicUrl
+                            , FirebaseAuth.getInstance().getCurrentUser().getUid(), userData.getName(), userData.getEmail(), userData.getProfilePic(),
+                            mLat, mLong));
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+        }
     }
 
     //Inflating the menu options.
@@ -289,16 +305,18 @@ public class PetsEditorActivity extends AppCompatActivity{
             else{
                 savePetsData();
             }
-            startActivity(new Intent(PetsEditorActivity.this,petList.class));
+            startActivity(new Intent(PetsEditorActivity.this,allListsActivity.class));
         }
         if(item.getItemId()==R.id.menu_item_del){
             if(booleanUpdate){
                 deletePetsData();
             }
             else{
-                startActivity(new Intent(PetsEditorActivity.this,petList.class));
+                startActivity(new Intent(PetsEditorActivity.this,allListsActivity.class));
             }
         }
+
+        finish();
         return super.onOptionsItemSelected(item);
     }
 
@@ -326,8 +344,7 @@ public class PetsEditorActivity extends AppCompatActivity{
                 .withListener(new PermissionListener() {
                     @Override
                     public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
-//                        getLocation();
-//                        Toast.makeText(getApplicationContext(),"Your Location has been set",Toast.LENGTH_SHORT).show();
+
                     }
 
                     @Override

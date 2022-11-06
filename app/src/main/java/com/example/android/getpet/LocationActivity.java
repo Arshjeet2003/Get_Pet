@@ -55,6 +55,7 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
     private String petSize;
     private String petGender;
     private String petAge;
+    private String petImage;
 
     boolean mFlag;
 
@@ -97,6 +98,7 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
             petSize = intent.getStringExtra("age");
             petGender = intent.getStringExtra("size");
             petBreed = intent.getStringExtra("gender");
+            petImage = intent.getStringExtra("picture");
         }
 
         setmyLoc.setOnClickListener(new View.OnClickListener() {
@@ -113,6 +115,7 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
                 intent2.putExtra("age_from_LocationActivity",petAge);
                 intent2.putExtra("size_from_LocationActivity",petSize);
                 intent2.putExtra("gender_from_LocationActivity",petGender);
+                intent2.putExtra("petPic_from_LocationActivity",petImage);
                 startActivity(intent2);
             }
         });
@@ -156,6 +159,7 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocationLatLng, 18));
                         } catch (IOException e) {
                             e.printStackTrace();
+                            Toast.makeText(getApplicationContext(), "No Internet Connection.", Toast.LENGTH_SHORT).show();
                         }
 
                     }
@@ -173,6 +177,7 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
             setAddress(addresses.get(0));
         } catch (IOException e) {
             e.printStackTrace();
+            Toast.makeText(getApplicationContext(), "No Internet Connection.", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -216,6 +221,7 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
             mLong = addresses.get(0).getLongitude();
             setAddress(addresses.get(0));
         } catch (IOException | IndexOutOfBoundsException e) {
+            Toast.makeText(getApplicationContext(), "No Internet Connection.", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
     }

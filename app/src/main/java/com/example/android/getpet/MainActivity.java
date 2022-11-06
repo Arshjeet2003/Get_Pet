@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
         //If user is already logged in then open the petList activity.
         if(FirebaseAuth.getInstance().getCurrentUser()!=null){
-            startActivity(new Intent(MainActivity.this,petList.class));
+            startActivity(new Intent(MainActivity.this,allListsActivity.class));
             finish();
         }
 

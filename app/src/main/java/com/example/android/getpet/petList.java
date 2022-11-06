@@ -1,19 +1,24 @@
 package com.example.android.getpet;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,7 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class petList extends AppCompatActivity {
+public class petList extends Fragment {
 
     private EditText filterBreed;
     private EditText filterAnimal;
@@ -47,23 +52,27 @@ public class petList extends AppCompatActivity {
     private String senderPic;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pet_list);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+        return inflater.inflate(R.layout.activity_pet_list,container,false);
+    }
 
-        filterSize = findViewById(R.id.srchSize);
-        filterAnimal = findViewById(R.id.srchanimal);
-        filterAge = findViewById(R.id.srchAge);
-        filterBreed = findViewById(R.id.srchBreed);
-        filterGender = findViewById(R.id.srchGender);
-        okay = findViewById(R.id.okay_tv);
-        progressBar = findViewById(R.id.progressbar);
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        filterSize = getView().findViewById(R.id.srchSize);
+        filterAnimal = getView().findViewById(R.id.srchanimal);
+        filterAge = getView().findViewById(R.id.srchAge);
+        filterBreed = getView().findViewById(R.id.srchBreed);
+        filterGender = getView().findViewById(R.id.srchGender);
+        okay = getView().findViewById(R.id.okay_tv);
+        progressBar = getView().findViewById(R.id.progressbar);
         pets = new ArrayList<>();
         filteredPetList = new ArrayList<>();
-        recyclerView = findViewById(R.id.recycler);
-        floatingActionButton = findViewById(R.id.fab);
-        swipeRefreshLayout = findViewById(R.id.swip);
-        noData = findViewById(R.id.Nodata_tv);
+        recyclerView = getView().findViewById(R.id.recycler);
+        floatingActionButton = getView().findViewById(R.id.fab);
+        swipeRefreshLayout = getView().findViewById(R.id.swip);
+        noData = getView().findViewById(R.id.Nodata_tv);
 
         okay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,14 +114,14 @@ public class petList extends AppCompatActivity {
                     }
                 }
 
-                petsAdapter = new PetsAdapter(filteredPetList,petList.this,onPetsClickListener);
+                petsAdapter = new PetsAdapter(filteredPetList,getActivity(),onPetsClickListener);
                 pets.clear();
-                recyclerView.setLayoutManager(new LinearLayoutManager(petList.this));
+                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                 recyclerView.setVisibility(View.VISIBLE);
                 recyclerView.setAdapter(petsAdapter);
             }
         });
-        
+
         //Loading pets again on refreshing.
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -129,7 +138,7 @@ public class petList extends AppCompatActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(petList.this,PetsEditorActivity.class));
+                startActivity(new Intent(getActivity(),PetsEditorActivity.class));
             }
         });
 
@@ -137,7 +146,7 @@ public class petList extends AppCompatActivity {
         onPetsClickListener = new PetsAdapter.OnPetsClickListener() {
             @Override
             public void onPetsClicked(int position) {
-                Intent intent = new Intent(petList.this,PetDetailsActivity.class);
+                Intent intent = new Intent(getActivity(),PetDetailsActivity.class);
                 intent.putExtra("keyData",pets.get(position).getKey());
                 intent.putExtra("animal",pets.get(position).getAnimal());
                 intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_OwnerName),pets.get(position).getOwnerName());
@@ -156,82 +165,94 @@ public class petList extends AppCompatActivity {
                 startActivity(intent);
             }
         };
+
+
     }
 
     //Inflating menu options.
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-
-        getMenuInflater().inflate(R.menu.petlist_menu,menu);
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu){
+//
+//        getMenuInflater().inflate(R.menu.petlist_menu,menu);
+//        return true;
+//    }
 
     //Setting what happens when any menu item is clicked.
-    public boolean onOptionsItemSelected(MenuItem item){
-        if(item.getItemId()==R.id.menu_item_profile){
-            startActivity(new Intent(petList.this,profile.class));
-        }
-        if(item.getItemId()==R.id.menu_item_mypetlist){
-            startActivity(new Intent(petList.this,userPetList.class));
-        }
-        if(item.getItemId()==R.id.menu_item_chats){
-            startActivity(new Intent(petList.this,menuChats.class));
-        }
-        if(item.getItemId()==R.id.menu_item_globalChat){
-//            Intent intent = new Intent(petList.this,GlobalChatActivity.class);
-//            intent.putExtra("sender_name",senderName);
-//            intent.putExtra("sender_email",senderEmail);
-//            intent.putExtra("sender_pic",senderPic);
-//            startActivity(intent);
-        }
-        if(item.getItemId()==R.id.menu_item_fav){
-            startActivity(new Intent(petList.this,FavouritesActivity.class));
-        }
-        return super.onOptionsItemSelected(item);
-    }
+//    public boolean onOptionsItemSelected(MenuItem item){
+//        if(item.getItemId()==R.id.menu_item_profile){
+//            startActivity(new Intent(getActivity(),profile.class));
+//        }
+//        if(item.getItemId()==R.id.menu_item_mypetlist){
+//            startActivity(new Intent(getActivity(),userPetList.class));
+//        }
+//        if(item.getItemId()==R.id.menu_item_chats){
+//            startActivity(new Intent(getActivity(),menuChats.class));
+//        }
+//        if(item.getItemId()==R.id.menu_item_globalChat){
+////            Intent intent = new Intent(petList.this,GlobalChatActivity.class);
+////            intent.putExtra("sender_name",senderName);
+////            intent.putExtra("sender_email",senderEmail);
+////            intent.putExtra("sender_pic",senderPic);
+////            startActivity(intent);
+//        }
+//        if(item.getItemId()==R.id.menu_item_fav){
+//            startActivity(new Intent(petList.this,FavouritesActivity.class));
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 
     //Getting all the pet details from the database.
     private void getPets(){
         pets.clear();
-        FirebaseDatabase.getInstance().getReference("pet").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    pets.add(dataSnapshot.getValue(Pets.class));
+        try {
+            FirebaseDatabase.getInstance().getReference("pet").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                        pets.add(dataSnapshot.getValue(Pets.class));
+                    }
+                    setAdapter();
                 }
-                setAdapter();
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                }
+            });
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            Toast.makeText(getActivity(), "No Internet Connection.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     //Getting User details from the database.
     private void getUserData() {
+        try {
+            FirebaseDatabase.getInstance().getReference("users/" + FirebaseAuth.getInstance().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    senderName = snapshot.getValue(User.class).getName();
+                    senderEmail = snapshot.getValue(User.class).getEmail();
+                    senderPic = snapshot.getValue(User.class).getProfilePic();
+                }
 
-        FirebaseDatabase.getInstance().getReference("users/"+ FirebaseAuth.getInstance().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot){
-                senderName = snapshot.getValue(User.class).getName();
-                senderEmail = snapshot.getValue(User.class).getEmail();
-                senderPic = snapshot.getValue(User.class).getProfilePic();
-            }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
+                }
+            });
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            Toast.makeText(getActivity(), "No Internet Connection.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     //Setting up the adapter to show the list of pets in the arraylist.
     private void setAdapter(){
-        petsAdapter = new PetsAdapter(pets,petList.this,onPetsClickListener);
-        recyclerView.setLayoutManager(new LinearLayoutManager(petList.this));
+        petsAdapter = new PetsAdapter(pets,getActivity(),onPetsClickListener);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         progressBar.setVisibility(View.GONE);
         recyclerView.setVisibility(View.VISIBLE);
         recyclerView.setAdapter(petsAdapter);

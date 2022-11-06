@@ -93,20 +93,50 @@ public class PetDetailsActivity extends AppCompatActivity {
         gender_details_et.setText(gender);
         ownerName_tv.setText(ownerName);
 
-        //Getting data about user from database.
-        FirebaseDatabase.getInstance().getReference("users/"+FirebaseAuth.getInstance().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                senderName = snapshot.getValue(User.class).getName();
-                senderEmail = snapshot.getValue(User.class).getEmail();
-                senderPic = snapshot.getValue(User.class).getProfilePic();
-            }
+        try {
+            final Pets[] pet = {null};
+            FirebaseDatabase.getInstance().getReference("favourites/" + FirebaseAuth.getInstance().getUid() + "/" + key).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    pet[0] = snapshot.getValue(Pets.class);
+                    if (pet[0] == null) {
+                        favourites.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.outline_fav));
+                    } else {
+                       favourites.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.filled_fav));
+                    }
+                }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                }
+            });
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), "No Internet Connection.", Toast.LENGTH_SHORT).show();
+        }
+
+        try {
+            //Getting data about user from database.
+            FirebaseDatabase.getInstance().getReference("users/" + FirebaseAuth.getInstance().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    senderName = snapshot.getValue(User.class).getName();
+                    senderEmail = snapshot.getValue(User.class).getEmail();
+                    senderPic = snapshot.getValue(User.class).getProfilePic();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), "No Internet Connection.", Toast.LENGTH_SHORT).show();
+        }
 
         //Using Glide library to put image of pet in imageView.
         if (imageUrl.isEmpty()) {
@@ -119,9 +149,14 @@ public class PetDetailsActivity extends AppCompatActivity {
                     .into(pic_details_et);
         }
 
-        Glide.with(getApplicationContext()).load(ownerPic).error(R.drawable.account_img)
-                .placeholder(R.drawable.account_img)
-                .into(ownerPic_tv);
+        if(imageUrl.isEmpty()){
+            ownerPic_tv.setVisibility(View.GONE);
+        }
+        else{
+            Glide.with(getApplicationContext()).load(ownerPic).error(R.drawable.account_img)
+                    .placeholder(R.drawable.account_img)
+                    .into(ownerPic_tv);
+        }
 
         //Chat option will only be available if it is someone else's pet not user's.
         if (ownerEmail.equals(FirebaseAuth.getInstance().getCurrentUser().getEmail())) {
@@ -149,26 +184,34 @@ public class PetDetailsActivity extends AppCompatActivity {
         favourites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                try {
+                    final Pets[] pet = {null};
+                    FirebaseDatabase.getInstance().getReference("favourites/" + FirebaseAuth.getInstance().getUid() + "/" + key).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            pet[0] = snapshot.getValue(Pets.class);
+                            if (pet[0] == null) {
+                                FirebaseDatabase.getInstance().getReference("favourites/" + FirebaseAuth.getInstance().getUid() + "/" + key)
+                                        .setValue(new Pets(petKey, key, animal, petName, breed, age, size, gender, imageUrl, ownerKey, ownerName, ownerEmail, ownerPic, petLat, petLong));
+                                favourites.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.filled_fav));
 
-                final Pets[] pet = {null};
-                FirebaseDatabase.getInstance().getReference("favourites/"+FirebaseAuth.getInstance().getUid()+"/"+key).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        pet[0] = snapshot.getValue(Pets.class);
-                        if(pet[0]==null){
-                            FirebaseDatabase.getInstance().getReference("favourites/"+FirebaseAuth.getInstance().getUid()+"/"+key)
-                                    .setValue(new Pets(petKey,key,animal,petName,breed,age,size,gender,imageUrl,ownerKey,ownerName,ownerEmail,ownerPic,petLat,petLong));
+                            } else {
+                                FirebaseDatabase.getInstance().getReference("favourites/" + FirebaseAuth.getInstance().getUid() + "/").child(key).removeValue();
+                                favourites.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.outline_fav));
+
+                            }
                         }
-                        else{
-                            FirebaseDatabase.getInstance().getReference("favourites/"+FirebaseAuth.getInstance().getUid()+"/").child(key).removeValue();
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
                         }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
+                    });
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), "No Internet Connection.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

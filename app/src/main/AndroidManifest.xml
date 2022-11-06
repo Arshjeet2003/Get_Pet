@@ -18,6 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GetPet">
         <activity
+            android:name=".allListsActivity"
+            android:exported="false" />
+        <activity
             android:name=".FavouritesActivity"
             android:exported="false" />
         <activity
@@ -44,7 +47,8 @@
             android:label="@string/title_activity_location" />
         <activity
             android:name=".menuChats"
-            android:exported="false" />
+            android:exported="false"
+            android:label="Chats" />
         <activity
             android:name=".ChatActivity"
             android:exported="false" />

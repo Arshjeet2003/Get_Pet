@@ -6,40 +6,53 @@
     android:layout_height="match_parent"
     tools:context=".ChatActivity">
 
-
-    <LinearLayout
-        android:id="@+id/chat_linearLayout"
+    <TextView
+        android:id="@+id/Chatting_With1"
         android:layout_width="match_parent"
-        android:layout_height="75dp"
-        android:background="#6CAC6F"
-        android:orientation="horizontal"
+        android:layout_height="80dp"
+        android:layout_gravity="center"
+        android:background="#95F67952"
+        android:fontFamily="@font/ubuntu_medium"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/Chatting_With"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:fontFamily="@font/ubuntu_medium"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="@+id/Chatting_With1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView3"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="6dp"
+        app:cardCornerRadius="44dp"
+        app:layout_constraintBottom_toBottomOf="@+id/Chatting_With1"
+        app:layout_constraintEnd_toStartOf="@+id/Chatting_With"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            app:cardCornerRadius="44dp">
-
-            <ImageView
-                android:id="@+id/img_user_chat"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/account_img" />
-
-        </androidx.cardview.widget.CardView>
-
-
-        <TextView
-            android:id="@+id/Chatting_With"
+        <ImageView
+            android:id="@+id/img_user_chat"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="15dp" />
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/account_img" />
 
-    </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
     <ProgressBar
         android:id="@+id/message_progress"
@@ -59,7 +72,7 @@
         app:layout_constraintBottom_toTopOf="@+id/Write_Chat"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chat_linearLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/Chatting_With1" />
 
     <EditText
         android:id="@+id/Write_Chat"
@@ -68,9 +81,11 @@
         android:minHeight="45dp"
         android:maxHeight="100dp"
         android:paddingVertical="10dp"
+        android:fontFamily="@font/atma_semibold"
         android:paddingHorizontal="20dp"
         android:layout_marginBottom="10dp"
         android:layout_marginHorizontal="9dp"
+        android:textColor="#000000"
         android:background="@drawable/message_input_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/imageSend"
@@ -80,7 +95,8 @@
         android:id="@+id/imageSend"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:src="@drawable/send"
+        android:src="@drawable/send_chat"
+        android:layout_marginRight="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_editor_absoluteX="355dp"

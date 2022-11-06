@@ -1,14 +1,26 @@
 package com.example.android.getpet;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -21,7 +33,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class FavouritesActivity extends AppCompatActivity {
+public class FavouritesActivity extends Fragment {
 
     private RecyclerView recyclerView;
     private ArrayList<Pets> pets;
@@ -32,14 +44,18 @@ public class FavouritesActivity extends AppCompatActivity {
     private TextView noData;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_favourites);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+        return inflater.inflate(R.layout.activity_favourites,container,false);
+    }
 
-        recyclerView = findViewById(R.id.fav_recycler);
-        progressBar = findViewById(R.id.fav_progressbar);
-        swipeRefreshLayout = findViewById(R.id.fav_swip);
-        noData = findViewById(R.id.fav_NoData);
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        recyclerView = getView().findViewById(R.id.fav_recycler);
+        progressBar = getView().findViewById(R.id.fav_progressbar);
+        swipeRefreshLayout = getView().findViewById(R.id.fav_swip);
+        noData = getView().findViewById(R.id.fav_NoData);
 
         pets = new ArrayList<>();
 
@@ -57,7 +73,7 @@ public class FavouritesActivity extends AppCompatActivity {
         onPetsClickListener = new PetsAdapter.OnPetsClickListener() {
             @Override
             public void onPetsClicked(int position) {
-                Intent intent = new Intent(FavouritesActivity.this, PetDetailsActivity.class);
+                Intent intent = new Intent(getActivity(), PetDetailsActivity.class);
                 intent.putExtra("keyData", pets.get(position).getKey());
                 intent.putExtra("animal",pets.get(position).getAnimal());
                 intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_OwnerName), pets.get(position).getOwnerName());
@@ -76,7 +92,6 @@ public class FavouritesActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         };
-
     }
 
     //Getting favourite pet of user from database.
@@ -100,8 +115,8 @@ public class FavouritesActivity extends AppCompatActivity {
 
     //Setting up the adapter to show the list of pets in the arraylist.
     private void setAdapter(){
-        petsAdapter = new PetsAdapter(pets,FavouritesActivity.this,onPetsClickListener);
-        recyclerView.setLayoutManager(new LinearLayoutManager(FavouritesActivity.this));
+        petsAdapter = new PetsAdapter(pets,getActivity(),onPetsClickListener);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         progressBar.setVisibility(View.GONE);
         recyclerView.setVisibility(View.VISIBLE);
         recyclerView.setAdapter(petsAdapter);

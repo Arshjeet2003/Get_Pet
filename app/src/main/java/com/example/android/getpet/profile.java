@@ -169,28 +169,39 @@ public class profile extends AppCompatActivity {
     }
 
     private void getDataForProfilePic(){
-        FirebaseDatabase.getInstance().getReference("users/"+FirebaseAuth.getInstance().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                mUrl = snapshot.getValue(User.class).getProfilePic();
-                Glide.with(getApplicationContext()).load(mUrl).error(R.drawable.account_img)
-                        .placeholder(R.drawable.account_img)
-                        .into(imgProfile);
-            }
+        try {
+            FirebaseDatabase.getInstance().getReference("users/" + FirebaseAuth.getInstance().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    mUrl = snapshot.getValue(User.class).getProfilePic();
+                    Glide.with(getApplicationContext()).load(mUrl).error(R.drawable.account_img)
+                            .placeholder(R.drawable.account_img)
+                            .into(imgProfile);
+                }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                }
+            });
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), "No Internet Connection.", Toast.LENGTH_SHORT).show();
+        }
     }
     
     //Uploading profile picture of user.
     private void uploadProfilePicture(String url){
         /* After downloading image url from database we update it in realtime database by referencing using user UID(path).
          Path will be : user/Unique UID associated with user/profilePic */
-        FirebaseDatabase.getInstance().getReference("users/" + FirebaseAuth.getInstance().getCurrentUser()
-                .getUid() + "/profilePic").setValue(url);
-
+        try {
+            FirebaseDatabase.getInstance().getReference("users/" + FirebaseAuth.getInstance().getCurrentUser()
+                    .getUid() + "/profilePic").setValue(url);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), "No Internet Connection.", Toast.LENGTH_SHORT).show();
+        }
     }
 }

@@ -43,7 +43,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageH
     public void onBindViewHolder(@NonNull MessageHolder holder, int position) {
 
         holder.txtmsg.setText(messages.get(position).getContent());
-
         ConstraintLayout constraintLayout = holder.Clayout;
 
         /*Using Constraints to stick the messages send by sender to right and stick the messages
