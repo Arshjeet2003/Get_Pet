@@ -130,9 +130,7 @@ public class petList extends Fragment {
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
-
         getPets();
-        getUserData();
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -194,28 +192,6 @@ public class petList extends Fragment {
         }
     }
 
-    //Getting User details from the database.
-    private void getUserData() {
-        try {
-            FirebaseDatabase.getInstance().getReference("users/" + FirebaseAuth.getInstance().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    senderName = snapshot.getValue(User.class).getName();
-                    senderEmail = snapshot.getValue(User.class).getEmail();
-                    senderPic = snapshot.getValue(User.class).getProfilePic();
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-        }
-        catch (Exception e){
-            e.printStackTrace();
-            Toast.makeText(getActivity(), "No Internet Connection.", Toast.LENGTH_SHORT).show();
-        }
-    }
 
     //Setting up the adapter to show the list of pets in the arraylist.
     private void setAdapter(){

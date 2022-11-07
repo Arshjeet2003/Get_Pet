@@ -9,11 +9,13 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -36,7 +38,13 @@ public class profile extends AppCompatActivity {
     private Button logout;
     private Button uploadImage;
     private ImageView imgProfile;
-    private String mUrl;
+    private ProgressBar progressBar;
+
+    private String userName;
+    private String userEmail;
+    private String userNumber;
+    private String userPic;
+
     private Uri imagePath;   // global variable to store the image from gallery and then show it on profile photo icon
 
     @Override
@@ -48,9 +56,15 @@ public class profile extends AppCompatActivity {
         logout = findViewById(R.id.logout_tv);
         uploadImage = findViewById(R.id.uploadImage_b);
         imgProfile = findViewById(R.id.profile_img);
-        
-        getDataForProfilePic();
-        
+        progressBar = findViewById(R.id.progressBar_profile);
+
+        progressBar.setVisibility(View.VISIBLE);
+        getUserData();
+
+        userName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+        userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        userNumber = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
+
         uploadImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -167,29 +181,6 @@ public class profile extends AppCompatActivity {
             }
         });
     }
-
-    private void getDataForProfilePic(){
-        try {
-            FirebaseDatabase.getInstance().getReference("users/" + FirebaseAuth.getInstance().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    mUrl = snapshot.getValue(User.class).getProfilePic();
-                    Glide.with(getApplicationContext()).load(mUrl).error(R.drawable.account_img)
-                            .placeholder(R.drawable.account_img)
-                            .into(imgProfile);
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-        }
-        catch (Exception e){
-            e.printStackTrace();
-            Toast.makeText(getApplicationContext(), "No Internet Connection.", Toast.LENGTH_SHORT).show();
-        }
-    }
     
     //Uploading profile picture of user.
     private void uploadProfilePicture(String url){
@@ -202,6 +193,38 @@ public class profile extends AppCompatActivity {
         catch (Exception e){
             e.printStackTrace();
             Toast.makeText(getApplicationContext(), "No Internet Connection.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    //Getting User details from the database.
+    private void getUserData() {
+        try {
+            FirebaseDatabase.getInstance().getReference("users/" + FirebaseAuth.getInstance().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    userPic = snapshot.getValue(User.class).getProfilePic();
+
+                    CircularProgressDrawable circularProgressDrawable = new CircularProgressDrawable(profile.this);
+                    circularProgressDrawable.setStrokeWidth(5f);
+                    circularProgressDrawable.setCenterRadius(30f);
+                    circularProgressDrawable.start();
+
+                    Glide.with(getApplicationContext()).load(userPic).error(R.drawable.account_img)
+                            .placeholder(circularProgressDrawable)
+                            .into(imgProfile);
+
+                    progressBar.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(),"No Internet Connection.", Toast.LENGTH_SHORT).show();
         }
     }
 }

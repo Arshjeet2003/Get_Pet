@@ -8,6 +8,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
+
 import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 
@@ -43,8 +45,13 @@ public class UserPetAdapter extends RecyclerView.Adapter<UserPetAdapter.UserPets
         holder.User_breed.setText(userPets.get(position).getBreed());
         holder.User_location.setText(userPets.get(position).getLocation());
 
+        CircularProgressDrawable circularProgressDrawable = new CircularProgressDrawable(context);
+        circularProgressDrawable.setStrokeWidth(5f);
+        circularProgressDrawable.setCenterRadius(30f);
+        circularProgressDrawable.start();
+
         Glide.with(context).load(userPets.get(position).getProfilePic()).error(R.drawable.account_img)
-                .placeholder(R.drawable.account_img).into(holder.User_pic);
+                .placeholder(circularProgressDrawable).into(holder.User_pic);
 
     }
 

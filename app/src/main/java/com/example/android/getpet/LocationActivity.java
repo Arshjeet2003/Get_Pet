@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
+
 import com.example.android.getpet.databinding.ActivityLocationBinding;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -56,6 +57,7 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
     private String petGender;
     private String petAge;
     private String petImage;
+    private String key;
     private boolean update_data;
 
     boolean mFlag;
@@ -100,6 +102,7 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
             petGender = intent.getStringExtra("size");
             petBreed = intent.getStringExtra("gender");
             petImage = intent.getStringExtra("picture");
+            key = intent.getStringExtra("key");
             update_data = intent.getBooleanExtra("update_data",false);
         }
 
@@ -119,6 +122,7 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
                 intent2.putExtra("gender_from_LocationActivity",petGender);
                 intent2.putExtra("petPic_from_LocationActivity",petImage);
                 intent2.putExtra("update_from_LocationActivity",update_data);
+                intent2.putExtra("key_from_LocationActivity",key);
                 startActivity(intent2);
             }
         });
@@ -236,12 +240,6 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
 
     @Override
     public void onCameraMoveStarted(int i) {
-
-    }
-
-    //Getting user's location.
-    @SuppressLint("MissingPermission")
-    private void getLocation() {
 
     }
 }

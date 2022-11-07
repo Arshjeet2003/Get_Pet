@@ -101,6 +101,9 @@ public class userPetList extends Fragment {
                     if(mUserPetsAdapter.getItemCount()==0){
                         recyclerView.setBackgroundResource(R.drawable.no_mypets_back4);
                     }
+                    else{
+                        recyclerView.setBackgroundResource(0);
+                    }
                 }
 
                 @Override

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 
 import android.Manifest;
 import android.app.ProgressDialog;
@@ -88,6 +89,11 @@ public class PetsEditorActivity extends AppCompatActivity{
         petKey = UUID.randomUUID().toString();
         booleanLocationData = intent.getBooleanExtra("locationData",false);
 
+        CircularProgressDrawable circularProgressDrawable = new CircularProgressDrawable(PetsEditorActivity.this);
+        circularProgressDrawable.setStrokeWidth(5f);
+        circularProgressDrawable.setCenterRadius(30f);
+        circularProgressDrawable.start();
+
         if(booleanLocationData){
             LocAdd = intent.getStringExtra("locationAdd");
             mLat = intent.getStringExtra("latitudeData");
@@ -99,16 +105,19 @@ public class PetsEditorActivity extends AppCompatActivity{
             size_et.setText(intent.getStringExtra("size_from_LocationActivity"));
             gender_et.setText(intent.getStringExtra("gender_from_LocationActivity"));
             PetPicUrl = intent.getStringExtra("petPic_from_LocationActivity");
+
             Glide.with(getApplicationContext()).load(PetPicUrl).error(R.drawable.account_img)
-                    .placeholder(R.drawable.account_img)
+                    .placeholder(circularProgressDrawable)
                     .into(pic_et);
+
+            mKey = intent.getStringExtra("key_from_LocationActivity");
             booleanUpdate = intent.getBooleanExtra("update_from_LocationActivity",false);
         }
 
         /*Checking if user wants to update pet's data or wants to add a new pet.
         If user wants to update the old data then set the old data into the textViews and imageViews.*/
 
-        if(booleanUpdate){
+        if(booleanUpdate  && !booleanLocationData){
             animal_et.setText(intent.getStringExtra("User_animal"));
             animalName_et.setText(intent.getStringExtra("User_animalName"));
             breed_et.setText(intent.getStringExtra("User_breed"));
@@ -118,9 +127,11 @@ public class PetsEditorActivity extends AppCompatActivity{
             mLat = intent.getStringExtra("User_latitudeData");
             mLong = intent.getStringExtra("User_longitudeData");
             String UserPetImageUrl = intent.getStringExtra("User_pic");
+
             Glide.with(getApplicationContext()).load(UserPetImageUrl).error(R.drawable.account_img)
-                    .placeholder(R.drawable.account_img)
+                    .placeholder(circularProgressDrawable)
                     .into(pic_et);
+
             PetPicUrl = UserPetImageUrl;
             mKey = intent.getStringExtra("User_key");
             LocAdd = intent.getStringExtra("Address_Loc");
@@ -150,6 +161,7 @@ public class PetsEditorActivity extends AppCompatActivity{
                 intent1.putExtra("gender",gender_et.getText().toString());
                 intent1.putExtra("picture",PetPicUrl);
                 intent1.putExtra("update_data",booleanUpdate);
+                intent1.putExtra("key",mKey);
                 startActivity(intent1);
             }
         });
@@ -292,13 +304,14 @@ public class PetsEditorActivity extends AppCompatActivity{
     //Setting what happens when any menu item is clicked.
     public boolean onOptionsItemSelected(MenuItem item){
         if(item.getItemId()==R.id.menu_item_save){
-            if(booleanUpdate){
+            if(booleanUpdate && checkData()){
                 updatePetsData();
+                startActivity(new Intent(PetsEditorActivity.this,allListsActivity.class));
             }
-            else{
+            else if(checkData()){
                 savePetsData();
+                startActivity(new Intent(PetsEditorActivity.this,allListsActivity.class));
             }
-            startActivity(new Intent(PetsEditorActivity.this,allListsActivity.class));
         }
         if(item.getItemId()==R.id.menu_item_del){
             if(booleanUpdate){
@@ -309,6 +322,42 @@ public class PetsEditorActivity extends AppCompatActivity{
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private boolean checkData() {
+        if(animalName_et.getText().toString().isEmpty()){
+            Toast.makeText(getApplicationContext(), "Please enter pet name.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(animal_et.getText().toString().isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Please enter pet type.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(breed_et.getText().toString().isEmpty()){
+            Toast.makeText(getApplicationContext(), "Please enter pet breed.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(gender_et.getText().toString().isEmpty()){
+            Toast.makeText(getApplicationContext(), "Please enter pet gender.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(size_et.getText().toString().isEmpty()){
+            Toast.makeText(getApplicationContext(), "Please enter pet size.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(age_et.getText().toString().isEmpty()){
+            Toast.makeText(getApplicationContext(), "Please enter pet age.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(PetPicUrl.isEmpty()){
+            Toast.makeText(getApplicationContext(), "Please upload pet picture.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(mLat.isEmpty() || mLong.isEmpty() || LocAdd.isEmpty()){
+            Toast.makeText(getApplicationContext(), "Please set pet location.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 
     private void deletePetsData() {
@@ -325,7 +374,7 @@ public class PetsEditorActivity extends AppCompatActivity{
                         FirebaseDatabase.getInstance().getReference("pet")
                                 .child(mKey).removeValue();
                         Toast.makeText(getApplicationContext(), "Pet Deleted", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(PetsEditorActivity.this,petList.class));
+                        startActivity(new Intent(PetsEditorActivity.this,allListsActivity.class));
                     }
                 }).show();
     }

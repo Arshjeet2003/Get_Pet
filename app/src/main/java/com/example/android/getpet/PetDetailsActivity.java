@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
@@ -139,14 +140,22 @@ public class PetDetailsActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "No Internet Connection.", Toast.LENGTH_SHORT).show();
         }
 
+
+        CircularProgressDrawable circularProgressDrawable = new CircularProgressDrawable(PetDetailsActivity.this);
+        circularProgressDrawable.setStrokeWidth(5f);
+        circularProgressDrawable.setCenterRadius(30f);
+        circularProgressDrawable.start();
+
         //Using Glide library to put image of pet in imageView.
         if (imageUrl.isEmpty()) {
             Glide.with(getApplicationContext()).load(R.drawable.account_img).error(R.drawable.account_img)
-                    .placeholder(R.drawable.account_img)
+                    .placeholder(circularProgressDrawable)
                     .into(pic_details_et);
         } else {
+
+
             Glide.with(getApplicationContext()).load(imageUrl).error(R.drawable.account_img)
-                    .placeholder(R.drawable.account_img)
+                    .placeholder(circularProgressDrawable)
                     .into(pic_details_et);
         }
 
@@ -154,8 +163,9 @@ public class PetDetailsActivity extends AppCompatActivity {
             ownerPic_tv.setVisibility(View.GONE);
         }
         else{
+
             Glide.with(getApplicationContext()).load(ownerPic).error(R.drawable.account_img)
-                    .placeholder(R.drawable.account_img)
+                    .placeholder(circularProgressDrawable)
                     .into(ownerPic_tv);
         }
 
@@ -169,6 +179,7 @@ public class PetDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent1 = new Intent(PetDetailsActivity.this, ChatActivity.class);
+                intent1.putExtra("petName_ChatActivity",petName);
                 intent1.putExtra(getResources().getString(R.string.ChatActivity_intent_petKey),petKey);
                 intent1.putExtra(getResources().getString(R.string.ChatActivity_intent_receiverName),ownerName);
                 intent1.putExtra(getResources().getString(R.string.ChatActivity_intent_receiverEmail),ownerEmail);

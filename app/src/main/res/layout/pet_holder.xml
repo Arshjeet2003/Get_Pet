@@ -23,7 +23,6 @@
             android:layout_marginLeft="160dp"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/atma_semibold"
-            android:text="gggg"
             android:textSize="30sp" />
 
         <TextView
@@ -33,7 +32,6 @@
             android:layout_marginLeft="160dp"
             android:layout_marginTop="50dp"
             android:fontFamily="@font/atma_semibold"
-            android:text="jkkkk"
             android:textSize="20sp" />
 
         <TextView

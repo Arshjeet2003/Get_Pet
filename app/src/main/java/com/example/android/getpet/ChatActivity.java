@@ -52,6 +52,8 @@ public class ChatActivity extends AppCompatActivity {
     private String receiverEmail;
     private String receiverPic;
 
+    private String petName;
+
     private String petKey;
     private String mChatroomId;
 
@@ -82,6 +84,7 @@ public class ChatActivity extends AppCompatActivity {
         senderName = intent.getStringExtra(getResources().getString(R.string.ChatActivity_intent_senderName));
         senderEmail = intent.getStringExtra(getResources().getString(R.string.ChatActivity_intent_senderEmail));
         senderPic = intent.getStringExtra(getResources().getString(R.string.ChatActivity_intent_senderPic));
+        petName = intent.getStringExtra("petName_ChatActivity");
 
         Chatting_with.setText(receiverName);
         setUpChatRoom();
@@ -127,11 +130,11 @@ public class ChatActivity extends AppCompatActivity {
     private void putDataOfChatRoom(){
         FirebaseDatabase.getInstance().getReference("chats/"+FirebaseAuth.getInstance().getUid()+"/"+mChatroomId)
                 .setValue(new DetailsOfChatRoom(petKey,receiverKey,receiverName,receiverEmail,receiverPic,mChatroomId,
-                        senderKey,senderName,senderEmail,senderPic));
+                        senderKey,senderName,senderEmail,senderPic,petName));
 
         FirebaseDatabase.getInstance().getReference("chats/"+receiverKey+"/"+ mChatroomId)
                 .setValue(new DetailsOfChatRoom(petKey,senderKey,senderName,senderEmail,senderPic,mChatroomId,
-                        receiverKey,receiverName,receiverEmail,receiverPic));
+                        receiverKey,receiverName,receiverEmail,receiverPic,petName));
     }
 
     //Retrieving messages from database, adding in messages arraylist.

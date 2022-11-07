@@ -10,5 +10,5 @@
 
 
     <color name="StatusBar_color">#EB6A42</color>
-    <color name="ActionBar_color"></color>
+    <color name="ActionBar_color">#EB6A42</color>
 </resources>

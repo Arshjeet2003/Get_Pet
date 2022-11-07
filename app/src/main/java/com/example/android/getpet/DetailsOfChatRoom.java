@@ -13,8 +13,9 @@ public class  DetailsOfChatRoom {
     private String SenderName;
     private String SenderEmail;
     private String SenderProfilePic;
+    private String PetName;
 
-    public DetailsOfChatRoom(String petKey, String receiverKey, String receiverName, String receiverEmail, String receiverProfilePic, String chatRoomName, String senderKey, String senderName, String senderEmail, String senderProfilePic) {
+    public DetailsOfChatRoom(String petKey, String receiverKey, String receiverName, String receiverEmail, String receiverProfilePic, String chatRoomName, String senderKey, String senderName, String senderEmail, String senderProfilePic, String petName) {
         PetKey = petKey;
         ReceiverKey = receiverKey;
         ReceiverName = receiverName;
@@ -25,9 +26,18 @@ public class  DetailsOfChatRoom {
         SenderName = senderName;
         SenderEmail = senderEmail;
         SenderProfilePic = senderProfilePic;
+        PetName = petName;
     }
 
     public DetailsOfChatRoom() {
+    }
+
+    public String getPetName() {
+        return PetName;
+    }
+
+    public void setPetName(String petName) {
+        PetName = petName;
     }
 
     public String getPetKey() {
