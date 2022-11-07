@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 
 import com.bumptech.glide.Glide;
 
@@ -44,8 +45,15 @@ public class MenuChatsAdapter extends RecyclerView.Adapter<MenuChatsAdapter.Menu
     public void onBindViewHolder(@NonNull MenuChatsAdapter.MenuChatsHolder holder, int position) {
 
         holder.User_name.setText(chatRooms.get(position).getReceiverName());
+        holder.Pet_name.setText(chatRooms.get(position).getPetName());
+
+        CircularProgressDrawable circularProgressDrawable = new CircularProgressDrawable(context);
+        circularProgressDrawable.setStrokeWidth(5f);
+        circularProgressDrawable.setCenterRadius(30f);
+        circularProgressDrawable.start();
+
         Glide.with(context).load(chatRooms.get(position).getReceiverProfilePic()).error(R.drawable.account_img)
-                .placeholder(R.drawable.account_img).into(holder.User_pic);
+                .placeholder(circularProgressDrawable).into(holder.User_pic);
 
     }
 
@@ -61,6 +69,7 @@ public class MenuChatsAdapter extends RecyclerView.Adapter<MenuChatsAdapter.Menu
 
         TextView User_name;
         ImageView User_pic;
+        TextView Pet_name;
 
         public MenuChatsHolder(@NonNull View itemView) {
             super(itemView);
@@ -74,6 +83,7 @@ public class MenuChatsAdapter extends RecyclerView.Adapter<MenuChatsAdapter.Menu
 
             User_name = itemView.findViewById(R.id.username);
             User_pic = itemView.findViewById(R.id.img_user);
+            Pet_name = itemView.findViewById(R.id.petName_userHolder);
         }
     }
 

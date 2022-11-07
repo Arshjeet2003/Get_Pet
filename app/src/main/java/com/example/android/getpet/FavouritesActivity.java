@@ -124,5 +124,8 @@ public class FavouritesActivity extends Fragment {
         if(petsAdapter.getItemCount()==0){
             recyclerView.setBackgroundResource(R.drawable.no_fav_pets_back4);
         }
+        else{
+            recyclerView.setBackgroundResource(0);
+        }
     }
 }

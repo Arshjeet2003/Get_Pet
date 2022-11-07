@@ -1,14 +1,12 @@
 package com.example.android.getpet;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.ViewPager;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 
 public class allListsActivity extends AppCompatActivity {
@@ -23,7 +21,6 @@ public class allListsActivity extends AppCompatActivity {
 
         tabLayout = findViewById(R.id.tablayout);
         viewPager = findViewById(R.id.viewpager);
-
         tabLayout.setupWithViewPager(viewPager);
 
         VPadapter vPadapter = new VPadapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
@@ -32,6 +29,7 @@ public class allListsActivity extends AppCompatActivity {
         vPadapter.addFragment(new userPetList(),"My Pets");
         vPadapter.addFragment(new FavouritesActivity(),"Fav Pets");
         viewPager.setAdapter(vPadapter);
+
     }
     //Inflating menu options.
     @Override
@@ -44,7 +42,7 @@ public class allListsActivity extends AppCompatActivity {
     //Setting what happens when any menu item is clicked.
     public boolean onOptionsItemSelected(MenuItem item){
         if(item.getItemId()==R.id.menu_item_profile){
-            startActivity(new Intent(getApplicationContext(),profile.class));
+            startActivity(new Intent(allListsActivity.this,profile.class));
         }
         return super.onOptionsItemSelected(item);
     }

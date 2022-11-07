@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
+
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
@@ -48,9 +50,13 @@ public class PetsAdapter extends RecyclerView.Adapter<PetsAdapter.PetsHolder> {
         holder.breed.setText(pets.get(position).getBreed());
         holder.loc.setText(pets.get(position).getLocation());
 
+        CircularProgressDrawable circularProgressDrawable = new CircularProgressDrawable(context);
+        circularProgressDrawable.setStrokeWidth(5f);
+        circularProgressDrawable.setCenterRadius(30f);
+        circularProgressDrawable.start();
         //Using Glide library to put image of pet in imageView.
         Glide.with(context).load(pets.get(position).getProfilePic()).error(R.drawable.account_img)
-                .placeholder(R.drawable.account_img).into(holder.pic);
+                .placeholder(circularProgressDrawable).into(holder.pic);
     }
 
     //Returns the number of items in the list.

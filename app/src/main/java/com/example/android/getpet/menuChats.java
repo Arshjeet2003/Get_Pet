@@ -102,6 +102,9 @@ public class menuChats extends Fragment {
                     if (menuChatsAdapter.getItemCount() == 0) {
                         recyclerView.setBackgroundResource(R.drawable.no_chats_back4);
                     }
+                    else{
+                        recyclerView.setBackgroundResource(0);
+                    }
                 }
 
                 @Override
@@ -112,8 +115,7 @@ public class menuChats extends Fragment {
         }
         catch (Exception e){
             e.printStackTrace();
-            Toast.makeText(getActivity(), "Slow Internet Connection.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "No Internet Connection.", Toast.LENGTH_SHORT).show();
         }
     }
-
 }
