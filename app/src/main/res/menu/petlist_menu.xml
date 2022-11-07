@@ -9,31 +9,4 @@
         app:showAsAction="always"
         />
 
-    <item
-        android:id="@+id/menu_item_mypetlist"
-        android:icon="@drawable/pet_list"
-        android:title="PetList"
-        app:showAsAction="always"
-        />
-
-    <item
-        android:id="@+id/menu_item_chats"
-        android:icon="@drawable/message"
-        android:title="Messages"
-        app:showAsAction="ifRoom"
-        />
-
-    <item
-        android:id="@+id/menu_item_globalChat"
-        android:icon="@drawable/global_chat"
-        android:title="Global Chat"
-        app:showAsAction="never"
-        />
-
-    <item
-        android:id="@+id/menu_item_fav"
-        android:title="Favourites"
-        app:showAsAction="never"
-        />
-
 </menu>

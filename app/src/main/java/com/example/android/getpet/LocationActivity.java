@@ -56,6 +56,7 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
     private String petGender;
     private String petAge;
     private String petImage;
+    private boolean update_data;
 
     boolean mFlag;
 
@@ -99,6 +100,7 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
             petGender = intent.getStringExtra("size");
             petBreed = intent.getStringExtra("gender");
             petImage = intent.getStringExtra("picture");
+            update_data = intent.getBooleanExtra("update_data",false);
         }
 
         setmyLoc.setOnClickListener(new View.OnClickListener() {
@@ -116,6 +118,7 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
                 intent2.putExtra("size_from_LocationActivity",petSize);
                 intent2.putExtra("gender_from_LocationActivity",petGender);
                 intent2.putExtra("petPic_from_LocationActivity",petImage);
+                intent2.putExtra("update_from_LocationActivity",update_data);
                 startActivity(intent2);
             }
         });

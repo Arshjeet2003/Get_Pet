@@ -4,7 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.google.android.material.tabs.TabLayout;
 
@@ -29,5 +32,20 @@ public class allListsActivity extends AppCompatActivity {
         vPadapter.addFragment(new userPetList(),"My Pets");
         vPadapter.addFragment(new FavouritesActivity(),"Fav Pets");
         viewPager.setAdapter(vPadapter);
+    }
+    //Inflating menu options.
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+
+        getMenuInflater().inflate(R.menu.petlist_menu,menu);
+        return true;
+    }
+
+    //Setting what happens when any menu item is clicked.
+    public boolean onOptionsItemSelected(MenuItem item){
+        if(item.getItemId()==R.id.menu_item_profile){
+            startActivity(new Intent(getApplicationContext(),profile.class));
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

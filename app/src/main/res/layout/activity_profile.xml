@@ -12,7 +12,6 @@
         android:layout_width="180dp"
         android:layout_height="180dp"
         app:cardCornerRadius="90dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -31,23 +30,38 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="20dp"
-        android:layout_marginTop="20dp"
         android:text="Upload Photo"
         android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="@+id/cardView"
-        app:layout_constraintStart_toStartOf="@+id/cardView"
-        app:layout_constraintTop_toBottomOf="@+id/cardView" />
+        app:layout_constraintBottom_toTopOf="@+id/logout_tv"
+        tools:layout_editor_absoluteX="136dp" />
 
     <Button
         android:id="@+id/logout_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Logout"
         android:layout_margin="18dp"
+        android:text="Logout"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="@+id/uploadImage_b"
-        app:layout_constraintStart_toStartOf="@+id/uploadImage_b"
-        app:layout_constraintTop_toBottomOf="@+id/uploadImage_b" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="147dp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="264dp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="369dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                       if(task.isSuccessful()){
                           FirebaseDatabase.getInstance().getReference("users/"+FirebaseAuth.getInstance().getCurrentUser().getUid())
                                    .setValue(new User(name.getText().toString(),number.getText().toString(),email.getText().toString(),""));
-                          startActivity(new Intent(MainActivity.this,petList.class));
+                          startActivity(new Intent(MainActivity.this,allListsActivity.class));
                           Toast.makeText(MainActivity.this,"Sign up successful",Toast.LENGTH_SHORT).show();
                       }
                       else{

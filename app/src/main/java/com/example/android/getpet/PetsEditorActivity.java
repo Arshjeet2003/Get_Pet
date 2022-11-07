@@ -6,14 +6,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -27,8 +23,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -46,11 +40,7 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
-import org.w3c.dom.Text;
-
 import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
 import java.util.UUID;
 
 public class PetsEditorActivity extends AppCompatActivity{
@@ -95,7 +85,6 @@ public class PetsEditorActivity extends AppCompatActivity{
         //Getting data from userPetList Activity.
         Intent intent = getIntent();
         booleanUpdate = intent.getBooleanExtra("User_data",false);
-        mKey = intent.getStringExtra("User_key");
         petKey = UUID.randomUUID().toString();
         booleanLocationData = intent.getBooleanExtra("locationData",false);
 
@@ -109,10 +98,11 @@ public class PetsEditorActivity extends AppCompatActivity{
             age_et.setText(intent.getStringExtra("age_from_LocationActivity"));
             size_et.setText(intent.getStringExtra("size_from_LocationActivity"));
             gender_et.setText(intent.getStringExtra("gender_from_LocationActivity"));
-
-            Glide.with(getApplicationContext()).load(intent.getStringExtra("petPic_from_LocationActivity")).error(R.drawable.account_img)
+            PetPicUrl = intent.getStringExtra("petPic_from_LocationActivity");
+            Glide.with(getApplicationContext()).load(PetPicUrl).error(R.drawable.account_img)
                     .placeholder(R.drawable.account_img)
                     .into(pic_et);
+            booleanUpdate = intent.getBooleanExtra("update_from_LocationActivity",false);
         }
 
         /*Checking if user wants to update pet's data or wants to add a new pet.
@@ -125,13 +115,15 @@ public class PetsEditorActivity extends AppCompatActivity{
             age_et.setText(intent.getStringExtra("User_age"));
             size_et.setText(intent.getStringExtra("User_size"));
             gender_et.setText(intent.getStringExtra("User_gender"));
-
+            mLat = intent.getStringExtra("User_latitudeData");
+            mLong = intent.getStringExtra("User_longitudeData");
             String UserPetImageUrl = intent.getStringExtra("User_pic");
             Glide.with(getApplicationContext()).load(UserPetImageUrl).error(R.drawable.account_img)
                     .placeholder(R.drawable.account_img)
                     .into(pic_et);
             PetPicUrl = UserPetImageUrl;
             mKey = intent.getStringExtra("User_key");
+            LocAdd = intent.getStringExtra("Address_Loc");
         }
 
         //Select the picture from internal storage that you want to upload.
@@ -157,6 +149,7 @@ public class PetsEditorActivity extends AppCompatActivity{
                 intent1.putExtra("size",size_et.getText().toString());
                 intent1.putExtra("gender",gender_et.getText().toString());
                 intent1.putExtra("picture",PetPicUrl);
+                intent1.putExtra("update_data",booleanUpdate);
                 startActivity(intent1);
             }
         });
@@ -252,13 +245,13 @@ public class PetsEditorActivity extends AppCompatActivity{
                     .setValue(new Pets(petKey, key, animalName_et.getText().toString(), animal_et.getText().toString(), breed_et.getText().toString(),
                             age_et.getText().toString(), size_et.getText().toString(), gender_et.getText().toString(), PetPicUrl
                             , FirebaseAuth.getInstance().getCurrentUser().getUid(), userData.getName(), userData.getEmail(), userData.getProfilePic()
-                            , mLat, mLong));
+                            , mLat, mLong,LocAdd));
 
             FirebaseDatabase.getInstance().getReference("pet/" + key)
                     .setValue(new Pets(petKey, key, animalName_et.getText().toString(), animal_et.getText().toString(), breed_et.getText().toString(),
                             age_et.getText().toString(), size_et.getText().toString(), gender_et.getText().toString(), PetPicUrl
                             , FirebaseAuth.getInstance().getCurrentUser().getUid(), userData.getName(), userData.getEmail(), userData.getProfilePic(),
-                            mLat, mLong));
+                            mLat, mLong,LocAdd));
         }
         catch (Exception e){
             e.printStackTrace();
@@ -274,13 +267,13 @@ public class PetsEditorActivity extends AppCompatActivity{
                     .setValue(new Pets(petKey, mKey, animalName_et.getText().toString(), animal_et.getText().toString(), breed_et.getText().toString(),
                             age_et.getText().toString(), size_et.getText().toString(), gender_et.getText().toString(), PetPicUrl
                             , FirebaseAuth.getInstance().getCurrentUser().getUid(), userData.getName(), userData.getEmail(), userData.getProfilePic(),
-                            mLat, mLong));
+                            mLat, mLong,LocAdd));
 
             FirebaseDatabase.getInstance().getReference("pet/" + mKey)
                     .setValue(new Pets(petKey, mKey, animalName_et.getText().toString(), animal_et.getText().toString(), breed_et.getText().toString(),
                             age_et.getText().toString(), size_et.getText().toString(), gender_et.getText().toString(), PetPicUrl
                             , FirebaseAuth.getInstance().getCurrentUser().getUid(), userData.getName(), userData.getEmail(), userData.getProfilePic(),
-                            mLat, mLong));
+                            mLat, mLong,LocAdd));
         }
         catch (Exception e){
             e.printStackTrace();
@@ -315,14 +308,13 @@ public class PetsEditorActivity extends AppCompatActivity{
                 startActivity(new Intent(PetsEditorActivity.this,allListsActivity.class));
             }
         }
-
-        finish();
         return super.onOptionsItemSelected(item);
     }
 
     private void deletePetsData() {
         AlertDialog.Builder builder = new AlertDialog.Builder(PetsEditorActivity.this);
         builder.setTitle("Delete Pet")
+                .setIcon(R.drawable.delete_icon1)
                 .setMessage("Do you want to delete this pet?")
                 .setNegativeButton("Cancel",null)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {

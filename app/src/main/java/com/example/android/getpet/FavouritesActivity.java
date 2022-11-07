@@ -41,7 +41,6 @@ public class FavouritesActivity extends Fragment {
     private PetsAdapter petsAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     PetsAdapter.OnPetsClickListener onPetsClickListener;
-    private TextView noData;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -55,7 +54,6 @@ public class FavouritesActivity extends Fragment {
         recyclerView = getView().findViewById(R.id.fav_recycler);
         progressBar = getView().findViewById(R.id.fav_progressbar);
         swipeRefreshLayout = getView().findViewById(R.id.fav_swip);
-        noData = getView().findViewById(R.id.fav_NoData);
 
         pets = new ArrayList<>();
 
@@ -89,6 +87,7 @@ public class FavouritesActivity extends Fragment {
                 intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_PetKey), pets.get(position).getKey());
                 intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_PetLat), pets.get(position).getPetLat());
                 intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_PetLong), pets.get(position).getPetLong());
+                intent.putExtra("Address_Location",pets.get(position).getLocation());
                 startActivity(intent);
             }
         };
@@ -123,10 +122,7 @@ public class FavouritesActivity extends Fragment {
 
         //If no pets then show the noData textView.
         if(petsAdapter.getItemCount()==0){
-            noData.setVisibility(View.VISIBLE);
-        }
-        else{
-            noData.setVisibility(View.GONE);
+            recyclerView.setBackgroundResource(R.drawable.no_fav_pets_back4);
         }
     }
 }

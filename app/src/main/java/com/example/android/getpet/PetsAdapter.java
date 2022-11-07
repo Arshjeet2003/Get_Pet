@@ -42,11 +42,11 @@ public class PetsAdapter extends RecyclerView.Adapter<PetsAdapter.PetsHolder> {
 
     //Binding data to view holder items.
     @Override
-    public void onBindViewHolder(PetsHolder holder, @SuppressLint("RecyclerView") int position) {
+    public void onBindViewHolder(PetsHolder holder,int position) {
 
-        holder.animal.setText(pets.get(position).getAnimal());
-//        holder.gender.setText(pets.get(position).getGender());
+        holder.animalName.setText(pets.get(position).getAnimalName());
         holder.breed.setText(pets.get(position).getBreed());
+        holder.loc.setText(pets.get(position).getLocation());
 
         //Using Glide library to put image of pet in imageView.
         Glide.with(context).load(pets.get(position).getProfilePic()).error(R.drawable.account_img)
@@ -62,11 +62,10 @@ public class PetsAdapter extends RecyclerView.Adapter<PetsAdapter.PetsHolder> {
     //Setting up holder.
     class PetsHolder extends RecyclerView.ViewHolder{
 
-        TextView animal;
-//        TextView gender;
+        TextView animalName;
         TextView breed;
+        TextView loc;
         ImageView pic;
-//        ImageView favourites;
 
         public PetsHolder(@NonNull View itemView) {
             super(itemView);
@@ -78,10 +77,10 @@ public class PetsAdapter extends RecyclerView.Adapter<PetsAdapter.PetsHolder> {
                 }
             });
 
-            animal = itemView.findViewById(R.id.animal);
-//            gender = itemView.findViewById(R.id.gender);
-            breed = itemView.findViewById(R.id.breed);
-            pic = itemView.findViewById(R.id.img_pet);
+            animalName = itemView.findViewById(R.id.animalName_PetList);
+            breed = itemView.findViewById(R.id.breed_PetList);
+            pic = itemView.findViewById(R.id.img_PetList);
+            loc =itemView.findViewById(R.id.loc_PetList);
 
         }
     }

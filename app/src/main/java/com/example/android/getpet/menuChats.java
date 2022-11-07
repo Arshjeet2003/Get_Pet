@@ -41,7 +41,6 @@ public class menuChats extends Fragment {
     private MenuChatsAdapter menuChatsAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     MenuChatsAdapter.OnChatClickListener onChatClickListener;
-    private TextView noChatData;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -55,7 +54,6 @@ public class menuChats extends Fragment {
         recyclerView = getView().findViewById(R.id.recycler_Chats);
         progressBar = getView().findViewById(R.id.progressbar_Chats);
         swipeRefreshLayout = getView().findViewById(R.id.chatswip);
-        noChatData = getView().findViewById(R.id.NoChats_tv);
         chatRooms = new ArrayList<>();
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -102,7 +100,7 @@ public class menuChats extends Fragment {
                     recyclerView.setVisibility(View.VISIBLE);
                     recyclerView.setAdapter(menuChatsAdapter);
                     if (menuChatsAdapter.getItemCount() == 0) {
-                        noChatData.setVisibility(View.VISIBLE);
+                        recyclerView.setBackgroundResource(R.drawable.no_chats_back4);
                     }
                 }
 
@@ -114,7 +112,7 @@ public class menuChats extends Fragment {
         }
         catch (Exception e){
             e.printStackTrace();
-            Toast.makeText(getActivity(), "No Internet Connection.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Slow Internet Connection.", Toast.LENGTH_SHORT).show();
         }
     }
 

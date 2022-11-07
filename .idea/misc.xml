@@ -4,11 +4,15 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable/chatting_with_tv.xml" value="0.29907407407407405" />
+        <entry key="app/src/main/res/drawable/delete_icon.xml" value="0.28888888888888886" />
         <entry key="app/src/main/res/drawable/favourites.xml" value="0.3037037037037037" />
         <entry key="app/src/main/res/drawable/message.xml" value="0.30666666666666664" />
         <entry key="app/src/main/res/drawable/message_input_background.xml" value="0.25462962962962965" />
         <entry key="app/src/main/res/drawable/outline_fav.xml" value="0.29907407407407405" />
+        <entry key="app/src/main/res/drawable/round.xml" value="0.28888888888888886" />
         <entry key="app/src/main/res/drawable/send.xml" value="0.25462962962962965" />
+        <entry key="app/src/main/res/drawable/set_loc.xml" value="0.28888888888888886" />
+        <entry key="app/src/main/res/layout-v21/pet_holder.xml" value="0.30512820512820515" />
         <entry key="app/src/main/res/layout/activity_all_lists.xml" value="0.2953125" />
         <entry key="app/src/main/res/layout/activity_chat.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_favourites.xml" value="0.2953125" />
@@ -32,6 +36,7 @@
         <entry key="app/src/main/res/menu/editorActivity_menu.xml" value="0.2953125" />
         <entry key="app/src/main/res/menu/editor_activity_menu.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/menu/mypetlist_menu.xml" value="0.26944444444444443" />
+        <entry key="app/src/main/res/menu/petlist_menu.xml" value="0.30512820512820515" />
         <entry key="app/src/main/res/menu/profile_menu.xml" value="0.2907692307692308" />
         <entry key="app/src/main/res/menu/save_menu.xml" value="0.30512820512820515" />
       </map>

@@ -39,9 +39,10 @@ public class UserPetAdapter extends RecyclerView.Adapter<UserPetAdapter.UserPets
     @Override
     public void onBindViewHolder(@NonNull UserPetAdapter.UserPetsHolder holder, int position) {
 
-        holder.User_animal.setText(userPets.get(position).getAnimal());
-//        holder.User_gender.setText(userPets.get(position).getGender());
+        holder.User_animal.setText(userPets.get(position).getAnimalName());
         holder.User_breed.setText(userPets.get(position).getBreed());
+        holder.User_location.setText(userPets.get(position).getLocation());
+
         Glide.with(context).load(userPets.get(position).getProfilePic()).error(R.drawable.account_img)
                 .placeholder(R.drawable.account_img).into(holder.User_pic);
 
@@ -57,8 +58,8 @@ public class UserPetAdapter extends RecyclerView.Adapter<UserPetAdapter.UserPets
     class UserPetsHolder extends RecyclerView.ViewHolder{
 
         TextView User_animal;
-//        TextView User_gender;
         TextView User_breed;
+        TextView User_location;
         ImageView User_pic;
 
         public UserPetsHolder(@NonNull View itemView) {
@@ -71,10 +72,10 @@ public class UserPetAdapter extends RecyclerView.Adapter<UserPetAdapter.UserPets
                 }
             });
 
-            User_animal = itemView.findViewById(R.id.animal);
-//            User_gender = itemView.findViewById(R.id.user_gender);
-            User_breed = itemView.findViewById(R.id.breed);
-            User_pic = itemView.findViewById(R.id.img_pet);
+            User_animal = itemView.findViewById(R.id.animalName_PetList);
+            User_breed = itemView.findViewById(R.id.breed_PetList);
+            User_location = itemView.findViewById(R.id.loc_PetList);
+            User_pic = itemView.findViewById(R.id.img_PetList);
         }
     }
 

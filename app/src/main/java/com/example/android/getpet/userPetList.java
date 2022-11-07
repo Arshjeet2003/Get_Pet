@@ -73,11 +73,13 @@ public class userPetList extends Fragment {
                 intent.putExtra("User_gender",User_pets.get(position).getGender());
                 intent.putExtra("User_pic",User_pets.get(position).getProfilePic());
                 intent.putExtra("PetKey",User_pets.get(position).getPetKey());
+                intent.putExtra("Address_Loc",User_pets.get(position).getLocation());
+                intent.putExtra("User_latitudeData",User_pets.get(position).getPetLat());
+                intent.putExtra("User_longitudeData",User_pets.get(position).getPetLong());
                 startActivity(intent);
             }
         };
         getUserPets();
-
     }
 
     //Getting user's pets' data only.
@@ -95,6 +97,10 @@ public class userPetList extends Fragment {
                     progressBar.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.VISIBLE);
                     recyclerView.setAdapter(mUserPetsAdapter);
+
+                    if(mUserPetsAdapter.getItemCount()==0){
+                        recyclerView.setBackgroundResource(R.drawable.no_mypets_back4);
+                    }
                 }
 
                 @Override

@@ -46,7 +46,7 @@ public class PetDetailsActivity extends AppCompatActivity {
     private TextView chat;
     private TextView favourites;
     private String key, ownerName, ownerEmail, ownerPic, ownerKey, petLat, petLong;
-    private String petKey ,petName, breed, age, size, gender,animal;
+    private String petKey ,petName, breed, age, size, gender, animal, addLoc;
     private String senderName, senderEmail, senderPic;
 
     @Override
@@ -85,6 +85,7 @@ public class PetDetailsActivity extends AppCompatActivity {
         petKey = intent.getStringExtra(getResources().getString(R.string.PetDetailsActivity_intent_PetKey));
         petLat = intent.getStringExtra(getResources().getString(R.string.PetDetailsActivity_intent_PetLat));
         petLong = intent.getStringExtra(getResources().getString(R.string.PetDetailsActivity_intent_PetLong));
+        addLoc = intent.getStringExtra("Address_Location");
 
         animal_details_et.setText(petName);
         breed_details_et.setText(breed);
@@ -192,7 +193,8 @@ public class PetDetailsActivity extends AppCompatActivity {
                             pet[0] = snapshot.getValue(Pets.class);
                             if (pet[0] == null) {
                                 FirebaseDatabase.getInstance().getReference("favourites/" + FirebaseAuth.getInstance().getUid() + "/" + key)
-                                        .setValue(new Pets(petKey, key, animal, petName, breed, age, size, gender, imageUrl, ownerKey, ownerName, ownerEmail, ownerPic, petLat, petLong));
+                                        .setValue(new Pets(petKey, key, animal, petName, breed, age, size, gender, imageUrl,
+                                                ownerKey, ownerName, ownerEmail, ownerPic, petLat, petLong,addLoc));
                                 favourites.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.filled_fav));
 
                             } else {

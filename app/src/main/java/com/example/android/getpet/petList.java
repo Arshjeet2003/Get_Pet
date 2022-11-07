@@ -3,6 +3,7 @@ package com.example.android.getpet;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -45,7 +46,6 @@ public class petList extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     PetsAdapter.OnPetsClickListener onPetsClickListener;
     private FloatingActionButton floatingActionButton;
-    private TextView noData;
 
     private String senderName;
     private String senderEmail;
@@ -72,7 +72,6 @@ public class petList extends Fragment {
         recyclerView = getView().findViewById(R.id.recycler);
         floatingActionButton = getView().findViewById(R.id.fab);
         swipeRefreshLayout = getView().findViewById(R.id.swip);
-        noData = getView().findViewById(R.id.Nodata_tv);
 
         okay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,44 +161,13 @@ public class petList extends Fragment {
                 intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_PetKey),pets.get(position).getKey());
                 intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_PetLat),pets.get(position).getPetLat());
                 intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_PetLong),pets.get(position).getPetLong());
+                intent.putExtra("Address_Location",pets.get(position).getLocation());
                 startActivity(intent);
             }
         };
 
 
     }
-
-    //Inflating menu options.
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu){
-//
-//        getMenuInflater().inflate(R.menu.petlist_menu,menu);
-//        return true;
-//    }
-
-    //Setting what happens when any menu item is clicked.
-//    public boolean onOptionsItemSelected(MenuItem item){
-//        if(item.getItemId()==R.id.menu_item_profile){
-//            startActivity(new Intent(getActivity(),profile.class));
-//        }
-//        if(item.getItemId()==R.id.menu_item_mypetlist){
-//            startActivity(new Intent(getActivity(),userPetList.class));
-//        }
-//        if(item.getItemId()==R.id.menu_item_chats){
-//            startActivity(new Intent(getActivity(),menuChats.class));
-//        }
-//        if(item.getItemId()==R.id.menu_item_globalChat){
-////            Intent intent = new Intent(petList.this,GlobalChatActivity.class);
-////            intent.putExtra("sender_name",senderName);
-////            intent.putExtra("sender_email",senderEmail);
-////            intent.putExtra("sender_pic",senderPic);
-////            startActivity(intent);
-//        }
-//        if(item.getItemId()==R.id.menu_item_fav){
-//            startActivity(new Intent(petList.this,FavouritesActivity.class));
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
 
     //Getting all the pet details from the database.
     private void getPets(){
@@ -259,10 +227,7 @@ public class petList extends Fragment {
 
         //If no pets then show the noData textView.
         if(petsAdapter.getItemCount()==0){
-            noData.setVisibility(View.VISIBLE);
-        }
-        else{
-            noData.setVisibility(View.GONE);
+            recyclerView.setBackgroundResource(R.drawable.no_pets_back4);
         }
     }
 }
