@@ -5,6 +5,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,23 +19,67 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 //Adapter for petList.
-public class PetsAdapter extends RecyclerView.Adapter<PetsAdapter.PetsHolder> {
+public class PetsAdapter extends RecyclerView.Adapter<PetsAdapter.PetsHolder> implements Filterable{
 
+    private ArrayList<Pets> petsListBackup;
     private ArrayList<Pets> pets;
     private Context context;
     private OnPetsClickListener onPetsClickListener;
 
-    public PetsAdapter(ArrayList<Pets> pets, Context context, OnPetsClickListener onPetsClickListener) {
+    public PetsAdapter(ArrayList<Pets> pets, Context context, OnPetsClickListener onPetsClickListener){
         this.pets = pets;
         this.context = context;
         this.onPetsClickListener = onPetsClickListener;
+        petsListBackup = new ArrayList<>(pets);
     }
+
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
+
 
     interface OnPetsClickListener{
         void onPetsClicked(int position);
     }
+
+
+    Filter filter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            ArrayList<Pets> filteredPets = new ArrayList<>();
+
+            if(constraint.toString().isEmpty()){
+                filteredPets.addAll(petsListBackup);
+            }
+            else {
+                for (Pets pet : petsListBackup){
+                    if(pet.getBreed().toLowerCase().trim().contains(constraint.toString().toLowerCase())){
+                        filteredPets.add(pet);
+                    }
+                }
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredPets;
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            pets.clear();
+            pets.addAll((ArrayList<Pets>)results.values);
+            notifyDataSetChanged();
+        }
+    };
+
+
+
+
+
 
     //Inflating pet_holder xml file.
     @Override
