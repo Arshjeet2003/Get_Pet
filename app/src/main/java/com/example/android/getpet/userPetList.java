@@ -71,6 +71,7 @@ public class userPetList extends Fragment {
                 intent.putExtra("User_age",User_pets.get(position).getAge());
                 intent.putExtra("User_size",User_pets.get(position).getSize());
                 intent.putExtra("User_gender",User_pets.get(position).getGender());
+                intent.putExtra("User_desc",User_pets.get(position).getDescription());
                 intent.putExtra("User_pic",User_pets.get(position).getProfilePic());
                 intent.putExtra("PetKey",User_pets.get(position).getPetKey());
                 intent.putExtra("Address_Loc",User_pets.get(position).getLocation());

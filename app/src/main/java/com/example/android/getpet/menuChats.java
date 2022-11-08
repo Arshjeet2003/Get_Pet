@@ -99,7 +99,7 @@ public class menuChats extends Fragment {
                     progressBar.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.VISIBLE);
                     recyclerView.setAdapter(menuChatsAdapter);
-                    if (menuChatsAdapter.getItemCount() == 0) {
+                    if (menuChatsAdapter.getItemCount() == 0){
                         recyclerView.setBackgroundResource(R.drawable.no_chats_back4);
                     }
                     else{
