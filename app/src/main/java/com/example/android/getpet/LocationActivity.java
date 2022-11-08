@@ -97,10 +97,10 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
             setmyLoc.setVisibility(View.VISIBLE);
             petName = intent.getStringExtra("animalName");
             animal = intent.getStringExtra("animal");
-            petAge = intent.getStringExtra("breed");
-            petSize = intent.getStringExtra("age");
-            petGender = intent.getStringExtra("size");
-            petBreed = intent.getStringExtra("gender");
+            petAge = intent.getStringExtra("age");
+            petSize = intent.getStringExtra("size");
+            petGender = intent.getStringExtra("gender");
+            petBreed = intent.getStringExtra("breed");
             petImage = intent.getStringExtra("picture");
             description = intent.getStringExtra("description");
             key = intent.getStringExtra("key");
@@ -207,7 +207,7 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
     }
 
     private void setAddress(Address address){
-        String addressLine1=null,addressLine2 = null;
+        String addressLine1 = "",addressLine2 = "";
         if(address!=null){
             if(address.getAddressLine(0)!=null){
                 addressLine1 = address.getAddressLine(0);

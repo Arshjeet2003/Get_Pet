@@ -109,9 +109,9 @@ public class PetDetailsActivity extends AppCompatActivity {
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     pet[0] = snapshot.getValue(Pets.class);
                     if (pet[0] == null) {
-                        favourites.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.fav_icon));
+                        favourites.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.fav_back));
                     } else {
-                       favourites.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.fav_icon2));
+                       favourites.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.fav_empty));
                     }
                 }
 
@@ -212,11 +212,11 @@ public class PetDetailsActivity extends AppCompatActivity {
                                 FirebaseDatabase.getInstance().getReference("favourites/" + FirebaseAuth.getInstance().getUid() + "/" + key)
                                         .setValue(new Pets(petKey, key, animal, petName, breed, age, size, gender,petDescription, imageUrl,
                                                 ownerKey, ownerName, ownerEmail, ownerPic, petLat, petLong,addLoc));
-                                favourites.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.fav_icon2));
+                                favourites.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.fav_empty));
 
                             } else {
                                 FirebaseDatabase.getInstance().getReference("favourites/" + FirebaseAuth.getInstance().getUid() + "/").child(key).removeValue();
-                                favourites.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.fav_icon));
+                                favourites.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.fav_back));
 
                             }
                         }

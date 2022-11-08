@@ -27,7 +27,7 @@ public class allListsActivity extends AppCompatActivity {
         vPadapter.addFragment(new petList(),"Pets");
         vPadapter.addFragment(new menuChats(),"Chats");
         vPadapter.addFragment(new userPetList(),"My Pets");
-        vPadapter.addFragment(new FavouritesActivity(),"Fav Pets");
+        vPadapter.addFragment(new FavouritesActivity(),"Favourites");
         viewPager.setAdapter(vPadapter);
 
     }
