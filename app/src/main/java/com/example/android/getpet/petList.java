@@ -16,8 +16,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ProgressBar;
+import android.widget.SearchView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,100 +35,194 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 
-public class petList extends Fragment {
+public class petList extends Fragment{
 
-    private EditText filterBreed;
-    private EditText filterAnimal;
-    private EditText filterSize;
-    private EditText filterAge;
-    private EditText filterGender;
-    private TextView okay;
-    private ArrayList<Pets> filteredPetList;
-    private RecyclerView recyclerView;
     private ArrayList<Pets> pets;
+
+    private String mPosition;
+    private SearchView searchBreed;
+    private Spinner spinner;
+    private TextView mFilterMale;
+    private TextView mFilterFemale;
+    private TextView mFilterDogs;
+    private TextView mFilterCats;
+
+    private ArrayList<Pets> mSortByAge;
+    private ArrayList<Pets> mSortBySize;
+    private ArrayList<Pets> filteredDogsList;
+    private ArrayList<Pets> filteredCatsList;
+    private ArrayList<Pets> filteredMaleList;
+    private ArrayList<Pets> filteredFemaleList;
+    private String filtersUsed[] = {"Sort By", "Size" , "Age"};
+
+    private RecyclerView recyclerView;
+
     private ProgressBar progressBar;
     private PetsAdapter petsAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     PetsAdapter.OnPetsClickListener onPetsClickListener;
     private FloatingActionButton floatingActionButton;
 
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        return inflater.inflate(R.layout.activity_pet_list,container,false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.activity_pet_list, container, false);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        filterSize = getView().findViewById(R.id.srchSize);
-        filterAnimal = getView().findViewById(R.id.srchanimal);
-        filterAge = getView().findViewById(R.id.srchAge);
-        filterBreed = getView().findViewById(R.id.srchBreed);
-        filterGender = getView().findViewById(R.id.srchGender);
-        okay = getView().findViewById(R.id.okay_tv);
-        progressBar = getView().findViewById(R.id.progressbar);
+        mFilterMale = getView().findViewById(R.id.filterMale_tv);
+        mFilterFemale = getView().findViewById(R.id.filterFemale_tv);
+        mFilterCats = getView().findViewById(R.id.filterCat_tv);
+        mFilterDogs = getView().findViewById(R.id.filterDog_tv);
+        spinner = getView().findViewById(R.id.spinner1);
+        searchBreed = getView().findViewById(R.id.srchBreed);
+        filteredDogsList = new ArrayList<>();
+        filteredCatsList = new ArrayList<>();
+        filteredMaleList = new ArrayList<>();
+        filteredFemaleList = new ArrayList<>();
+        mSortByAge = new ArrayList<>();
+        mSortBySize = new ArrayList<>();
         pets = new ArrayList<>();
-        filteredPetList = new ArrayList<>();
+
+        progressBar = getView().findViewById(R.id.progressbar);
         recyclerView = getView().findViewById(R.id.recycler);
         floatingActionButton = getView().findViewById(R.id.fab);
         swipeRefreshLayout = getView().findViewById(R.id.swip);
 
-        okay.setOnClickListener(new View.OnClickListener() {
+        searchBreed.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public void onClick(View v) {
-
-                String breed_data = filterBreed.getText().toString();
-                String animal_data = filterAnimal.getText().toString();
-                String age_data = filterAge.getText().toString();
-                String size_data = filterSize.getText().toString();
-                String gender_data = filterGender.getText().toString();
-
-
-                for(Pets pet : pets){
-                    if(breed_data.equals(pet.getBreed())){
-                        filteredPetList.add(pet);
-                    }
-                }
-
-                for(Pets pet : pets){
-                    if(animal_data.equals(pet.getAnimal())){
-                        filteredPetList.add(pet);
-                    }
-                }
-
-                for(Pets pet : pets){
-                    if(age_data.equals(pet.getAge())){
-                        filteredPetList.add(pet);
-                    }
-                }
-                for(Pets pet : pets){
-                    if(size_data.equals(pet.getSize())){
-                        filteredPetList.add(pet);
-
-                    }
-                }
-                for(Pets pet : pets){
-                    if(gender_data.equals(pet.getGender())){
-                        filteredPetList.add(pet);
-                    }
-                }
-
-                petsAdapter = new PetsAdapter(filteredPetList,getActivity(),onPetsClickListener);
-                pets.clear();
-                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                recyclerView.setVisibility(View.VISIBLE);
-                recyclerView.setAdapter(petsAdapter);
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                petsAdapter.getFilter().filter(newText);
+                return false;
             }
         });
+
+        ArrayAdapter arrayAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, filtersUsed);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(arrayAdapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                if(position == 1){
+                    mSortBySize.addAll(pets);
+                    Collections.sort(mSortBySize, new Comparator<Pets>() {
+                        @Override
+                        public int compare(Pets o1, Pets o2) {
+                            return o1.getSize().compareTo(o2.getSize());
+                        }
+                    });
+                    setAdapter(mSortBySize);
+                }
+
+                if(position == 2){
+                    mSortByAge.addAll(pets);
+                    Collections.sort(mSortByAge, new Comparator<Pets>() {
+                        @Override
+                        public int compare(Pets o1, Pets o2) {
+                            return o1.getAge().compareTo(o2.getAge());
+                        }
+                    });
+                    setAdapter(mSortByAge);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+
+        mFilterDogs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mFilterCats.setBackgroundResource(0);
+                mFilterMale.setBackgroundResource(0);
+                mFilterFemale.setBackgroundResource(0);
+                mFilterDogs.setBackgroundResource(R.drawable.round);
+                for(Pets pet : pets){
+                    if(pet.getAnimal().toLowerCase().trim().equals("dog")){
+                        filteredDogsList.add(pet);
+                    }
+                }
+                setAdapter(filteredDogsList);
+            }
+        });
+
+        mFilterCats.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mFilterDogs.setBackgroundResource(0);
+                mFilterMale.setBackgroundResource(0);
+                mFilterFemale.setBackgroundResource(0);
+                mFilterCats.setBackgroundResource(R.drawable.round);
+                for(Pets pet : pets){
+                    if(pet.getAnimal().toLowerCase().trim().equals("cat")){
+                        filteredCatsList.add(pet);
+                    }
+                }
+                setAdapter(filteredCatsList);
+            }
+        });
+
+        mFilterMale.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mFilterCats.setBackgroundResource(0);
+                mFilterDogs.setBackgroundResource(0);
+                mFilterFemale.setBackgroundResource(0);
+                mFilterMale.setBackgroundResource(R.drawable.round);
+                for(Pets pet : pets){
+                    if(pet.getAnimal().toLowerCase().trim().equals("male")){
+                        filteredMaleList.add(pet);
+                    }
+                }
+                setAdapter(filteredMaleList);
+            }
+        });
+
+        mFilterFemale.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mFilterCats.setBackgroundResource(0);
+                mFilterMale.setBackgroundResource(0);
+                mFilterDogs.setBackgroundResource(0);
+                mFilterFemale.setBackgroundResource(R.drawable.round);
+                for(Pets pet : pets){
+                    if(pet.getGender().toLowerCase().trim().equals("female")){
+                        filteredFemaleList.add(pet);
+                    }
+                }
+                setAdapter(filteredFemaleList);
+            }
+        });
+
+
+
+
+
+
+
 
         //Loading pets again on refreshing.
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 getPets();
-                filteredPetList.clear();
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
@@ -131,7 +231,7 @@ public class petList extends Fragment {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(),PetsEditorActivity.class));
+                startActivity(new Intent(getActivity(), PetsEditorActivity.class));
             }
         });
 
@@ -139,24 +239,24 @@ public class petList extends Fragment {
         onPetsClickListener = new PetsAdapter.OnPetsClickListener() {
             @Override
             public void onPetsClicked(int position) {
-                Intent intent = new Intent(getActivity(),PetDetailsActivity.class);
-                intent.putExtra("keyData",pets.get(position).getKey());
-                intent.putExtra("animal",pets.get(position).getAnimal());
-                intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_OwnerName),pets.get(position).getOwnerName());
-                intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_OwnerEmail),pets.get(position).getOwnerEmail());
-                intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_OwnerProfilePic),pets.get(position).getOwnerProfilePic());
-                intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_OwnerProfileKey),pets.get(position).getOwnerKey());
-                intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_petName),pets.get(position).getAnimalName());
-                intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_breed),pets.get(position).getBreed());
-                intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_age),pets.get(position).getAge());
-                intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_size),pets.get(position).getSize());
-                intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_gender),pets.get(position).getGender());
-                intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_pic),pets.get(position).getProfilePic());
-                intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_PetKey),pets.get(position).getKey());
-                intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_PetLat),pets.get(position).getPetLat());
-                intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_PetLong),pets.get(position).getPetLong());
-                intent.putExtra("Address_Location",pets.get(position).getLocation());
-                intent.putExtra("pet_description",pets.get(position).getDescription());
+                Intent intent = new Intent(getActivity(), PetDetailsActivity.class);
+                intent.putExtra("keyData", pets.get(position).getKey());
+                intent.putExtra("animal", pets.get(position).getAnimal());
+                intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_OwnerName), pets.get(position).getOwnerName());
+                intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_OwnerEmail), pets.get(position).getOwnerEmail());
+                intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_OwnerProfilePic), pets.get(position).getOwnerProfilePic());
+                intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_OwnerProfileKey), pets.get(position).getOwnerKey());
+                intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_petName), pets.get(position).getAnimalName());
+                intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_breed), pets.get(position).getBreed());
+                intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_age), pets.get(position).getAge());
+                intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_size), pets.get(position).getSize());
+                intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_gender), pets.get(position).getGender());
+                intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_pic), pets.get(position).getProfilePic());
+                intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_PetKey), pets.get(position).getKey());
+                intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_PetLat), pets.get(position).getPetLat());
+                intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_PetLong), pets.get(position).getPetLong());
+                intent.putExtra("Address_Location", pets.get(position).getLocation());
+                intent.putExtra("pet_description", pets.get(position).getDescription());
                 startActivity(intent);
             }
         };
@@ -165,16 +265,16 @@ public class petList extends Fragment {
     }
 
     //Getting all the pet details from the database.
-    private void getPets(){
+    private void getPets() {
         pets.clear();
         try {
             FirebaseDatabase.getInstance().getReference("pet").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                         pets.add(dataSnapshot.getValue(Pets.class));
                     }
-                    setAdapter();
+                    setAdapter(pets);
                 }
 
                 @Override
@@ -182,8 +282,7 @@ public class petList extends Fragment {
 
                 }
             });
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(getActivity(), "No Internet Connection.", Toast.LENGTH_SHORT).show();
         }
@@ -191,15 +290,15 @@ public class petList extends Fragment {
 
 
     //Setting up the adapter to show the list of pets in the arraylist.
-    private void setAdapter(){
-        petsAdapter = new PetsAdapter(pets,getActivity(),onPetsClickListener);
+    private void setAdapter(ArrayList<Pets> arrayList) {
+        petsAdapter = new PetsAdapter(arrayList, getActivity(), onPetsClickListener);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         progressBar.setVisibility(View.GONE);
         recyclerView.setVisibility(View.VISIBLE);
         recyclerView.setAdapter(petsAdapter);
 
         //If no pets then show the noData textView.
-        if(petsAdapter.getItemCount()==0){
+        if (petsAdapter.getItemCount() == 0) {
             recyclerView.setBackgroundResource(R.drawable.no_pets_back4);
         }
     }
