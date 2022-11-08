@@ -52,6 +52,7 @@ public class PetsEditorActivity extends AppCompatActivity{
     private EditText age_et;
     private EditText size_et;
     private EditText gender_et;
+    private EditText desc_et;
     private ImageView pic_et;
     private TextView setLocation;
     private Uri imagePath;
@@ -73,12 +74,13 @@ public class PetsEditorActivity extends AppCompatActivity{
         setContentView(R.layout.activity_pets_editor);
 
         animalName_et = findViewById(R.id.animal_et);
-        animal_et = findViewById(R.id.animal_);
+        animal_et = findViewById(R.id.name_et);
         breed_et = findViewById(R.id.breed_et);
-        age_et = findViewById(R.id.age_et);
+        age_et = findViewById(R.id.age_et2);
         size_et = findViewById(R.id.size_et);
         gender_et = findViewById(R.id.gender_et);
-        pic_et = findViewById(R.id.pic_iv);
+        desc_et = findViewById(R.id.desc_editor_tv);
+        pic_et = findViewById(R.id.img_pet);
         setLocation = findViewById(R.id.setLocation_tv);
         petAddress = findViewById(R.id.loc_tv);
         PetPicUrl = "";
@@ -102,6 +104,7 @@ public class PetsEditorActivity extends AppCompatActivity{
             animalName_et.setText(intent.getStringExtra("animalName_from_LocationActivity"));
             breed_et.setText(intent.getStringExtra("breed_from_LocationActivity"));
             age_et.setText(intent.getStringExtra("age_from_LocationActivity"));
+            desc_et.setText(intent.getStringExtra("desc_from_LocationActivity"));
             size_et.setText(intent.getStringExtra("size_from_LocationActivity"));
             gender_et.setText(intent.getStringExtra("gender_from_LocationActivity"));
             PetPicUrl = intent.getStringExtra("petPic_from_LocationActivity");
@@ -124,6 +127,7 @@ public class PetsEditorActivity extends AppCompatActivity{
             age_et.setText(intent.getStringExtra("User_age"));
             size_et.setText(intent.getStringExtra("User_size"));
             gender_et.setText(intent.getStringExtra("User_gender"));
+            desc_et.setText(intent.getStringExtra("User_desc"));
             mLat = intent.getStringExtra("User_latitudeData");
             mLong = intent.getStringExtra("User_longitudeData");
             String UserPetImageUrl = intent.getStringExtra("User_pic");
@@ -159,6 +163,7 @@ public class PetsEditorActivity extends AppCompatActivity{
                 intent1.putExtra("age",age_et.getText().toString());
                 intent1.putExtra("size",size_et.getText().toString());
                 intent1.putExtra("gender",gender_et.getText().toString());
+                intent1.putExtra("description",desc_et.getText().toString());
                 intent1.putExtra("picture",PetPicUrl);
                 intent1.putExtra("update_data",booleanUpdate);
                 intent1.putExtra("key",mKey);
@@ -255,13 +260,13 @@ public class PetsEditorActivity extends AppCompatActivity{
         try {
             FirebaseDatabase.getInstance().getReference("user's_pet/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/pet/" + key)
                     .setValue(new Pets(petKey, key, animalName_et.getText().toString(), animal_et.getText().toString(), breed_et.getText().toString(),
-                            age_et.getText().toString(), size_et.getText().toString(), gender_et.getText().toString(), PetPicUrl
+                            age_et.getText().toString(), size_et.getText().toString(), gender_et.getText().toString(),desc_et.getText().toString(),PetPicUrl
                             , FirebaseAuth.getInstance().getCurrentUser().getUid(), userData.getName(), userData.getEmail(), userData.getProfilePic()
                             , mLat, mLong,LocAdd));
 
             FirebaseDatabase.getInstance().getReference("pet/" + key)
                     .setValue(new Pets(petKey, key, animalName_et.getText().toString(), animal_et.getText().toString(), breed_et.getText().toString(),
-                            age_et.getText().toString(), size_et.getText().toString(), gender_et.getText().toString(), PetPicUrl
+                            age_et.getText().toString(), size_et.getText().toString(), gender_et.getText().toString(),desc_et.getText().toString(),PetPicUrl
                             , FirebaseAuth.getInstance().getCurrentUser().getUid(), userData.getName(), userData.getEmail(), userData.getProfilePic(),
                             mLat, mLong,LocAdd));
         }
@@ -277,13 +282,13 @@ public class PetsEditorActivity extends AppCompatActivity{
         try {
             FirebaseDatabase.getInstance().getReference("user's_pet/" + FirebaseAuth.getInstance().getUid() + "/pet/" + mKey)
                     .setValue(new Pets(petKey, mKey, animalName_et.getText().toString(), animal_et.getText().toString(), breed_et.getText().toString(),
-                            age_et.getText().toString(), size_et.getText().toString(), gender_et.getText().toString(), PetPicUrl
+                            age_et.getText().toString(), size_et.getText().toString(), gender_et.getText().toString(),desc_et.getText().toString(), PetPicUrl
                             , FirebaseAuth.getInstance().getCurrentUser().getUid(), userData.getName(), userData.getEmail(), userData.getProfilePic(),
                             mLat, mLong,LocAdd));
 
             FirebaseDatabase.getInstance().getReference("pet/" + mKey)
                     .setValue(new Pets(petKey, mKey, animalName_et.getText().toString(), animal_et.getText().toString(), breed_et.getText().toString(),
-                            age_et.getText().toString(), size_et.getText().toString(), gender_et.getText().toString(), PetPicUrl
+                            age_et.getText().toString(), size_et.getText().toString(), gender_et.getText().toString(),desc_et.getText().toString(), PetPicUrl
                             , FirebaseAuth.getInstance().getCurrentUser().getUid(), userData.getName(), userData.getEmail(), userData.getProfilePic(),
                             mLat, mLong,LocAdd));
         }
@@ -348,6 +353,9 @@ public class PetsEditorActivity extends AppCompatActivity{
         if(age_et.getText().toString().isEmpty()){
             Toast.makeText(getApplicationContext(), "Please enter pet age.", Toast.LENGTH_SHORT).show();
             return false;
+        }
+        if(desc_et.getText().toString().isEmpty()){
+            Toast.makeText(getApplicationContext(),"Please enter something about your pet.",Toast.LENGTH_SHORT).show();
         }
         if(PetPicUrl.isEmpty()){
             Toast.makeText(getApplicationContext(), "Please upload pet picture.", Toast.LENGTH_SHORT).show();

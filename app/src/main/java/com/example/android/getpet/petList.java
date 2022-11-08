@@ -47,10 +47,6 @@ public class petList extends Fragment {
     PetsAdapter.OnPetsClickListener onPetsClickListener;
     private FloatingActionButton floatingActionButton;
 
-    private String senderName;
-    private String senderEmail;
-    private String senderPic;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         return inflater.inflate(R.layout.activity_pet_list,container,false);
@@ -160,6 +156,7 @@ public class petList extends Fragment {
                 intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_PetLat),pets.get(position).getPetLat());
                 intent.putExtra(getResources().getString(R.string.PetDetailsActivity_intent_PetLong),pets.get(position).getPetLong());
                 intent.putExtra("Address_Location",pets.get(position).getLocation());
+                intent.putExtra("pet_description",pets.get(position).getDescription());
                 startActivity(intent);
             }
         };

@@ -11,6 +11,7 @@ public class Pets {
     private String age;
     private String size;
     private String gender;
+    private String description;
     private String profilePic;
     private String OwnerKey;
     private String OwnerName;
@@ -20,7 +21,7 @@ public class Pets {
     private String petLong;
     private String location;
 
-    public Pets(String petKey, String key, String animalName, String animal, String breed, String age, String size, String gender, String profilePic, String ownerKey, String ownerName, String ownerEmail, String ownerProfilePic, String petLat, String petLong, String location) {
+    public Pets(String petKey, String key, String animalName, String animal, String breed, String age, String size, String gender, String description, String profilePic, String ownerKey, String ownerName, String ownerEmail, String ownerProfilePic, String petLat, String petLong, String location) {
         this.petKey = petKey;
         this.key = key;
         this.animalName = animalName;
@@ -29,6 +30,7 @@ public class Pets {
         this.age = age;
         this.size = size;
         this.gender = gender;
+        this.description = description;
         this.profilePic = profilePic;
         OwnerKey = ownerKey;
         OwnerName = ownerName;
@@ -37,6 +39,14 @@ public class Pets {
         this.petLat = petLat;
         this.petLong = petLong;
         this.location = location;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getLocation() {

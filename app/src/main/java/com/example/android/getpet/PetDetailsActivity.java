@@ -38,7 +38,10 @@ public class PetDetailsActivity extends AppCompatActivity {
     private TextView age_details_et;
     private TextView size_details_et;
     private TextView gender_details_et;
-    private TextView getLocation;
+
+    private TextView loc_add;
+    private TextView loc_icon;
+
     private TextView ownerName_tv;
     private TextView desc;
     private ImageView pic_details_et;
@@ -46,7 +49,7 @@ public class PetDetailsActivity extends AppCompatActivity {
     private String imageUrl;
     private TextView chat;
     private TextView favourites;
-    private String key, ownerName, ownerEmail, ownerPic, ownerKey, petLat, petLong;
+    private String key, ownerName, ownerEmail, ownerPic, ownerKey, petLat, petLong, petDescription;
     private String petKey ,petName, breed, age, size, gender, animal, addLoc;
     private String senderName, senderEmail, senderPic;
 
@@ -64,7 +67,8 @@ public class PetDetailsActivity extends AppCompatActivity {
         desc = findViewById(R.id.desc_details_tv);
         ownerName_tv = findViewById(R.id.ownerName_details_et);
         ownerPic_tv = findViewById(R.id.ownerPic_details);
-        getLocation = findViewById(R.id.location_tv);
+        loc_add = findViewById(R.id.loc_details_add);
+        loc_icon = findViewById(R.id.loc_details);
         chat = findViewById(R.id.message_tv);
         favourites = findViewById(R.id.fav_tv);
 
@@ -87,13 +91,16 @@ public class PetDetailsActivity extends AppCompatActivity {
         petLat = intent.getStringExtra(getResources().getString(R.string.PetDetailsActivity_intent_PetLat));
         petLong = intent.getStringExtra(getResources().getString(R.string.PetDetailsActivity_intent_PetLong));
         addLoc = intent.getStringExtra("Address_Location");
+        petDescription = intent.getStringExtra("pet_description");
 
         animal_details_et.setText(petName);
         breed_details_et.setText(breed);
         age_details_et.setText(age);
         size_details_et.setText(size);
         gender_details_et.setText(gender);
+        desc.setText(petDescription);
         ownerName_tv.setText(ownerName);
+        loc_add.setText(addLoc);
 
         try {
             final Pets[] pet = {null};
@@ -102,9 +109,9 @@ public class PetDetailsActivity extends AppCompatActivity {
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     pet[0] = snapshot.getValue(Pets.class);
                     if (pet[0] == null) {
-                        favourites.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.outline_fav));
+                        favourites.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.fav_icon));
                     } else {
-                       favourites.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.filled_fav));
+                       favourites.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.fav_icon2));
                     }
                 }
 
@@ -139,7 +146,6 @@ public class PetDetailsActivity extends AppCompatActivity {
             e.printStackTrace();
             Toast.makeText(getApplicationContext(), "No Internet Connection.", Toast.LENGTH_SHORT).show();
         }
-
 
         CircularProgressDrawable circularProgressDrawable = new CircularProgressDrawable(PetDetailsActivity.this);
         circularProgressDrawable.setStrokeWidth(5f);
@@ -204,13 +210,13 @@ public class PetDetailsActivity extends AppCompatActivity {
                             pet[0] = snapshot.getValue(Pets.class);
                             if (pet[0] == null) {
                                 FirebaseDatabase.getInstance().getReference("favourites/" + FirebaseAuth.getInstance().getUid() + "/" + key)
-                                        .setValue(new Pets(petKey, key, animal, petName, breed, age, size, gender, imageUrl,
+                                        .setValue(new Pets(petKey, key, animal, petName, breed, age, size, gender,petDescription, imageUrl,
                                                 ownerKey, ownerName, ownerEmail, ownerPic, petLat, petLong,addLoc));
-                                favourites.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.filled_fav));
+                                favourites.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.fav_icon2));
 
                             } else {
                                 FirebaseDatabase.getInstance().getReference("favourites/" + FirebaseAuth.getInstance().getUid() + "/").child(key).removeValue();
-                                favourites.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.outline_fav));
+                                favourites.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.fav_icon));
 
                             }
                         }
@@ -228,14 +234,28 @@ public class PetDetailsActivity extends AppCompatActivity {
             }
         });
 
-        //Sending data to LocationActivity, Checking for permissions.
-        getLocation.setOnClickListener(new View.OnClickListener() {
+//        Sending data to LocationActivity, Checking for permissions.
+        loc_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 //Checking if we have permission for location.
                 if(ContextCompat.checkSelfPermission(PetDetailsActivity.this,Manifest.permission.ACCESS_FINE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED){
+                    sendIntentToLocationActivity();
+                }
+                else{
+                    getPermissions();
+                }
+            }
+        });
+
+        loc_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Checking if we have permission for location.
+                if(ContextCompat.checkSelfPermission(PetDetailsActivity.this,Manifest.permission.ACCESS_FINE_LOCATION)
+                        == PackageManager.PERMISSION_GRANTED){
                     sendIntentToLocationActivity();
                 }
                 else{
