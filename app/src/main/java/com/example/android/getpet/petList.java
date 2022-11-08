@@ -43,7 +43,6 @@ public class petList extends Fragment{
 
     private ArrayList<Pets> pets;
 
-    private String mPosition;
     private SearchView searchBreed;
     private Spinner spinner;
     private TextView mFilterMale;

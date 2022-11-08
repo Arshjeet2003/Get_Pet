@@ -21,6 +21,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 X
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler"
             android:layout_width="match_parent"
@@ -29,7 +30,7 @@ X
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/srchBreed" />
+            app:layout_constraintTop_toBottomOf="@+id/cardView2" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
@@ -43,63 +44,6 @@ X
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-        <EditText
-            android:id="@+id/srchanimal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:hint="Animal"
-            app:layout_constraintStart_toEndOf="@+id/srchBreed"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
-            android:id="@+id/srchBreed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:hint="Breed"
-            app:layout_constraintStart_toEndOf="@+id/srchSize"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
-            android:id="@+id/srchSize"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:hint="Size"
-            app:layout_constraintStart_toEndOf="@+id/srchGender"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
-            android:id="@+id/srchGender"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:hint="Gender"
-            app:layout_constraintStart_toEndOf="@+id/srchAge"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
-            android:id="@+id/srchAge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:hint="Age"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/okay_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="OKAY"
-            android:textColor="@color/StatusBar_color"
-            android:layout_margin="6dp"
-            android:textSize="25sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/srchanimal"
-            app:layout_constraintTop_toTopOf="parent" />
          <RelativeLayout
             android:id="@+id/cardView2"
             android:layout_width="match_parent"
@@ -117,6 +61,7 @@ X
                     android:layout_width="70dp"
                     android:layout_height="25dp"
                     android:layout_marginStart="20dp"
+                    android:fontFamily="@font/atma_semibold"
                     android:gravity="center"
                     android:text="DOG"
                     android:textSize="15sp"
@@ -163,6 +108,7 @@ X
                     android:layout_height="25dp"
                     android:layout_marginRight="20dp"
                     android:gravity="center"
+                    android:fontFamily="@font/atma_semibold"
                     android:text="FEMALE"
                     android:textSize="14sp"
                     android:textStyle="bold" />
