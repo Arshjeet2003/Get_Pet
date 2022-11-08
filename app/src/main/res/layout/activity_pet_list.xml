@@ -100,7 +100,107 @@ X
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/srchanimal"
             app:layout_constraintTop_toTopOf="parent" />
+         <RelativeLayout
+            android:id="@+id/cardView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="70dp">
+
+                <TextView
+                    android:id="@+id/filterDog_tv"
+                    android:layout_width="70dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="20dp"
+                    android:gravity="center"
+                    android:text="DOG"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/filterCat_tv"
+                    android:layout_width="70dp"
+                    android:layout_height="25dp"
+                    android:gravity="center"
+                    android:text="CAT"
+                    android:fontFamily="@font/atma_semibold"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/filterMale_tv"
+                    android:layout_width="70dp"
+                    android:layout_height="25dp"
+                    android:gravity="center"
+                    android:fontFamily="@font/atma_semibold"
+                    android:text="MALE"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/filterFemale_tv"
+                    android:layout_width="70dp"
+                    android:layout_height="25dp"
+                    android:layout_marginRight="20dp"
+                    android:gravity="center"
+                    android:text="FEMALE"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:paddingTop="5dp">
+
+                <SearchView
+                    android:id="@+id/srchBreed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:layout_marginStart="5dp"
+                    android:background="@drawable/search_view"
+                    android:queryHint="Search breed here..."
+                    android:layout_gravity="center_vertical"
+                    android:visibility="visible"
+                    android:iconifiedByDefault="false" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+
+                <Spinner
+                    android:id="@+id/spinner1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
