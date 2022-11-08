@@ -20,9 +20,7 @@
         <activity
             android:name=".allListsActivity"
             android:exported="false" />
-        <activity
-            android:name=".FavouritesActivity"
-            android:exported="false" />
+
         <activity
             android:name=".GlobalChatActivity"
             android:exported="false" />
@@ -45,16 +43,11 @@
             android:name=".LocationActivity"
             android:exported="false"
             android:label="@string/title_activity_location" />
-        <activity
-            android:name=".menuChats"
-            android:exported="false"
-            android:label="Chats" />
+
         <activity
             android:name=".ChatActivity"
             android:exported="false" />
-        <activity
-            android:name=".userPetList"
-            android:exported="false" />
+
         <activity
             android:name=".PetDetailsActivity"
             android:exported="false" />
@@ -64,9 +57,7 @@
         <activity
             android:name=".profile"
             android:exported="false" />
-        <activity
-            android:name=".petList"
-            android:exported="false" />
+
         <activity
             android:name=".loginPage"
             android:exported="false" />
