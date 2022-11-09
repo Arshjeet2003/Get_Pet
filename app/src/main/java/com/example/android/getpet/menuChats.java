@@ -35,6 +35,7 @@ import java.util.ArrayList;
 
 public class menuChats extends Fragment {
 
+    private SearchView searchPetOwner;
     private RecyclerView recyclerView;
     private ArrayList<DetailsOfChatRoom> chatRooms;
     private ProgressBar progressBar;
@@ -51,10 +52,24 @@ public class menuChats extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        searchPetOwner = getView().findViewById(R.id.searchChat_sv);
         recyclerView = getView().findViewById(R.id.recycler_Chats);
         progressBar = getView().findViewById(R.id.progressbar_Chats);
         swipeRefreshLayout = getView().findViewById(R.id.chatswip);
         chatRooms = new ArrayList<>();
+
+        // Dynamic searching
+        searchPetOwner.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                menuChatsAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
