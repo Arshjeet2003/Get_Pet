@@ -125,7 +125,9 @@ public class MainActivity extends AppCompatActivity {
                       if(task.isSuccessful()){
                           FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-                          UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(username).build();
+                          UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder()
+                                  .setDisplayName(username)
+                                  .build();
                           firebaseUser.updateProfile(profileChangeRequest);
 
                           FirebaseDatabase.getInstance().getReference("users/"+FirebaseAuth.getInstance().getCurrentUser().getUid())

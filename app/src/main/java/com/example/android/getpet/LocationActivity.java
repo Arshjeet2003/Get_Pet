@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.textservice.TextInfo;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -136,6 +137,13 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
+//        View locationButton = ((View) mMapView.findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("2"));
+//        RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams) locationButton.getLayoutParams();
+//         // position on right bottom
+//        rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
+//        rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
+//        rlp.setMargins(0, 180, 180, 0);
+
         mMap = googleMap;
         mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
@@ -169,7 +177,7 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocationLatLng, 18));
                         } catch (IOException e) {
                             e.printStackTrace();
-                            Toast.makeText(getApplicationContext(), "No Internet Connection.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Slow Internet Connection.", Toast.LENGTH_SHORT).show();
                         }
 
                     }
@@ -187,7 +195,7 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
             setAddress(addresses.get(0));
         } catch (IOException e) {
             e.printStackTrace();
-            Toast.makeText(getApplicationContext(), "No Internet Connection.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Slow Internet Connection.", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -231,7 +239,7 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
             mLong = addresses.get(0).getLongitude();
             setAddress(addresses.get(0));
         } catch (IOException | IndexOutOfBoundsException e) {
-            Toast.makeText(getApplicationContext(), "No Internet Connection.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Slow Internet Connection.", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
     }

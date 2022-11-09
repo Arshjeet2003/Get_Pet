@@ -212,7 +212,6 @@ public class PetsEditorActivity extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 getPermissions();
-                checkData();
                 Intent intent1 = new Intent(PetsEditorActivity.this,LocationActivity.class);
                 intent1.putExtra("animalName",animalName_et.getText().toString());
                 intent1.putExtra("animal",animal_et.getText().toString());

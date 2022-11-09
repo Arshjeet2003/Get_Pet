@@ -46,7 +46,6 @@
             android:layout_height="0dp"
             android:visibility="gone"
             app:layout_constraintEnd_toStartOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cardView4" />
 

@@ -82,6 +82,7 @@ public class petList extends Fragment{
         mFilterDogs = getView().findViewById(R.id.filterDog_tv);
         spinner = getView().findViewById(R.id.spinner1);
         searchBreed = getView().findViewById(R.id.srchBreed);
+
         filteredDogsList = new ArrayList<>();
         filteredCatsList = new ArrayList<>();
         filteredMaleList = new ArrayList<>();

@@ -37,11 +37,12 @@ public class profile extends AppCompatActivity {
 
     // variables for respective views
     private TextView logout;
+    private TextView name_tv;
+    private TextView email_tv;
+    private TextView number_tv;
     private ImageView imgProfile;
     private ProgressBar progressBar;
 
-    private String userName;
-    private String userEmail;
     private String userNumber;
     private String userPic;
 
@@ -57,6 +58,12 @@ public class profile extends AppCompatActivity {
         imgProfile = findViewById(R.id.uploadImage_b);
         progressBar = findViewById(R.id.progressBar_profile);
         progressBar.setVisibility(View.VISIBLE);
+
+        name_tv = findViewById(R.id.name_et);
+        email_tv = findViewById(R.id.email_profile_et);
+
+//        name_tv.setText(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+        email_tv.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
 
         getUserData();
 
@@ -195,6 +202,8 @@ public class profile extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     userPic = snapshot.getValue(User.class).getProfilePic();
+                    userNumber = snapshot.getValue(User.class).getNumber();
+//                    number_tv.setText(userNumber);
 
                     CircularProgressDrawable circularProgressDrawable = new CircularProgressDrawable(profile.this);
                     circularProgressDrawable.setStrokeWidth(5f);

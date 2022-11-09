@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,7 +18,7 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 
 //Adapter for menuChats Activity.
-public class MenuChatsAdapter extends RecyclerView.Adapter<MenuChatsAdapter.MenuChatsHolder> implements Filterable{
+public class MenuChatsAdapter extends RecyclerView.Adapter<MenuChatsAdapter.MenuChatsHolder> implements Filterable {
 
     private ArrayList<DetailsOfChatRoom> chatRoomsBackup;
     private ArrayList<DetailsOfChatRoom> chatRooms;
@@ -28,6 +30,11 @@ public class MenuChatsAdapter extends RecyclerView.Adapter<MenuChatsAdapter.Menu
         this.context = context;
         this.onChatClickListener = onChatClickListener;
         chatRoomsBackup = new ArrayList<>(chatRooms);
+    }
+
+    @Override
+    public Filter getFilter() {
+        return filter;
     }
 
     interface OnChatClickListener{
@@ -42,10 +49,29 @@ public class MenuChatsAdapter extends RecyclerView.Adapter<MenuChatsAdapter.Menu
         return new MenuChatsAdapter.MenuChatsHolder(view);
     }
 
+    //Binding data to view holder items.
     @Override
-    public Filter getFilter() {
-        return filter;
+    public void onBindViewHolder(@NonNull MenuChatsAdapter.MenuChatsHolder holder, int position) {
+
+        holder.User_name.setText(chatRooms.get(position).getReceiverName());
+        holder.Pet_name.setText(chatRooms.get(position).getPetName());
+
+        CircularProgressDrawable circularProgressDrawable = new CircularProgressDrawable(context);
+        circularProgressDrawable.setStrokeWidth(5f);
+        circularProgressDrawable.setCenterRadius(30f);
+        circularProgressDrawable.start();
+
+        Glide.with(context).load(chatRooms.get(position).getReceiverProfilePic()).error(R.drawable.account_img)
+                .placeholder(circularProgressDrawable).into(holder.User_pic);
+
     }
+
+    //Returns the number of items in the list.
+    @Override
+    public int getItemCount() {
+        return chatRooms.size();
+    }
+
 
     Filter filter = new Filter() {
         @Override
@@ -75,30 +101,6 @@ public class MenuChatsAdapter extends RecyclerView.Adapter<MenuChatsAdapter.Menu
             notifyDataSetChanged();
         }
     };
-    
-    
-    //Binding data to view holder items.
-    @Override
-    public void onBindViewHolder(@NonNull MenuChatsAdapter.MenuChatsHolder holder, int position) {
-
-        holder.User_name.setText(chatRooms.get(position).getReceiverName());
-        holder.Pet_name.setText(chatRooms.get(position).getPetName());
-
-        CircularProgressDrawable circularProgressDrawable = new CircularProgressDrawable(context);
-        circularProgressDrawable.setStrokeWidth(5f);
-        circularProgressDrawable.setCenterRadius(30f);
-        circularProgressDrawable.start();
-
-        Glide.with(context).load(chatRooms.get(position).getReceiverProfilePic()).error(R.drawable.account_img)
-                .placeholder(circularProgressDrawable).into(holder.User_pic);
-
-    }
-
-    //Returns the number of items in the list.
-    @Override
-    public int getItemCount() {
-        return chatRooms.size();
-    }
 
 
     //Setting up holder.

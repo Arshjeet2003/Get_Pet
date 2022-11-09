@@ -71,7 +71,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/breed_details_et"
-                            android:layout_marginLeft="30dp"
+                            android:layout_marginLeft="40dp"
                             android:layout_marginTop="10dp"
                             android:fontFamily="@font/atma_semibold"
                             android:text="     slakfjkl;jfajfjlaskjdf"
@@ -80,11 +80,12 @@
 
                         <TextView
                             android:id="@+id/loc_details"
-                            android:layout_width="15dp"
-                            android:layout_height="20dp"
-                            android:layout_alignStart="@id/loc_details_add"
-                            android:layout_alignTop="@+id/loc_details_add"
-                            android:layout_marginTop="3dp"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_alignTop="@id/animal_details_et"
+                            android:layout_marginTop="12dp"
+                            android:layout_marginRight="20dp"
+                            android:layout_toLeftOf="@+id/fav_tv"
                             android:background="@drawable/loc_icon" />
 
                         <TextView

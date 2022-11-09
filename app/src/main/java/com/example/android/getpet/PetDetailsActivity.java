@@ -19,17 +19,31 @@ import androidx.core.content.ContextCompat;
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 
 import com.bumptech.glide.Glide;
+import com.example.android.getpet.SendNotification.APIService;
+import com.example.android.getpet.SendNotification.Client;
+import com.example.android.getpet.SendNotification.Data;
+import com.example.android.getpet.SendNotification.MyResponse;
+import com.example.android.getpet.SendNotification.NotificationSender;
+import com.example.android.getpet.SendNotification.Token;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 public class PetDetailsActivity extends AppCompatActivity {
 
@@ -233,7 +247,7 @@ public class PetDetailsActivity extends AppCompatActivity {
                             pet[0] = snapshot.getValue(Pets.class);
                             if (pet[0] == null) {
                                 FirebaseDatabase.getInstance().getReference("favourites/" + FirebaseAuth.getInstance().getUid() + "/" + key)
-                                        .setValue(new Pets(petKey, key, animal, petName, breed, age, size, gender,petDescription, imageUrl,
+                                        .setValue(new Pets(petKey, key, petName, animal, breed, age, size, gender,petDescription, imageUrl,
                                                 ownerKey, ownerName, ownerEmail, ownerPic, petLat, petLong,addLoc));
                                 favourites.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.fav_back));
 
@@ -295,7 +309,7 @@ public class PetDetailsActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<String> task) {
                         if(!task.isSuccessful()){
-                            Toast.makeText(PetDetailsActivity.this, "new token failed", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(PetDetailsActivity.this, "New token failed", Toast.LENGTH_SHORT).show();
                             return;
                         }
                         String token = task.getResult();
