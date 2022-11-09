@@ -9,4 +9,11 @@
         app:showAsAction="always"
         />
 
+    <item
+        android:id="@+id/menu_item_globalChat"
+        android:icon="@drawable/global_chat"
+        android:title="Global chat"
+        app:showAsAction="always"
+        />
+
 </menu>

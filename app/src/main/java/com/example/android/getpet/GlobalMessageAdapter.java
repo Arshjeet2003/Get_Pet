@@ -46,6 +46,7 @@ public class GlobalMessageAdapter extends RecyclerView.Adapter<GlobalMessageAdap
 
         /*Using Constraints to stick the messages send by sender to right and stick the messages
           of the receiver to the left*/
+
         if(messages.get(position).getSenderEmail().equals(senderEmail)){
             Glide.with(context).load(messages.get(position).getSenderPic()).error(R.drawable.account_img).placeholder(R.drawable.account_img)
                     .into(holder.profImg);
@@ -68,6 +69,7 @@ public class GlobalMessageAdapter extends RecyclerView.Adapter<GlobalMessageAdap
             constraintSet.connect(R.id.msg_tv,ConstraintSet.LEFT,R.id.message_cardView,ConstraintSet.RIGHT,0);
             constraintSet.applyTo(constraintLayout);
         }
+
     }
 
     //Returns the number of items in the list.

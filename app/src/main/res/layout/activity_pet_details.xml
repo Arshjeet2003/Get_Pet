@@ -49,7 +49,7 @@
                             android:fontFamily="@font/atma_semibold"
                             android:text="TOMMY"
                             android:textSize="40sp"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/breed_details_et"
@@ -101,8 +101,8 @@
                             android:id="@+id/message_tv"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
-                            android:layout_alignParentRight="true"
                             android:layout_alignTop="@+id/animal_details_et"
+                            android:layout_alignParentRight="true"
                             android:layout_marginTop="12dp"
                             android:layout_marginRight="20dp"
                             android:background="@drawable/chat_back4" />

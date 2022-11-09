@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -35,8 +36,7 @@ import java.util.UUID;
 public class profile extends AppCompatActivity {
 
     // variables for respective views
-    private Button logout;
-    private Button uploadImage;
+    private TextView logout;
     private ImageView imgProfile;
     private ProgressBar progressBar;
 
@@ -54,23 +54,14 @@ public class profile extends AppCompatActivity {
 
         // associating variables with views using corresponding id(s)
         logout = findViewById(R.id.logout_tv);
-        uploadImage = findViewById(R.id.uploadImage_b);
-        imgProfile = findViewById(R.id.profile_img);
+        imgProfile = findViewById(R.id.uploadImage_b);
         progressBar = findViewById(R.id.progressBar_profile);
-
         progressBar.setVisibility(View.VISIBLE);
+
         getUserData();
 
-        userName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
-        userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-        userNumber = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
-
-        uploadImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                UploadImage();
-            }
-        });
+//        userName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+//        userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
 
         //Logout the user.
         logout.setOnClickListener(new View.OnClickListener() {
@@ -127,6 +118,7 @@ public class profile extends AppCompatActivity {
         }
         //Surrounding the code with try catch block to handle exception (in case image not found!!!)
         imgProfile.setImageBitmap(bitmap);
+        UploadImage();
     }
 
     private void UploadImage(){

@@ -67,8 +67,8 @@
                 android:id="@+id/img_pet"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/add_pet_picture"
                 android:scaleType="centerCrop"
+                android:src="@drawable/floatingbutton_back"
 
                 app:layout_constraintBottom_toTopOf="@+id/guideline6"
                 app:layout_constraintEnd_toEndOf="parent"

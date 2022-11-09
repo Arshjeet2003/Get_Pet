@@ -23,7 +23,8 @@
 
         <activity
             android:name=".GlobalChatActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:label="Pet Community"/>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -46,6 +47,7 @@
 
         <activity
             android:name=".ChatActivity"
+            android:label="Chats"
             android:exported="false" />
 
         <activity
@@ -53,9 +55,11 @@
             android:exported="false" />
         <activity
             android:name=".PetsEditorActivity"
+            android:label="Edit Pet"
             android:exported="false" />
         <activity
             android:name=".profile"
+            android:label="Profile"
             android:exported="false" />
 
         <activity

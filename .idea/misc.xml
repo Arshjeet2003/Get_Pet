@@ -6,11 +6,13 @@
         <entry key="app/src/main/res/drawable/chatting_with_tv.xml" value="0.29907407407407405" />
         <entry key="app/src/main/res/drawable/delete_icon.xml" value="0.28888888888888886" />
         <entry key="app/src/main/res/drawable/favourites.xml" value="0.3037037037037037" />
+        <entry key="app/src/main/res/drawable/floating_back.xml" value="0.321025641025641" />
         <entry key="app/src/main/res/drawable/location_tv_back.xml" value="0.2833333333333333" />
         <entry key="app/src/main/res/drawable/message.xml" value="0.30666666666666664" />
         <entry key="app/src/main/res/drawable/message_input_background.xml" value="0.25462962962962965" />
         <entry key="app/src/main/res/drawable/outline_fav.xml" value="0.29907407407407405" />
         <entry key="app/src/main/res/drawable/round.xml" value="0.28888888888888886" />
+        <entry key="app/src/main/res/drawable/search_view.xml" value="0.321025641025641" />
         <entry key="app/src/main/res/drawable/send.xml" value="0.25462962962962965" />
         <entry key="app/src/main/res/drawable/set_loc.xml" value="0.28888888888888886" />
         <entry key="app/src/main/res/layout-v21/pet_holder.xml" value="0.30512820512820515" />

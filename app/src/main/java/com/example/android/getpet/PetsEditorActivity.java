@@ -194,6 +194,7 @@ public class PetsEditorActivity extends AppCompatActivity{
             PetPicUrl = UserPetImageUrl;
             mKey = intent.getStringExtra("User_key");
             LocAdd = intent.getStringExtra("Address_Loc");
+            invalidateOptionsMenu();
         }
 
         //Select the picture from internal storage that you want to upload.
@@ -211,6 +212,7 @@ public class PetsEditorActivity extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 getPermissions();
+                checkData();
                 Intent intent1 = new Intent(PetsEditorActivity.this,LocationActivity.class);
                 intent1.putExtra("animalName",animalName_et.getText().toString());
                 intent1.putExtra("animal",animal_et.getText().toString());
@@ -361,8 +363,29 @@ public class PetsEditorActivity extends AppCompatActivity{
         return true;
     }
 
+    /**
+     * This method is called after invalidateOptionsMenu(), so that the
+     * menu can be updated (some menu items can be hidden or made visible).
+     */
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu)
+    {
+        super.onPrepareOptionsMenu(menu);
+
+        // If this is a new task, hide the "Delete" menu item.
+        if(!booleanUpdate)
+        {
+            MenuItem menuItem = menu.findItem(R.id.menu_item_del);
+            menuItem.setVisible(false);
+        }
+        return true;
+
+    }
+
     //Setting what happens when any menu item is clicked.
     public boolean onOptionsItemSelected(MenuItem item){
+
         if(item.getItemId()==R.id.menu_item_save){
             if(booleanUpdate && checkData()){
                 updatePetsData();
@@ -372,6 +395,7 @@ public class PetsEditorActivity extends AppCompatActivity{
                 savePetsData();
                 startActivity(new Intent(PetsEditorActivity.this,allListsActivity.class));
             }
+            return true;
         }
         if(item.getItemId()==R.id.menu_item_del){
             if(booleanUpdate){
@@ -380,6 +404,11 @@ public class PetsEditorActivity extends AppCompatActivity{
             else{
                 startActivity(new Intent(PetsEditorActivity.this,allListsActivity.class));
             }
+            return true;
+        }
+        if(item.getItemId()==android.R.id.home){
+            this.finish();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
