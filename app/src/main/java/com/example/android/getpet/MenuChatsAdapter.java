@@ -16,8 +16,9 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 
 //Adapter for menuChats Activity.
-public class MenuChatsAdapter extends RecyclerView.Adapter<MenuChatsAdapter.MenuChatsHolder> {
+public class MenuChatsAdapter extends RecyclerView.Adapter<MenuChatsAdapter.MenuChatsHolder> implements Filterable{
 
+    private ArrayList<DetailsOfChatRoom> chatRoomsBackup;
     private ArrayList<DetailsOfChatRoom> chatRooms;
     private Context context;
     private MenuChatsAdapter.OnChatClickListener onChatClickListener;
@@ -26,6 +27,7 @@ public class MenuChatsAdapter extends RecyclerView.Adapter<MenuChatsAdapter.Menu
         this.chatRooms = chatRooms;
         this.context = context;
         this.onChatClickListener = onChatClickListener;
+        chatRoomsBackup = new ArrayList<>(chatRooms);
     }
 
     interface OnChatClickListener{
@@ -40,6 +42,41 @@ public class MenuChatsAdapter extends RecyclerView.Adapter<MenuChatsAdapter.Menu
         return new MenuChatsAdapter.MenuChatsHolder(view);
     }
 
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
+
+    Filter filter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            ArrayList<DetailsOfChatRoom> filteredChatRooms = new ArrayList<>();
+
+            if(constraint.toString().isEmpty()){
+                filteredChatRooms.addAll(chatRoomsBackup);
+            }
+            else {
+                for (DetailsOfChatRoom detailsOfChatRoom : chatRoomsBackup){
+                    if(detailsOfChatRoom.getReceiverName().toLowerCase().trim().contains(constraint.toString().toLowerCase())){
+                        filteredChatRooms.add(detailsOfChatRoom);
+                    }
+                }
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredChatRooms;
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            chatRooms.clear();
+            chatRooms.addAll((ArrayList<DetailsOfChatRoom>)results.values);
+            notifyDataSetChanged();
+        }
+    };
+    
+    
     //Binding data to view holder items.
     @Override
     public void onBindViewHolder(@NonNull MenuChatsAdapter.MenuChatsHolder holder, int position) {
