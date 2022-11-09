@@ -28,6 +28,7 @@ public class allListsActivity extends AppCompatActivity {
     private String senderName;
     private String senderEmail;
     private String senderPic;
+    private String senderNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,14 +62,20 @@ public class allListsActivity extends AppCompatActivity {
     //Setting what happens when any menu item is clicked.
     public boolean onOptionsItemSelected(MenuItem item){
         if(item.getItemId()==R.id.menu_item_profile){
-            startActivity(new Intent(allListsActivity.this,profile.class));
+            if(!senderName.isEmpty()) {
+                Intent intent = new Intent(allListsActivity.this, profile.class);
+                intent.putExtra("sender_name", senderName);
+                intent.putExtra("sender_pic", senderPic);
+                intent.putExtra("sender_number",senderNumber);
+                startActivity(intent);
+            }
         }
         if(item.getItemId()==R.id.menu_item_globalChat){
             if(!senderName.isEmpty()) {
                 Intent intent = new Intent(allListsActivity.this, GlobalChatActivity.class);
-                intent.putExtra("sender_name", senderName);
-                intent.putExtra("sender_email", senderEmail);
-                intent.putExtra("sender_pic", senderPic);
+                intent.putExtra("sender_name_toGlobal", senderName);
+                intent.putExtra("sender_email_toGlobal",senderEmail);
+                intent.putExtra("sender_pic_toGlobal", senderPic);
                 startActivity(intent);
             }
         }
@@ -84,6 +91,7 @@ public class allListsActivity extends AppCompatActivity {
                     senderName = snapshot.getValue(User.class).getName();
                     senderEmail = snapshot.getValue(User.class).getEmail();
                     senderPic = snapshot.getValue(User.class).getProfilePic();
+                    senderNumber = snapshot.getValue(User.class).getNumber();
                 }
 
                 @Override

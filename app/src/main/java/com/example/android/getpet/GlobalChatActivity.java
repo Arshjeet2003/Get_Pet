@@ -58,9 +58,9 @@ public class GlobalChatActivity extends AppCompatActivity {
         messages = new ArrayList<>();
 
         Intent intent = getIntent();
-        senderName = intent.getStringExtra("sender_name");
-        senderEmail = intent.getStringExtra("sender_email");
-        senderPic = intent.getStringExtra("sender_pic");
+        senderName = intent.getStringExtra("sender_name_toGlobal");
+        senderEmail = intent.getStringExtra("sender_email_toGlobal");
+        senderPic = intent.getStringExtra("sender_pic_toGlobal");
 
 
         attachMessageListener();

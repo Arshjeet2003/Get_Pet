@@ -66,6 +66,13 @@ public class petList extends Fragment{
     PetsAdapter.OnPetsClickListener onPetsClickListener;
     private FloatingActionButton floatingActionButton;
 
+    private boolean dogFilterUpdate;
+    private boolean catFilterUpdate;
+    private boolean maleFilterUpdate;
+    private boolean femaleFilterUpdate;
+
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -117,6 +124,7 @@ public class petList extends Fragment{
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 if(position == 1){
+                    mSortBySize.clear();
                     mSortBySize.addAll(pets);
                     Collections.sort(mSortBySize, new Comparator<Pets>() {
                         @Override
@@ -128,6 +136,7 @@ public class petList extends Fragment{
                 }
 
                 if(position == 2){
+                    mSortByAge.clear();
                     mSortByAge.addAll(pets);
                     Collections.sort(mSortByAge, new Comparator<Pets>() {
                         @Override
@@ -146,82 +155,168 @@ public class petList extends Fragment{
         });
 
 
-
         mFilterDogs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mFilterCats.setBackgroundResource(0);
-                mFilterMale.setBackgroundResource(0);
-                mFilterFemale.setBackgroundResource(0);
-                mFilterDogs.setBackgroundResource(R.drawable.round);
-                for(Pets pet : pets){
-                    if(pet.getAnimal().toLowerCase().trim().equals("dog")){
-                        filteredDogsList.add(pet);
+                if(dogFilterUpdate){
+                    readyForFilter();
+                    mFilterDogs.setBackgroundResource(R.drawable.round);
+                    for(Pets pet : pets){
+                        if(pet.getAnimal().toLowerCase().trim().equals("dog")){
+                            filteredDogsList.add(pet);
+                        }
+                    }
+                    setAdapter(filteredDogsList);
+                    dogFilterUpdate=false;
+                    catFilterUpdate=false;
+                    maleFilterUpdate=false;
+                    femaleFilterUpdate=false;
+                    if(filteredDogsList.size()==0){
+                        recyclerView.setBackgroundResource(R.drawable.no_pets_back4);
+                    }
+                    else{
+                        recyclerView.setBackgroundResource(0);
                     }
                 }
-                setAdapter(filteredDogsList);
+                else{
+                    mFilterCats.setBackgroundResource(0);
+                    mFilterDogs.setBackgroundResource(0);
+                    mFilterFemale.setBackgroundResource(0);
+                    mFilterMale.setBackgroundResource(0);
+                    spinner.setSelection(0);
+
+                    dogFilterUpdate=true;
+                    catFilterUpdate=true;
+                    maleFilterUpdate=true;
+                    femaleFilterUpdate=true;
+                    setAdapter(pets);
+                }
             }
         });
 
         mFilterCats.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mFilterDogs.setBackgroundResource(0);
-                mFilterMale.setBackgroundResource(0);
-                mFilterFemale.setBackgroundResource(0);
-                mFilterCats.setBackgroundResource(R.drawable.round);
-                for(Pets pet : pets){
-                    if(pet.getAnimal().toLowerCase().trim().equals("cat")){
-                        filteredCatsList.add(pet);
+                if(catFilterUpdate){
+                    readyForFilter();
+                    mFilterCats.setBackgroundResource(R.drawable.round);
+                    for(Pets pet : pets){
+                        if(pet.getAnimal().toLowerCase().trim().equals("cat")){
+                            filteredCatsList.add(pet);
+                        }
                     }
+                    setAdapter(filteredCatsList);
+                    if(filteredCatsList.size()==0){
+                        recyclerView.setBackgroundResource(R.drawable.no_pets_back4);
+                    }
+                    else{
+                        recyclerView.setBackgroundResource(0);
+                    }
+                    dogFilterUpdate=false;
+                    catFilterUpdate=false;
+                    maleFilterUpdate=false;
+                    femaleFilterUpdate=false;
                 }
-                setAdapter(filteredCatsList);
+                else{
+                    mFilterCats.setBackgroundResource(0);
+                    mFilterDogs.setBackgroundResource(0);
+                    mFilterFemale.setBackgroundResource(0);
+                    mFilterMale.setBackgroundResource(0);
+
+                    dogFilterUpdate=true;
+                    catFilterUpdate=true;
+                    maleFilterUpdate=true;
+                    femaleFilterUpdate=true;
+                    setAdapter(pets);
+                }
             }
         });
 
         mFilterMale.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mFilterCats.setBackgroundResource(0);
-                mFilterDogs.setBackgroundResource(0);
-                mFilterFemale.setBackgroundResource(0);
-                mFilterMale.setBackgroundResource(R.drawable.round);
-                for(Pets pet : pets){
-                    if(pet.getAnimal().toLowerCase().trim().equals("male")){
-                        filteredMaleList.add(pet);
+                if(maleFilterUpdate){
+                    readyForFilter();
+                    mFilterMale.setBackgroundResource(R.drawable.round);
+                    for(Pets pet : pets){
+                        if(pet.getGender().toLowerCase().trim().equals("male")){
+                            filteredMaleList.add(pet);
+                        }
+                        else{
+                            recyclerView.setBackgroundResource(0);
+                        }
                     }
+                    setAdapter(filteredMaleList);
+                    if(filteredMaleList.size()==0){
+                        recyclerView.setBackgroundResource(R.drawable.no_pets_back4);
+                    }
+                    else{
+                        recyclerView.setBackgroundResource(0);
+                    }
+                    dogFilterUpdate=false;
+                    catFilterUpdate=false;
+                    maleFilterUpdate=false;
+                    femaleFilterUpdate=false;
                 }
-                setAdapter(filteredMaleList);
+                else{
+                    readyForFilter();
+                    spinner.setSelection(0);
+                    dogFilterUpdate=true;
+                    catFilterUpdate=true;
+                    maleFilterUpdate=true;
+                    femaleFilterUpdate=true;
+                    setAdapter(pets);
+                }
             }
         });
 
         mFilterFemale.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mFilterCats.setBackgroundResource(0);
-                mFilterMale.setBackgroundResource(0);
-                mFilterDogs.setBackgroundResource(0);
-                mFilterFemale.setBackgroundResource(R.drawable.round);
-                for(Pets pet : pets){
-                    if(pet.getGender().toLowerCase().trim().equals("female")){
-                        filteredFemaleList.add(pet);
+                if(femaleFilterUpdate){
+                    readyForFilter();
+                    mFilterFemale.setBackgroundResource(R.drawable.round);
+                    for(Pets pet : pets){
+                        if(pet.getGender().toLowerCase().trim().equals("female")){
+                            filteredFemaleList.add(pet);
+                        }
                     }
+                    if(filteredFemaleList.size()==0){
+                        recyclerView.setBackgroundResource(R.drawable.no_pets_back4);
+                    }
+                    else{
+                        recyclerView.setBackgroundResource(0);
+                    }
+                    setAdapter(filteredFemaleList);
+                    dogFilterUpdate=false;
+                    catFilterUpdate=false;
+                    maleFilterUpdate=false;
+                    femaleFilterUpdate=false;
                 }
-                setAdapter(filteredFemaleList);
+                else{
+
+                    readyForFilter();
+                    spinner.setSelection(0);
+                    dogFilterUpdate=true;
+                    catFilterUpdate=true;
+                    maleFilterUpdate=true;
+                    femaleFilterUpdate=true;
+                    setAdapter(pets);
+                }
             }
         });
-
-
-
-
-
-
-
 
         //Loading pets again on refreshing.
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                readyForFilter();
+
+                spinner.setSelection(0);
+                dogFilterUpdate=true;
+                catFilterUpdate=true;
+                maleFilterUpdate=true;
+                femaleFilterUpdate=true;
                 getPets();
                 swipeRefreshLayout.setRefreshing(false);
             }
@@ -301,5 +396,19 @@ public class petList extends Fragment{
         if (petsAdapter.getItemCount() == 0) {
             recyclerView.setBackgroundResource(R.drawable.no_pets_back4);
         }
+        else{
+            recyclerView.setBackgroundResource(0);
+        }
+    }
+
+    private void readyForFilter(){
+        mFilterCats.setBackgroundResource(0);
+        mFilterMale.setBackgroundResource(0);
+        mFilterFemale.setBackgroundResource(0);
+        mFilterDogs.setBackgroundResource(0);
+        filteredCatsList.clear();
+        filteredDogsList.clear();
+        filteredFemaleList.clear();
+        filteredMaleList.clear();
     }
 }

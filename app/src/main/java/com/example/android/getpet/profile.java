@@ -7,25 +7,19 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
-
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.UploadTask;
@@ -42,8 +36,6 @@ public class profile extends AppCompatActivity {
     private TextView number_tv;
     private ImageView imgProfile;
     private ProgressBar progressBar;
-
-    private String userNumber;
     private String userPic;
 
     private Uri imagePath;   // global variable to store the image from gallery and then show it on profile photo icon
@@ -57,18 +49,29 @@ public class profile extends AppCompatActivity {
         logout = findViewById(R.id.logout_tv);
         imgProfile = findViewById(R.id.uploadImage_b);
         progressBar = findViewById(R.id.progressBar_profile);
-        progressBar.setVisibility(View.VISIBLE);
+        number_tv = findViewById(R.id.number_profile_et);
 
-        name_tv = findViewById(R.id.name_et);
+        name_tv = findViewById(R.id.name_profile_et);
         email_tv = findViewById(R.id.email_profile_et);
 
-//        name_tv.setText(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+        Intent intent = getIntent();
+
+        userPic = intent.getStringExtra("sender_pic");
+        name_tv.setText(intent.getStringExtra("sender_name"));
         email_tv.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+        number_tv.setText(intent.getStringExtra("sender_number"));
 
-        getUserData();
 
-//        userName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
-//        userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        CircularProgressDrawable circularProgressDrawable = new CircularProgressDrawable(profile.this);
+        circularProgressDrawable.setStrokeWidth(5f);
+        circularProgressDrawable.setCenterRadius(30f);
+        circularProgressDrawable.start();
+
+        Glide.with(getApplicationContext()).load(userPic).error(R.drawable.account_img)
+                .placeholder(circularProgressDrawable)
+                .into(imgProfile);
+
+        progressBar.setVisibility(View.GONE);
 
         //Logout the user.
         logout.setOnClickListener(new View.OnClickListener() {
@@ -192,40 +195,6 @@ public class profile extends AppCompatActivity {
         catch (Exception e){
             e.printStackTrace();
             Toast.makeText(getApplicationContext(), "No Internet Connection.", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    //Getting User details from the database.
-    private void getUserData() {
-        try {
-            FirebaseDatabase.getInstance().getReference("users/" + FirebaseAuth.getInstance().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    userPic = snapshot.getValue(User.class).getProfilePic();
-                    userNumber = snapshot.getValue(User.class).getNumber();
-//                    number_tv.setText(userNumber);
-
-                    CircularProgressDrawable circularProgressDrawable = new CircularProgressDrawable(profile.this);
-                    circularProgressDrawable.setStrokeWidth(5f);
-                    circularProgressDrawable.setCenterRadius(30f);
-                    circularProgressDrawable.start();
-
-                    Glide.with(getApplicationContext()).load(userPic).error(R.drawable.account_img)
-                            .placeholder(circularProgressDrawable)
-                            .into(imgProfile);
-
-                    progressBar.setVisibility(View.GONE);
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-        }
-        catch (Exception e){
-            e.printStackTrace();
-            Toast.makeText(getApplicationContext(),"No Internet Connection.", Toast.LENGTH_SHORT).show();
         }
     }
 }
