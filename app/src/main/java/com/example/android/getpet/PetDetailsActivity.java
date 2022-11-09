@@ -42,6 +42,8 @@ public class PetDetailsActivity extends AppCompatActivity {
     private TextView loc_add;
     private TextView loc_icon;
 
+    private APIService apiService;
+    private TextView adoptPet;
     private TextView ownerName_tv;
     private TextView desc;
     private ImageView pic_details_et;
@@ -58,6 +60,8 @@ public class PetDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pet_details);
 
+         apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
+        adoptPet = findViewById(R.id.adopt_et);
         animal_details_et = findViewById(R.id.animal_details_et);
         breed_details_et = findViewById(R.id.breed_details_et);
         age_details_et = findViewById(R.id.age_details_et);
@@ -102,6 +106,25 @@ public class PetDetailsActivity extends AppCompatActivity {
         ownerName_tv.setText(ownerName);
         loc_add.setText(addLoc);
 
+        adoptPet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseDatabase.getInstance().getReference().child("Tokens").child(ownerKey).child("token")
+                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                String usertoken=snapshot.getValue(String.class);
+                                sendNotifications(usertoken,"A Request for pet adoption", senderName + " wants to adopt your pet.");
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+            }
+        });
+        UpdateToken();
+        
         try {
             final Pets[] pet = {null};
             FirebaseDatabase.getInstance().getReference("favourites/" + FirebaseAuth.getInstance().getUid() + "/" + key).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -265,6 +288,52 @@ public class PetDetailsActivity extends AppCompatActivity {
         });
     }
 
+    
+    private void UpdateToken() {
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if(!task.isSuccessful()){
+                            Toast.makeText(PetDetailsActivity.this, "new token failed", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        String token = task.getResult();
+                        updateToken(token);
+                    }
+                });
+    }
+
+    private void updateToken(String token) {
+        Token token1 = new Token(token);
+        FirebaseDatabase.getInstance().getReference("Tokens").child(FirebaseAuth.getInstance().getUid()).setValue(token1);
+    }
+
+    //This Method Sends the notifications combining all class of
+    //SendNotificationPack Package work together
+    public void sendNotifications(String usertoken, String title, String message) {
+        Data data = new Data(title, message);
+        NotificationSender sender = new NotificationSender(data, usertoken);
+        apiService.sendNotifcation(sender).enqueue(new Callback<MyResponse>() {
+            @Override
+            public void onResponse(Call<MyResponse> call,
+                                   Response<MyResponse> response) {
+                if (response.code() == 200) {
+                    assert response.body() != null;
+                    if (response.body().success != 1) {
+                        Toast.makeText(PetDetailsActivity.this, "Failed", Toast.LENGTH_LONG).show();
+                    }else {
+                        Toast.makeText(PetDetailsActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<MyResponse> call, Throwable t) {
+            }
+        });
+    }
+    
+    
     //Getting location permission using Dexter Api.
     private void getPermissions(){
         Dexter.withContext(PetDetailsActivity.this).withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
