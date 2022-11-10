@@ -1,9 +1,11 @@
 package com.example.android.getpet.SendNotification;
 
+// Data class to store the notification content : title and message
 public class Data {
     private String Title;
     private String Message;
 
+    // parameterised constructor
     public Data(String title, String message) {
         Title = title;
         Message = message;
@@ -12,6 +14,7 @@ public class Data {
     public Data(){
     }
 
+    // getters and setters
     public String getTitle() {
         return Title;
     }
