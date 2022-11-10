@@ -328,7 +328,7 @@ public class PetsEditorActivity extends AppCompatActivity{
         }
         catch (Exception e){
             e.printStackTrace();
-            Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Slow Internet Connection", Toast.LENGTH_SHORT).show();
         }
         Toast.makeText(getApplicationContext(), "Your pet has been added.", Toast.LENGTH_SHORT).show();
         startActivity(new Intent(PetsEditorActivity.this,allListsActivity.class));
@@ -352,7 +352,7 @@ public class PetsEditorActivity extends AppCompatActivity{
         }
         catch (Exception e){
             e.printStackTrace();
-            Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Slow Internet Connection", Toast.LENGTH_SHORT).show();
         }
         Toast.makeText(getApplicationContext(), "Your pet has been updated.", Toast.LENGTH_SHORT).show();
         startActivity(new Intent(PetsEditorActivity.this,allListsActivity.class));
@@ -367,7 +367,7 @@ public class PetsEditorActivity extends AppCompatActivity{
         return true;
     }
 
-    /**
+    /*
      * This method is called after invalidateOptionsMenu(), so that the
      * menu can be updated (some menu items can be hidden or made visible).
      */

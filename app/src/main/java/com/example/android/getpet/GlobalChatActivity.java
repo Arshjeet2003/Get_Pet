@@ -77,27 +77,32 @@ public class GlobalChatActivity extends AppCompatActivity {
     }
 
     private void attachMessageListener(){
-        FirebaseDatabase.getInstance().getReference("globalMessages").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                messages.clear();
-                for(DataSnapshot dataSnapshot:snapshot.getChildren()){
-                    messages.add(dataSnapshot.getValue(MyMessage.class));
+        try {
+            FirebaseDatabase.getInstance().getReference("globalMessages").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    messages.clear();
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        messages.add(dataSnapshot.getValue(MyMessage.class));
+                    }
+                    globalMessageAdapter = new GlobalMessageAdapter(messages, FirebaseAuth.getInstance().getCurrentUser().getEmail(), GlobalChatActivity.this);
+                    globalMessageAdapter.notifyDataSetChanged();
+                    recyclerView.setLayoutManager(new LinearLayoutManager(GlobalChatActivity.this));
+                    recyclerView.setAdapter(globalMessageAdapter);
+                    recyclerView.scrollToPosition(messages.size() - 1);
+                    recyclerView.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.GONE);
                 }
-                globalMessageAdapter = new GlobalMessageAdapter(messages,FirebaseAuth.getInstance().getCurrentUser().getEmail(),GlobalChatActivity.this);
-                globalMessageAdapter.notifyDataSetChanged();
-                recyclerView.setLayoutManager(new LinearLayoutManager(GlobalChatActivity.this));
-                recyclerView.setAdapter(globalMessageAdapter);
-                recyclerView.scrollToPosition(messages.size()-1);
-                recyclerView.setVisibility(View.VISIBLE);
-                progressBar.setVisibility(View.GONE);
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                }
+            });
+        }
+        catch (Exception e){
+            Toast.makeText(getApplicationContext(), "Slow Internet Connection", Toast.LENGTH_SHORT).show();
+        }
     }
 
     // this event will enable the back

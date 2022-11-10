@@ -158,11 +158,12 @@ public class PetDetailsActivity extends AppCompatActivity {
 
         try {
             final Pets[] pet = {null};
+            //Getting the data if the pet is favourites of the user from database.
             FirebaseDatabase.getInstance().getReference("favourites/" + FirebaseAuth.getInstance().getUid() + "/" + key).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     pet[0] = snapshot.getValue(Pets.class);
-                    if (pet[0] == null) {
+                    if (pet[0] == null) { //Getting null value means the current pet is not favourites of the user so set background accordingly.
                         favourites.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.fav_empty));
                     } else {
                        favourites.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.fav_back));
@@ -177,7 +178,7 @@ public class PetDetailsActivity extends AppCompatActivity {
         }
         catch (Exception e){
             e.printStackTrace();
-            Toast.makeText(getApplicationContext(), "No Internet Connection.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Slow Internet Connection", Toast.LENGTH_SHORT).show();
         }
 
         try {
@@ -198,7 +199,7 @@ public class PetDetailsActivity extends AppCompatActivity {
         }
         catch (Exception e){
             e.printStackTrace();
-            Toast.makeText(getApplicationContext(), "No Internet Connection.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Slow Internet Connection", Toast.LENGTH_SHORT).show();
         }
 
         CircularProgressDrawable circularProgressDrawable = new CircularProgressDrawable(PetDetailsActivity.this);
@@ -284,7 +285,7 @@ public class PetDetailsActivity extends AppCompatActivity {
                 }
                 catch (Exception e){
                     e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), "No Internet Connection.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Slow Internet Connection", Toast.LENGTH_SHORT).show();
                 }
             }
         });

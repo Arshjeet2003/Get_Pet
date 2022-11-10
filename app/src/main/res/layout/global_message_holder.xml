@@ -33,20 +33,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="9dp"
-                android:text="rewnvwiofnew fwe fwioe"
                 android:background="@drawable/chatting_with_tv"
                 android:fontFamily="@font/atma_semibold"
                 android:maxWidth="200dp"
                 android:padding="6dp"
-                android:textSize="14sp" />
+                android:textSize="15sp" />
 
         <TextView
             android:id="@+id/global_chat_sender_name_tv"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:fontFamily="@font/atma_semibold"
-            android:text="gwiobveriufhvsvuiw"
-            android:textSize="8sp"
+            android:textSize="11sp"
             app:layout_constraintEnd_toEndOf="@+id/global_msg_tv"
             app:layout_constraintTop_toBottomOf="@+id/global_msg_tv" />
 

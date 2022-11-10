@@ -115,7 +115,7 @@ public class userPetList extends Fragment {
         }
         catch (Exception e){
             e.printStackTrace();
-            Toast.makeText(getActivity(), "No Internet Connection.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Slow Internet Connection", Toast.LENGTH_SHORT).show();
         }
     }
 }

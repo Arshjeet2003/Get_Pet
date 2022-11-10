@@ -177,7 +177,7 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocationLatLng, 18));
                         } catch (IOException e) {
                             e.printStackTrace();
-                            Toast.makeText(getApplicationContext(), "Slow Internet Connection.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Slow Internet Connection", Toast.LENGTH_SHORT).show();
                         }
 
                     }
@@ -195,7 +195,7 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
             setAddress(addresses.get(0));
         } catch (IOException e) {
             e.printStackTrace();
-            Toast.makeText(getApplicationContext(), "Slow Internet Connection.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Slow Internet Connection", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -239,7 +239,7 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
             mLong = addresses.get(0).getLongitude();
             setAddress(addresses.get(0));
         } catch (IOException | IndexOutOfBoundsException e) {
-            Toast.makeText(getApplicationContext(), "Slow Internet Connection.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Slow Internet Connection", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
     }

@@ -107,7 +107,7 @@ public class loginPage extends AppCompatActivity {
                  }
                  else{
                      //If the task is not successful toast the exception.
-                     Toast.makeText(getApplicationContext(),task.getException().getLocalizedMessage(),Toast.LENGTH_SHORT).show();
+                     Toast.makeText(getApplicationContext(), "Slow Internet Connection", Toast.LENGTH_SHORT).show();
                  }
              }
          });

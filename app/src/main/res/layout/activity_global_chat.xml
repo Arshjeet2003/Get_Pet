@@ -45,7 +45,7 @@
         android:id="@+id/gb_imageSend"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:src="@drawable/send"
+        android:src="@drawable/send_chat"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_editor_absoluteX="355dp"

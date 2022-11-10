@@ -98,10 +98,10 @@ public class petList extends Fragment{
         mSortBySize = new ArrayList<>();
         pets = new ArrayList<>();
 
-        dogFilterUpdate=false;
-        catFilterUpdate=false;
-        maleFilterUpdate=false;
-        femaleFilterUpdate=false;
+        dogFilterUpdate=true;
+        catFilterUpdate=true;
+        maleFilterUpdate=true;
+        femaleFilterUpdate=true;
 
         progressBar = getView().findViewById(R.id.progressbar);
         recyclerView = getView().findViewById(R.id.recycler);
@@ -173,9 +173,6 @@ public class petList extends Fragment{
                     }
                     setAdapter(filteredDogsList);
                     dogFilterUpdate=false;
-                    catFilterUpdate=false;
-                    maleFilterUpdate=false;
-                    femaleFilterUpdate=false;
                     if(filteredDogsList.size()==0){
                         recyclerView.setBackgroundResource(R.drawable.no_pets_back4);
                     }
@@ -184,12 +181,12 @@ public class petList extends Fragment{
                     }
                 }
                 else{
+                    readyForFilter();
                     mFilterCats.setBackgroundResource(0);
                     mFilterDogs.setBackgroundResource(0);
                     mFilterFemale.setBackgroundResource(0);
                     mFilterMale.setBackgroundResource(0);
                     spinner.setSelection(0);
-
                     dogFilterUpdate=true;
                     catFilterUpdate=true;
                     maleFilterUpdate=true;
@@ -217,17 +214,14 @@ public class petList extends Fragment{
                     else{
                         recyclerView.setBackgroundResource(0);
                     }
-                    dogFilterUpdate=false;
                     catFilterUpdate=false;
-                    maleFilterUpdate=false;
-                    femaleFilterUpdate=false;
                 }
                 else{
+                    readyForFilter();
                     mFilterCats.setBackgroundResource(0);
                     mFilterDogs.setBackgroundResource(0);
                     mFilterFemale.setBackgroundResource(0);
                     mFilterMale.setBackgroundResource(0);
-
                     dogFilterUpdate=true;
                     catFilterUpdate=true;
                     maleFilterUpdate=true;
@@ -258,17 +252,14 @@ public class petList extends Fragment{
                     else{
                         recyclerView.setBackgroundResource(0);
                     }
-                    dogFilterUpdate=false;
-                    catFilterUpdate=false;
                     maleFilterUpdate=false;
-                    femaleFilterUpdate=false;
                 }
                 else{
                     readyForFilter();
                     spinner.setSelection(0);
+                    maleFilterUpdate=true;
                     dogFilterUpdate=true;
                     catFilterUpdate=true;
-                    maleFilterUpdate=true;
                     femaleFilterUpdate=true;
                     setAdapter(pets);
                 }
@@ -293,19 +284,15 @@ public class petList extends Fragment{
                         recyclerView.setBackgroundResource(0);
                     }
                     setAdapter(filteredFemaleList);
-                    dogFilterUpdate=false;
-                    catFilterUpdate=false;
-                    maleFilterUpdate=false;
                     femaleFilterUpdate=false;
                 }
                 else{
-
                     readyForFilter();
                     spinner.setSelection(0);
+                    femaleFilterUpdate=true;
                     dogFilterUpdate=true;
                     catFilterUpdate=true;
                     maleFilterUpdate=true;
-                    femaleFilterUpdate=true;
                     setAdapter(pets);
                 }
             }
@@ -384,7 +371,7 @@ public class petList extends Fragment{
             });
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(getActivity(), "No Internet Connection.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Slow Internet Connection", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -396,6 +383,7 @@ public class petList extends Fragment{
         progressBar.setVisibility(View.GONE);
         recyclerView.setVisibility(View.VISIBLE);
         recyclerView.setAdapter(petsAdapter);
+        petsAdapter.notifyDataSetChanged();
 
         //If no pets then show the noData textView.
         if (petsAdapter.getItemCount() == 0) {

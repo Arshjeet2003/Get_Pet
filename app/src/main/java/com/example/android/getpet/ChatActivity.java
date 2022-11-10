@@ -149,27 +149,32 @@ public class ChatActivity extends AppCompatActivity {
 
     //Retrieving messages from database, adding in messages arraylist.
     private void attachMessageListener(){
-        FirebaseDatabase.getInstance().getReference("messages/"+mChatroomId).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                messages.clear();
-                for(DataSnapshot dataSnapshot:snapshot.getChildren()){
-                    messages.add(dataSnapshot.getValue(Message.class));
+        try {
+            FirebaseDatabase.getInstance().getReference("messages/" + mChatroomId).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    messages.clear();
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        messages.add(dataSnapshot.getValue(Message.class));
+                    }
+                    //Notifying message adapter about changes.
+                    messageAdapter.notifyDataSetChanged();
+
+                    //Scrolling recycler view to last message.
+                    recyclerView.scrollToPosition(messages.size() - 1);
+                    recyclerView.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.GONE);
                 }
-                //Notifying message adapter about changes.
-                messageAdapter.notifyDataSetChanged();
 
-                //Scrolling recycler view to last message.
-                recyclerView.scrollToPosition(messages.size()-1);
-                recyclerView.setVisibility(View.VISIBLE);
-                progressBar.setVisibility(View.GONE);
-            }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+                }
+            });
+        }
+        catch (Exception e){
+            Toast.makeText(getApplicationContext(), "Slow Internet Connection", Toast.LENGTH_SHORT).show();
+        }
     }
 
     // this event will enable the back

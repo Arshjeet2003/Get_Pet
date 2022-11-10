@@ -17,14 +17,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GetPet">
-        <activity
-            android:name=".SplashScreen"
-            android:exported="true">
-    </activity>
 
         <activity
             android:name=".allListsActivity"
-            android:exported="false" />
+            android:exported="true"
+            />
         <activity
             android:name=".GlobalChatActivity"
             android:exported="false"
@@ -75,6 +72,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
 
         <service

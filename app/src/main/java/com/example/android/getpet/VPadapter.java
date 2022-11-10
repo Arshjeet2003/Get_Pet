@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import java.util.ArrayList;
 
+//Adapter to set up Fragments in the ViewPager
 public class VPadapter extends FragmentPagerAdapter {
 
     private final ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
@@ -28,6 +29,7 @@ public class VPadapter extends FragmentPagerAdapter {
         return fragmentArrayList.size();
     }
 
+    //Add function is used to add fragments to the viewpager along with a title.
     public void addFragment(Fragment fragment,String title){
 
         fragmentArrayList.add(fragment);

@@ -139,7 +139,7 @@ public class menuChats extends Fragment {
         }
         catch (Exception e){ //Catching exceptions that might have occurred.
             e.printStackTrace();
-            Toast.makeText(getActivity(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Slow Internet Connection", Toast.LENGTH_SHORT).show();
         }
     }
 }
