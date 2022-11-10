@@ -28,6 +28,7 @@
         <entry key="app/src/main/res/layout/activity_pet_list.xml" value="0.2953125" />
         <entry key="app/src/main/res/layout/activity_pets_editor.xml" value="0.30512820512820515" />
         <entry key="app/src/main/res/layout/activity_profile.xml" value="0.2907692307692308" />
+        <entry key="app/src/main/res/layout/activity_splash_screen.xml" value="0.2833333333333333" />
         <entry key="app/src/main/res/layout/activity_user_pet_list.xml" value="0.26944444444444443" />
         <entry key="app/src/main/res/layout/global_chat_holder.xml" value="0.1" />
         <entry key="app/src/main/res/layout/global_message_holder.xml" value="0.3098958333333333" />
@@ -42,6 +43,8 @@
         <entry key="app/src/main/res/menu/petlist_menu.xml" value="0.30512820512820515" />
         <entry key="app/src/main/res/menu/profile_menu.xml" value="0.2907692307692308" />
         <entry key="app/src/main/res/menu/save_menu.xml" value="0.30512820512820515" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.184375" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.321025641025641" />
       </map>
     </option>
   </component>

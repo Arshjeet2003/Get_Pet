@@ -331,6 +331,8 @@ public class PetsEditorActivity extends AppCompatActivity{
             Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
         }
         Toast.makeText(getApplicationContext(), "Your pet has been added.", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(PetsEditorActivity.this,allListsActivity.class));
+        finish();
     }
 
     //Updating the already created pet data.
@@ -352,6 +354,9 @@ public class PetsEditorActivity extends AppCompatActivity{
             e.printStackTrace();
             Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
         }
+        Toast.makeText(getApplicationContext(), "Your pet has been updated.", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(PetsEditorActivity.this,allListsActivity.class));
+        finish();
     }
 
     //Inflating the menu options.
@@ -388,11 +393,9 @@ public class PetsEditorActivity extends AppCompatActivity{
         if(item.getItemId()==R.id.menu_item_save){
             if(booleanUpdate && checkData()){
                 updatePetsData();
-                startActivity(new Intent(PetsEditorActivity.this,allListsActivity.class));
             }
             else if(checkData()){
                 savePetsData();
-                startActivity(new Intent(PetsEditorActivity.this,allListsActivity.class));
             }
             return true;
         }
@@ -402,6 +405,7 @@ public class PetsEditorActivity extends AppCompatActivity{
             }
             else{
                 startActivity(new Intent(PetsEditorActivity.this,allListsActivity.class));
+                finish();
             }
             return true;
         }

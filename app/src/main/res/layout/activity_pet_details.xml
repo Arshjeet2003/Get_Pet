@@ -47,7 +47,6 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="20dp"
                             android:fontFamily="@font/atma_semibold"
-                            android:text="TOMMY"
                             android:textSize="40sp"
                             android:textStyle="bold" />
 
@@ -61,7 +60,6 @@
                             android:layout_marginTop="10dp"
                             android:fontFamily="@font/atma_semibold"
                             android:gravity="center_vertical"
-                            android:text="GERMAN SHEPHERD"
                             android:textSize="20sp"
                             android:textStyle="bold" />
 
@@ -74,7 +72,6 @@
                             android:layout_marginLeft="40dp"
                             android:layout_marginTop="10dp"
                             android:fontFamily="@font/atma_semibold"
-                            android:text="     slakfjkl;jfajfjlaskjdf"
                             android:textSize="15sp"
                             android:textStyle="bold" />
 
@@ -84,7 +81,7 @@
                             android:layout_height="40dp"
                             android:layout_alignTop="@id/animal_details_et"
                             android:layout_marginTop="12dp"
-                            android:layout_marginRight="20dp"
+                            android:layout_marginRight="12dp"
                             android:layout_toLeftOf="@+id/fav_tv"
                             android:background="@drawable/loc_icon" />
 
@@ -93,9 +90,9 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_alignTop="@+id/animal_details_et"
-                            android:layout_alignParentRight="true"
                             android:layout_marginTop="12dp"
-                            android:layout_marginEnd="80dp"
+                            android:layout_marginEnd="12dp"
+                            android:layout_toLeftOf="@+id/message_tv"
                             android:background="@drawable/fav_empty" />
 
                         <TextView
@@ -105,7 +102,7 @@
                             android:layout_alignTop="@+id/animal_details_et"
                             android:layout_alignParentRight="true"
                             android:layout_marginTop="12dp"
-                            android:layout_marginRight="20dp"
+                            android:layout_marginRight="12dp"
                             android:background="@drawable/chat_back4" />
 
                         <LinearLayout
@@ -115,13 +112,13 @@
                             android:layout_marginTop="10dp">
 
                             <TextView
+                                android:id="@+id/animalType_et"
                                 android:layout_width="70dp"
                                 android:layout_height="70dp"
                                 android:layout_marginStart="20dp"
                                 android:background="@drawable/round"
                                 android:fontFamily="@font/atma_semibold"
                                 android:gravity="center"
-                                android:text="Dog"
                                 android:textSize="15sp"
                                 android:textStyle="bold" />
 
@@ -137,7 +134,6 @@
                                 android:background="@drawable/round"
                                 android:fontFamily="@font/atma_semibold"
                                 android:gravity="center"
-                                android:text="FEMALE"
                                 android:textSize="15sp"
                                 android:textStyle="bold" />
 
@@ -153,7 +149,6 @@
                                 android:background="@drawable/round"
                                 android:fontFamily="@font/atma_semibold"
                                 android:gravity="center"
-                                android:text="200 INCH"
                                 android:textSize="14sp"
                                 android:textStyle="bold" />
 
@@ -170,7 +165,6 @@
                                 android:background="@drawable/round"
                                 android:fontFamily="@font/atma_semibold"
                                 android:gravity="center"
-                                android:text="4 MONTH"
                                 android:textSize="14sp"
                                 android:textStyle="bold" />
 
@@ -211,10 +205,9 @@
                             android:id="@+id/ownerName_details_et"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/atma_semibold"
                             android:layout_toRightOf="@+id/cardView8"
+                            android:fontFamily="@font/atma_semibold"
                             android:padding="8dp"
-                            android:text="HARRY POTTER  "
                             android:textSize="28sp"
                             android:textStyle="bold" />
 
@@ -226,7 +219,6 @@
                             android:layout_marginTop="10dp"
                             android:fontFamily="@font/atma_semibold"
                             android:padding="10dp"
-                            android:text="This is my dog"
                             android:textSize="18sp" />
 
                         <androidx.cardview.widget.CardView

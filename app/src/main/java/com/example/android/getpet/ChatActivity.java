@@ -101,10 +101,12 @@ public class ChatActivity extends AppCompatActivity {
         sendingArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FirebaseDatabase.getInstance().getReference("messages/"+mChatroomId)
-                        .push().setValue(new Message(senderEmail,
-                        receiverEmail,MessageInput.getText().toString()));
-                MessageInput.setText("");
+                if(!MessageInput.getText().toString().isEmpty()){
+                    FirebaseDatabase.getInstance().getReference("messages/"+mChatroomId)
+                            .push().setValue(new Message(senderEmail,
+                            receiverEmail,MessageInput.getText().toString()));
+                    MessageInput.setText("");
+                }
             }
         });
 

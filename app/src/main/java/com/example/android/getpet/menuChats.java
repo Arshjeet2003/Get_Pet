@@ -31,6 +31,7 @@ public class menuChats extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     MenuChatsAdapter.OnChatClickListener onChatClickListener;
 
+    //Inflating the layout
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         return inflater.inflate(R.layout.activity_menu_chats,container,false);
@@ -46,7 +47,7 @@ public class menuChats extends Fragment {
         swipeRefreshLayout = getView().findViewById(R.id.chatswip);
         chatRooms = new ArrayList<>();
 
-        // Dynamic searching
+        // Dynamic searching of usernames in Chats tab.
         searchPetOwner.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -54,6 +55,8 @@ public class menuChats extends Fragment {
             }
             @Override
             public boolean onQueryTextChange(String newText) {
+
+                //Using the filter from menuChatsAdapter to filter through the list.
                 menuChatsAdapter.getFilter().filter(newText);
                 return false;
             }
@@ -62,6 +65,7 @@ public class menuChats extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                //Calling getUsers() again on refreshing so that data can be updated in recycler view.
                 getUsers();
                 swipeRefreshLayout.setRefreshing(false);
             }
@@ -84,24 +88,41 @@ public class menuChats extends Fragment {
                 startActivity(intent1);
             }
         };
+
+        //Getting data of users in the arraylist and setting up the recycler view.
         getUsers();
     }
 
     //Getting all the chats of the user.
     private void getUsers(){
-        chatRooms.clear();
+        chatRooms.clear(); //Clearing the arraylist first so that data does not keep getting added.
         try {
+            //Fetching data from the database
             FirebaseDatabase.getInstance().getReference("chats/" + FirebaseAuth.getInstance().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+
+                        //Adding data to the arraylist.
                         chatRooms.add(dataSnapshot.getValue(DetailsOfChatRoom.class));
                     }
+
+                    //Initializing adapter with the data from firebase.
                     menuChatsAdapter = new MenuChatsAdapter(chatRooms, getActivity(), onChatClickListener);
+
+                    //A LayoutManager is responsible for measuring and positioning item views within a RecyclerView as well as determining the policy for when to recycle item views that are no longer visible to the user.
                     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+                    //Removing the progress bar after getting data.
                     progressBar.setVisibility(View.GONE);
+
+                    //Making recycler view visible.
                     recyclerView.setVisibility(View.VISIBLE);
+
+                    //Setting the recycler view.
                     recyclerView.setAdapter(menuChatsAdapter);
+
+                    //Changing the background based on if the recycler view has any items or not.
                     if (menuChatsAdapter.getItemCount() == 0){
                         recyclerView.setBackgroundResource(R.drawable.no_chats_back4);
                     }
@@ -116,9 +137,9 @@ public class menuChats extends Fragment {
                 }
             });
         }
-        catch (Exception e){
+        catch (Exception e){ //Catching exceptions that might have occurred.
             e.printStackTrace();
-            Toast.makeText(getActivity(), "No Internet Connection.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 }

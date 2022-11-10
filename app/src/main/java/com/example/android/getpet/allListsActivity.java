@@ -64,6 +64,7 @@ public class allListsActivity extends AppCompatActivity {
         if(item.getItemId()==R.id.menu_item_profile){
             if(!senderName.isEmpty()) {
                 Intent intent = new Intent(allListsActivity.this, profile.class);
+                intent.putExtra("update_from_allList",true);
                 intent.putExtra("sender_name", senderName);
                 intent.putExtra("sender_pic", senderPic);
                 intent.putExtra("sender_number",senderNumber);

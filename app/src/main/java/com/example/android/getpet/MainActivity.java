@@ -71,36 +71,43 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this,"Please enter your name",Toast.LENGTH_SHORT).show();
                     name.setError("Name is required");
                     name.requestFocus();
+                    return;
                 }
                 else if(TextUtils.isEmpty(useremail)){
                     Toast.makeText(MainActivity.this,"Please enter your email",Toast.LENGTH_SHORT).show();
-                    name.setError("Email is required");
-                    name.requestFocus();
+                    email.setError("Email is required");
+                    email.requestFocus();
+                    return;
                 }
                 else if(!Patterns.EMAIL_ADDRESS.matcher(useremail).matches()){
                     Toast.makeText(MainActivity.this,"Please re-enter your email",Toast.LENGTH_SHORT).show();
-                    name.setError("Valid email is required");
-                    name.requestFocus();
+                    email.setError("Valid email is required");
+                    email.requestFocus();
+                    return;
                 }
                 else if(TextUtils.isEmpty(usernumber)){
                     Toast.makeText(MainActivity.this,"Please enter your mobile no.",Toast.LENGTH_SHORT).show();
-                    name.setError("Mobile No. is required");
-                    name.requestFocus();
+                    number.setError("Mobile No. is required");
+                    number.requestFocus();
+                    return;
                 }
                 else if(usernumber.length()!=10){
                     Toast.makeText(MainActivity.this,"Please re-enter your mobile no.",Toast.LENGTH_SHORT).show();
-                    name.setError("Mobile No. should have 10 digits");
-                    name.requestFocus();
+                    number.setError("Mobile No. should have 10 digits");
+                    number.requestFocus();
+                    return;
                 }
                 else if(!mobileMatcher.find()){
                     Toast.makeText(MainActivity.this,"Please re-enter your mobile no.",Toast.LENGTH_SHORT).show();
-                    name.setError("Mobile No. is not valid");
-                    name.requestFocus();
+                    number.setError("Mobile No. is not valid");
+                    number.requestFocus();
+                    return;
                 }
                 else if(TextUtils.isEmpty(userpassword)){
                     Toast.makeText(MainActivity.this,"Please enter your password",Toast.LENGTH_SHORT).show();
-                    name.setError("Password is required");
-                    name.requestFocus();
+                    password.setError("Password is required");
+                    password.requestFocus();
+                    return;
                 }
 
                 handleSignUp();

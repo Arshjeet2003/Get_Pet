@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 
@@ -52,6 +53,8 @@ public class PetDetailsActivity extends AppCompatActivity {
     private TextView age_details_et;
     private TextView size_details_et;
     private TextView gender_details_et;
+    private TextView animalType;
+    private CardView Adopt_CardView;
 
     private TextView loc_add;
     private TextView loc_icon;
@@ -74,8 +77,11 @@ public class PetDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pet_details);
 
-         apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
+        apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
+
         adoptPet = findViewById(R.id.adopt_et);
+
+        animalType = findViewById(R.id.animalType_et);
         animal_details_et = findViewById(R.id.animal_details_et);
         breed_details_et = findViewById(R.id.breed_details_et);
         age_details_et = findViewById(R.id.age_details_et);
@@ -83,16 +89,21 @@ public class PetDetailsActivity extends AppCompatActivity {
         gender_details_et = findViewById(R.id.gender_details_et);
         pic_details_et = findViewById(R.id.pic_details_iv);
         desc = findViewById(R.id.desc_details_tv);
+
         ownerName_tv = findViewById(R.id.ownerName_details_et);
         ownerPic_tv = findViewById(R.id.ownerPic_details);
+
         loc_add = findViewById(R.id.loc_details_add);
         loc_icon = findViewById(R.id.loc_details);
         chat = findViewById(R.id.message_tv);
         favourites = findViewById(R.id.fav_tv);
 
-        //Getting data from petList Activity or FavouritesActivity or userPetListActivity
-        Intent intent = getIntent();
+        Adopt_CardView = findViewById(R.id.adoptPetCard);
 
+        /*Getting data from petList Activity or FavouritesActivity or userPetListActivity
+        so that data can be shown in various text boxes.*/
+
+        Intent intent = getIntent();
         key = intent.getStringExtra("keyData");
         animal = intent.getStringExtra("animal");
         petName = intent.getStringExtra(getResources().getString(R.string.PetDetailsActivity_intent_petName));
@@ -111,6 +122,8 @@ public class PetDetailsActivity extends AppCompatActivity {
         addLoc = intent.getStringExtra("Address_Location");
         petDescription = intent.getStringExtra("pet_description");
 
+        //Setting data in different TextViews that we received from Intents.
+        animalType.setText(animal);
         animal_details_et.setText(petName);
         breed_details_et.setText(breed);
         age_details_et.setText(age);
@@ -120,15 +133,17 @@ public class PetDetailsActivity extends AppCompatActivity {
         ownerName_tv.setText(ownerName);
         loc_add.setText(addLoc);
 
+        //Sending notification to the pet owner.
         adoptPet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Fetching the token of pet owner using his UUID which is saved in ownerKey.
                 FirebaseDatabase.getInstance().getReference().child("Tokens").child(ownerKey).child("token")
                         .addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 String usertoken=snapshot.getValue(String.class);
-                                sendNotifications(usertoken,"A Request for pet adoption", senderName + " wants to adopt your pet.");
+                                sendNotifications(usertoken,"Request for pet adoption!", senderName + " wants to adopt "+petName);
                             }
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {
@@ -137,8 +152,10 @@ public class PetDetailsActivity extends AppCompatActivity {
                         });
             }
         });
+
+        //Updating the user tokens so that notification can be sent using the token.
         UpdateToken();
-        
+
         try {
             final Pets[] pet = {null};
             FirebaseDatabase.getInstance().getReference("favourites/" + FirebaseAuth.getInstance().getUid() + "/" + key).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -214,7 +231,9 @@ public class PetDetailsActivity extends AppCompatActivity {
 
         //Chat option will only be available if it is someone else's pet not user's.
         if (ownerEmail.equals(FirebaseAuth.getInstance().getCurrentUser().getEmail())) {
-            chat.setVisibility(View.GONE);
+            chat.setVisibility(View.INVISIBLE);
+            adoptPet.setVisibility(View.INVISIBLE);
+            Adopt_CardView.setVisibility(View.INVISIBLE);
         }
 
         //Sending data to ChatActivity.
@@ -254,7 +273,6 @@ public class PetDetailsActivity extends AppCompatActivity {
                             } else {
                                 FirebaseDatabase.getInstance().getReference("favourites/" + FirebaseAuth.getInstance().getUid() + "/").child(key).removeValue();
                                 favourites.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.fav_empty));
-
                             }
                         }
 
@@ -302,6 +320,8 @@ public class PetDetailsActivity extends AppCompatActivity {
         });
     }
 
+
+
     
     private void UpdateToken() {
         FirebaseMessaging.getInstance().getToken()
@@ -335,9 +355,9 @@ public class PetDetailsActivity extends AppCompatActivity {
                 if (response.code() == 200) {
                     assert response.body() != null;
                     if (response.body().success != 1) {
-                        Toast.makeText(PetDetailsActivity.this, "Failed", Toast.LENGTH_LONG).show();
+                        Toast.makeText(PetDetailsActivity.this, "Sorry Pet owner could not be informed. Please try again later.", Toast.LENGTH_LONG).show();
                     }else {
-                        Toast.makeText(PetDetailsActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),"Pet owner of this pet has been informed.",Toast.LENGTH_SHORT).show();
                     }
                 }
             }

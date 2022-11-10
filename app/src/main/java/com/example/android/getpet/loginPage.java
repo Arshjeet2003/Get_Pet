@@ -1,9 +1,5 @@
 package com.example.android.getpet;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,12 +11,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class loginPage extends AppCompatActivity {
 
@@ -41,7 +40,9 @@ public class loginPage extends AppCompatActivity {
         signup = findViewById(R.id.signup_tv);
         psw_show = findViewById(R.id.psd_eye);
 
+
         psw_show.setImageResource(R.drawable.ic_hide_pwd);
+
         psw_show.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -52,15 +53,19 @@ public class loginPage extends AppCompatActivity {
                     psw_show.setImageResource(R.drawable.ic_hide_pwd);
                 }
                 else{
+                    //If password is not visible the show it.
                     pass.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    //Change icon
                     psw_show.setImageResource(R.drawable.ic_show_pwd);
                 }
             }
         });
 
+        //Submit button to login user
         sub.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //Checking that text entered in the email and password is empty or not.
                 if(email.getText().toString().isEmpty() || pass.getText().toString().isEmpty()){
                     Toast.makeText(getApplicationContext(),"Invalid Input",Toast.LENGTH_SHORT).show();
                     return;
@@ -69,6 +74,7 @@ public class loginPage extends AppCompatActivity {
             }
         });
 
+        //Signup button navigates the user to MainActivity to register.
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -83,21 +89,24 @@ public class loginPage extends AppCompatActivity {
          .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
              @Override
              public void onComplete(@NonNull Task<AuthResult> task) {
-                 if(task.isSuccessful()){
+                 if(task.isSuccessful()){ //Checking if the task to sign in user was successful or not.
 
                      FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                     //If the user's email is verified then send him to allListsActivity where he can see all the pets added.
                      if(firebaseUser.isEmailVerified()){
                          Toast.makeText(getApplicationContext(),"Logged in successful",Toast.LENGTH_SHORT).show();
                          startActivity(new Intent(loginPage.this,allListsActivity.class));
                      }
                      else{
+                         //If the user's email is not verified then send him another email and sign out him.
                          firebaseUser.sendEmailVerification();
                          FirebaseAuth.getInstance().signOut();
+                         //With the help of alertDialogBox user can directly open an app to see his emails.
                          showAlertDialogBox();
                      }
-
                  }
                  else{
+                     //If the task is not successful toast the exception.
                      Toast.makeText(getApplicationContext(),task.getException().getLocalizedMessage(),Toast.LENGTH_SHORT).show();
                  }
              }
@@ -105,6 +114,7 @@ public class loginPage extends AppCompatActivity {
     }
 
     private void showAlertDialogBox() {
+        //Building the alertDialog box.
         AlertDialog.Builder builder = new AlertDialog.Builder(loginPage.this);
         builder.setTitle("Email not verified")
                 .setMessage("Please verify your email.You cannot use the app without email verification.")
@@ -112,8 +122,8 @@ public class loginPage extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                        Intent intent = new Intent(Intent.ACTION_MAIN);
-                       intent.addCategory(Intent.CATEGORY_APP_EMAIL);
-                       intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //To open email app in new window not within our app
+                       intent.addCategory(Intent.CATEGORY_APP_EMAIL); //To open an email app
+                       intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //To open email app in new window not within our app so that on pressing back our app does not close.
                         startActivity(intent);
                     }
                 }).show();

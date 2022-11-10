@@ -98,6 +98,11 @@ public class petList extends Fragment{
         mSortBySize = new ArrayList<>();
         pets = new ArrayList<>();
 
+        dogFilterUpdate=false;
+        catFilterUpdate=false;
+        maleFilterUpdate=false;
+        femaleFilterUpdate=false;
+
         progressBar = getView().findViewById(R.id.progressbar);
         recyclerView = getView().findViewById(R.id.recycler);
         floatingActionButton = getView().findViewById(R.id.fab);

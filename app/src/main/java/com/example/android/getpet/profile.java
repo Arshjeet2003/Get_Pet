@@ -6,6 +6,8 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -37,6 +39,7 @@ public class profile extends AppCompatActivity {
     private ImageView imgProfile;
     private ProgressBar progressBar;
     private String userPic;
+    private Boolean updateFromAllList;
 
     private Uri imagePath;   // global variable to store the image from gallery and then show it on profile photo icon
 
@@ -56,11 +59,14 @@ public class profile extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        userPic = intent.getStringExtra("sender_pic");
-        name_tv.setText(intent.getStringExtra("sender_name"));
-        email_tv.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
-        number_tv.setText(intent.getStringExtra("sender_number"));
+        updateFromAllList = intent.getBooleanExtra("update_from_allList",false);
 
+        if(updateFromAllList){
+            userPic = intent.getStringExtra("sender_pic");
+            name_tv.setText(intent.getStringExtra("sender_name"));
+            email_tv.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+            number_tv.setText(intent.getStringExtra("sender_number"));
+        }
 
         CircularProgressDrawable circularProgressDrawable = new CircularProgressDrawable(profile.this);
         circularProgressDrawable.setStrokeWidth(5f);
@@ -196,5 +202,29 @@ public class profile extends AppCompatActivity {
             e.printStackTrace();
             Toast.makeText(getApplicationContext(), "No Internet Connection.", Toast.LENGTH_SHORT).show();
         }
+        userPic = url;
+    }
+
+    //Inflating menu options.
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+
+        getMenuInflater().inflate(R.menu.profile_menu,menu);
+        return true;
+    }
+
+    //Setting what happens when any menu item is clicked.
+    public boolean onOptionsItemSelected(MenuItem item){
+        if(item.getItemId()==R.id.menu_profile_save){
+            if(!userPic.isEmpty()){
+                startActivity(new Intent(profile.this,allListsActivity.class));
+                finish();
+            }
+            else{
+                Toast.makeText(getApplicationContext(),"Please add a profile picture.",Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
