@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_gravity="center"
-            android:text="animal"
+            android:text="@string/animal_text_pet_Holder"
             android:textSize="20sp"
             android:textColor="@android:color/white"/>
 
@@ -44,7 +44,7 @@
             android:textColor="@android:color/white"
             android:layout_marginLeft="20dp"
             android:textSize="20sp"
-            android:text="breed"/>
+            android:text="@string/breed_text_user_per_holder"/>
 
         <TextView
             android:id="@+id/user_gender"
@@ -54,7 +54,7 @@
             android:textColor="@android:color/white"
             android:layout_marginLeft="20dp"
             android:textSize="20sp"
-            android:text="gender"/>
+            android:text="@string/gender_User_Pet_holder"/>
 
     </LinearLayout>
 
