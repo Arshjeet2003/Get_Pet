@@ -35,6 +35,7 @@ public class userPetList extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     UserPetAdapter.OnUserPetsClickListener onUserPetsClickListener;
 
+    // inflating the activity_user_pet_list
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         return inflater.inflate(R.layout.activity_user_pet_list,container,false);
@@ -44,6 +45,7 @@ public class userPetList extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        // associating each variable with corresponding view
         progressBar = getView().findViewById(R.id.User_progressbar);
         User_pets = new ArrayList<>();
         recyclerView = getView().findViewById(R.id.User_recycler);
@@ -58,7 +60,7 @@ public class userPetList extends Fragment {
             }
         });
 
-        //Sending data to PetsEditorActivity
+        //Sending data to PetsEditorActivity on clicking the specifie pet holder and opening PetsEditorActivity
         onUserPetsClickListener = new UserPetAdapter.OnUserPetsClickListener() {
             @Override
             public void onUserPetsClicked(int position) {
@@ -90,15 +92,21 @@ public class userPetList extends Fragment {
             FirebaseDatabase.getInstance().getReference("user's_pet/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/pet").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    
+                    // getting user's pet's data from database and storing them in User_pets arraylist
+
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                         User_pets.add(dataSnapshot.getValue(Pets.class));
                     }
+                    
+                    // setting up User_pets in PetsAdapter
                     mUserPetsAdapter = new UserPetAdapter(User_pets, getActivity(), onUserPetsClickListener);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                     progressBar.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.VISIBLE);
                     recyclerView.setAdapter(mUserPetsAdapter);
 
+                    // if no pets present then set no pets present background
                     if(mUserPetsAdapter.getItemCount()==0){
                         recyclerView.setBackgroundResource(R.drawable.no_mypets_back4);
                     }
