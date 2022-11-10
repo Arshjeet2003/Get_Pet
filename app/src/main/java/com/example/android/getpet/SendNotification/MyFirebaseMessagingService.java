@@ -30,7 +30,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // method to create notification channel called
         createNotificationChannel();
 
-<<<<<<< HEAD
         // Create an Intent for the activity you want to start
         Intent resultIntent = new Intent(this, com.example.android.getpet.allListsActivity.class);
 
@@ -43,7 +42,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 stackBuilder.getPendingIntent(0,
                         PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
-=======
         // setting intent to open new activity on clicking notification
         Intent intent = new Intent(getApplicationContext(),com.example.android.getpet.allListsActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -54,7 +52,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // Passing a future intent to our foreign application so as to execute intent with our application's permissions
         PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),1
                 ,intent,PendingIntent.FLAG_ONE_SHOT);
->>>>>>> 92be46fa531b2bade6f9c2eacdf6568d807a34d1
 
         title = message.getData().get("Title");
         ourmessage = message.getData().get("Message");
@@ -66,14 +63,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(),"GetPetNotification")
                 .setLargeIcon(icon)
                 .setSmallIcon(R.drawable.notification_)
-<<<<<<< HEAD
                 .setContentTitle(title)
                 .setContentText(ourmessage)
-=======
                 .setContentTitle(title)   // setting title
                 .setContentText(ourmessage)   // setting message of notification
                 .setAutoCancel(true)
->>>>>>> 92be46fa531b2bade6f9c2eacdf6568d807a34d1
                 .setColor(Color.BLUE)
                 .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)

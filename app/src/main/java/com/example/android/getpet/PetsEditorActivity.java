@@ -484,6 +484,7 @@ public class PetsEditorActivity extends AppCompatActivity{
                     }
 
                     @Override
+                    //If permission is denied then show alert dialog box to get the comments of the user.
                     public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
                         if(permissionDeniedResponse.isPermanentlyDenied()){
                             AlertDialog.Builder builder = new AlertDialog.Builder(PetsEditorActivity.this);

@@ -30,7 +30,7 @@ public class MyFirebaseIdService extends FirebaseMessagingService {
                             return;
                         }
 
-                        /* if new token is generate successfully
+                        /* if new token is generated successfully
                         then get new FCM registration token as string */
                         String token = task.getResult();
                         updateToken(token);

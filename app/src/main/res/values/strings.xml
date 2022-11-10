@@ -29,6 +29,7 @@
     <string name="PetDetailsActivity_intent_PetKey">PetKey</string>
     <string name="PetDetailsActivity_intent_PetLat">PetLat</string>
     <string name="PetDetailsActivity_intent_PetLong">PetLong</string>
+    <string name="flag_Val">flag_Val</string>
 
 
 </resources>

@@ -66,7 +66,7 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-        // calling the action bar
+        //Calling the action bar
         ActionBar actionBar = getSupportActionBar();
 
         // showing the back button in action bar

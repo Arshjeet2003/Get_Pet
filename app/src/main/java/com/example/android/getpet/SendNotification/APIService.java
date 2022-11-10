@@ -1,19 +1,21 @@
 package com.example.android.getpet.SendNotification;
 
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.Headers;
+import retrofit2.http.POST;
 
-//Client class for registering the client
-public class Client {
+public interface APIService {
+    @Headers(
+            {
+                    "Content-Type:application/json",
 
-    private static Retrofit retrofit = null;
+                    // server key for using firebase messaging services
+                    "Authorization:key=AAAAMIzI_cU:APA91bHVvU61_sLjzaLWsvu1RJpKhRzGHGizHKzFPCTILKZDSekDCA3zMLCUGRs40Zm-WyndVwklblrtBXjIyT-s-AcyqHJE49Mg-tIzg_y3R3cR_OhUrTXYCwn5JW5nJUnaTbusu3W-" // Your server key refer to video for finding your server key
+            }
+    )
 
-    public static Retrofit getClient(String url) {
+    @POST("fcm/send")
 
-        // if user not registered register user
-        if (retrofit == null) {
-            retrofit = new Retrofit.Builder().baseUrl(url).addConverterFactory(GsonConverterFactory.create()).build();
-        }
-        return retrofit;
-    }
+    Call<MyResponse> sendNotifcation(@Body NotificationSender body);
 }

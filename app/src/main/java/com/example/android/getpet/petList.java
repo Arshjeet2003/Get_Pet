@@ -66,6 +66,7 @@ public class petList extends Fragment{
     PetsAdapter.OnPetsClickListener onPetsClickListener;
     private FloatingActionButton floatingActionButton;
 
+    //Booleans to check if the various filters were clicked or not.
     private boolean dogFilterUpdate;
     private boolean catFilterUpdate;
     private boolean maleFilterUpdate;
@@ -399,6 +400,8 @@ public class petList extends Fragment{
         mFilterMale.setBackgroundResource(0);
         mFilterFemale.setBackgroundResource(0);
         mFilterDogs.setBackgroundResource(0);
+
+        //Clearing the lists so that pets do not keep getting added.
         filteredCatsList.clear();
         filteredDogsList.clear();
         filteredFemaleList.clear();

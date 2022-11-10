@@ -86,14 +86,15 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
 
         //Getting data from the PetDetailsActivity
         Intent intent = getIntent();
-        mFlag = intent.getBooleanExtra("flagVal",false);
-        if(mFlag){
+        mFlag = intent.getBooleanExtra(getResources().getString(R.string.flag_Val),false);
+        if(mFlag){ //If mFlag is true then we got data from PetDetailsActivity and we have to directly show location to the user.
             mLat = Double.parseDouble(intent.getStringExtra(getResources().getString(R.string.LocationActivity_intent_latitudeData)));
             mLong = Double.parseDouble(intent.getStringExtra(getResources().getString(R.string.LocationActivity_intent_longitudeData)));
             petName = intent.getStringExtra(getResources().getString(R.string.LocationActivity_intent_PetNameData));
             setmyLoc.setVisibility(View.GONE);
         }
         else{
+            //We are getting data from PetsEditorActivity so that we can send the data back after selecting location.
             locPin.setVisibility(View.VISIBLE);
             locData.setVisibility(View.VISIBLE);
             setmyLoc.setVisibility(View.VISIBLE);
@@ -137,16 +138,15 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
-//        View locationButton = ((View) mMapView.findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("2"));
-//        RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams) locationButton.getLayoutParams();
-//         // position on right bottom
-//        rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
-//        rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
-//        rlp.setMargins(0, 180, 180, 0);
-
+        //Initializing mMap with a GoogleMap object.
         mMap = googleMap;
+
+        //Enabling to show my current location.
         mMap.setMyLocationEnabled(true);
+        //Enabling this button helps us to navigate back to our location.
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
+
+        //Listeners to track camera movements.
         mMap.setOnCameraMoveListener(this);
         mMap.setOnCameraMoveStartedListener(this);
         mMap.setOnCameraIdleListener(this);
@@ -169,11 +169,16 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
                         Geocoder geocoder = new Geocoder(LocationActivity.this, Locale.getDefault());
                         //Initialize address List
                         try {
+                            //addresses contains the address of the place based on latitude and longitude.
                             List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
                             mLat = addresses.get(0).getLatitude();
                             mLong = addresses.get(0).getLongitude();
                             LatLng currentLocationLatLng = new LatLng(mLat, mLong);
+
+                            //Moving camera to current location.
                             mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocationLatLng));
+
+                            //Zooming the camera.
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocationLatLng, 18));
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -187,10 +192,11 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
     }
 
     @Override
-    public void onLocationChanged(@NonNull Location location) {
+    public void onLocationChanged(@NonNull Location location){
          Geocoder geocoder = new Geocoder(this, Locale.getDefault());
          List<Address> addresses;
         try {
+            //addresses contains the address of the place based on latitude and longitude.
             addresses = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
             setAddress(addresses.get(0));
         } catch (IOException e) {
@@ -216,6 +222,7 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
     }
 
     private void setAddress(Address address){
+        //Setting address as chosen by the user.
         String addressLine1 = "",addressLine2 = "";
         if(address!=null){
             if(address.getAddressLine(0)!=null){
@@ -224,7 +231,7 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
             if(address.getAddressLine(1)!=null){
                 addressLine2 = address.getAddressLine(1);
             }
-            locAdd = addressLine1+addressLine2;
+            locAdd = addressLine1+addressLine2; //locAdd contains the full address of the pet.
             locData.setText(locAdd);
         }
     }

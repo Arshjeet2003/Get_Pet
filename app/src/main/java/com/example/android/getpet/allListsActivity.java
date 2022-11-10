@@ -35,6 +35,7 @@ public class allListsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_lists);
 
+        //Updating user tokens to send notifications
         UpdateToken();
 
         //Getting user data to be sent to Global Chat Activity and Profile Activity.

@@ -59,6 +59,7 @@ public class PetDetailsActivity extends AppCompatActivity {
     private TextView loc_add;
     private TextView loc_icon;
 
+    //Initializing api service
     private APIService apiService;
     private TextView adoptPet;
     private TextView ownerName_tv;
@@ -77,6 +78,7 @@ public class PetDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pet_details);
 
+        //Passing the value of client class to the api service
         apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
 
         adoptPet = findViewById(R.id.adopt_et);
@@ -261,17 +263,18 @@ public class PetDetailsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 try {
                     final Pets[] pet = {null};
+                    //Getting the data if the pet is favourites of the user from database.
                     FirebaseDatabase.getInstance().getReference("favourites/" + FirebaseAuth.getInstance().getUid() + "/" + key).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             pet[0] = snapshot.getValue(Pets.class);
-                            if (pet[0] == null) {
+                            if (pet[0] == null) { //Getting null value means the current pet is not favourites of the user so set background accordingly.
                                 FirebaseDatabase.getInstance().getReference("favourites/" + FirebaseAuth.getInstance().getUid() + "/" + key)
                                         .setValue(new Pets(petKey, key, petName, animal, breed, age, size, gender,petDescription, imageUrl,
                                                 ownerKey, ownerName, ownerEmail, ownerPic, petLat, petLong,addLoc));
                                 favourites.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.fav_back));
 
-                            } else {
+                            } else { //Removing the pet from favourites if it is already the favourites of the user.
                                 FirebaseDatabase.getInstance().getReference("favourites/" + FirebaseAuth.getInstance().getUid() + "/").child(key).removeValue();
                                 favourites.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.fav_empty));
                             }
@@ -321,9 +324,7 @@ public class PetDetailsActivity extends AppCompatActivity {
         });
     }
 
-
-
-    
+    //Updating the user tokens to send notifications
     private void UpdateToken() {
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(new OnCompleteListener<String>() {
@@ -341,6 +342,7 @@ public class PetDetailsActivity extends AppCompatActivity {
 
     private void updateToken(String token) {
         Token token1 = new Token(token);
+        //Adding the token to the database so that it can be retrieved to send notifications to the user.
         FirebaseDatabase.getInstance().getReference("Tokens").child(FirebaseAuth.getInstance().getUid()).setValue(token1);
     }
 
@@ -375,11 +377,13 @@ public class PetDetailsActivity extends AppCompatActivity {
                 .withListener(new PermissionListener() {
                     @Override
                     public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
+                        //After getting permission send intent to location activity.
                         sendIntentToLocationActivity();
                     }
 
                     @Override
                     public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
+                        //Making an alert dialog box to ask for permissions.
                         if(permissionDeniedResponse.isPermanentlyDenied()){
                             AlertDialog.Builder builder = new AlertDialog.Builder(PetDetailsActivity.this);
                             builder.setTitle("Permission Denied")
@@ -402,6 +406,7 @@ public class PetDetailsActivity extends AppCompatActivity {
 
                     @Override
                     public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
+                        //Continuing permission request
                         permissionToken.continuePermissionRequest();
                     }
                 }).check();
@@ -410,7 +415,7 @@ public class PetDetailsActivity extends AppCompatActivity {
     //Sending data to LocationActivity
     private void sendIntentToLocationActivity(){
         Intent intent2 = new Intent(PetDetailsActivity.this,LocationActivity.class);
-        intent2.putExtra("flagVal",true);
+        intent2.putExtra(getResources().getString(R.string.flag_Val),true);
         intent2.putExtra(getResources().getString(R.string.LocationActivity_intent_latitudeData),petLat);
         intent2.putExtra(getResources().getString(R.string.LocationActivity_intent_longitudeData),petLong);
         intent2.putExtra(getResources().getString(R.string.LocationActivity_intent_PetNameData),petName);
