@@ -18,22 +18,22 @@
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="PETS" />
+            android:text="@string/tabHeading_Pets" />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="MY PETS" />
+            android:text="@string/tabHeading_My_Pets" />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="CHATS" />
+            android:text="@string/tabHeading_Chats" />
 
     <com.google.android.material.tabs.TabItem
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="FAVOURITES" />
+        android:text="@string/tabHeading_Favourirtes" />
 
 </com.google.android.material.tabs.TabLayout>
 
