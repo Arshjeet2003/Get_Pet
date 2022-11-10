@@ -21,14 +21,16 @@ import com.google.firebase.messaging.RemoteMessage;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
-    private static Uri alarmsound;
+    // title and message of notification
     String title="Heading of notification ", ourmessage = " request for pet adoption";
 
     @Override
     public void onMessageReceived(@NonNull RemoteMessage message) {
 
+        // method to create notification channel called
         createNotificationChannel();
 
+<<<<<<< HEAD
         // Create an Intent for the activity you want to start
         Intent resultIntent = new Intent(this, com.example.android.getpet.allListsActivity.class);
 
@@ -41,30 +43,50 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 stackBuilder.getPendingIntent(0,
                         PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
+=======
+        // setting intent to open new activity on clicking notification
+        Intent intent = new Intent(getApplicationContext(),com.example.android.getpet.allListsActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        if(FirebaseAuth.getInstance().getCurrentUser() == null){
+            intent = new Intent(getApplicationContext(), com.example.android.getpet.loginPage.class);
+        }
+
+        // Passing a future intent to our foreign application so as to execute intent with our application's permissions
+        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),1
+                ,intent,PendingIntent.FLAG_ONE_SHOT);
+>>>>>>> 92be46fa531b2bade6f9c2eacdf6568d807a34d1
 
         title = message.getData().get("Title");
         ourmessage = message.getData().get("Message");
-        Bitmap icon = BitmapFactory.decodeResource(getApplicationContext().getResources(),
+        Bitmap icon = BitmapFactory.decodeResource(getApplicationContext().getResources(),   // changing jpg to bitmap
                 R.drawable.app_icon1);
-        alarmsound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
+
+        // creating custom notification using NotificationCompat Builder
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(),"GetPetNotification")
                 .setLargeIcon(icon)
                 .setSmallIcon(R.drawable.notification_)
+<<<<<<< HEAD
                 .setContentTitle(title)
                 .setContentText(ourmessage)
+=======
+                .setContentTitle(title)   // setting title
+                .setContentText(ourmessage)   // setting message of notification
+                .setAutoCancel(true)
+>>>>>>> 92be46fa531b2bade6f9c2eacdf6568d807a34d1
                 .setColor(Color.BLUE)
                 .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(resultPendingIntent);
 
-
+        // initialising notificationManager
         NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(0,builder.build());
     }
 
     private void createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
+        /* Create the NotificationChannel, but only on API 26+ because
+         the NotificationChannel class is new and not in the support library */
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "GetPet_Notification_Channel";
             String description = "This notification channel is for get pet app notifications";
@@ -72,8 +94,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             NotificationChannel channel = new NotificationChannel("GetPetNotification", name, importance);
             channel.setDescription(description);
 
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
+            // Registering the channel with the system
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
