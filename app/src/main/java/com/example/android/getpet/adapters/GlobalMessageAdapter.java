@@ -17,7 +17,9 @@ import com.example.android.getpet.R;
 import java.util.ArrayList;
 
 //Adapter for Global Message Activity
-public class GlobalMessageAdapter extends
+
+public class GlobalMessageAdapter extends 
+
         RecyclerView.Adapter<GlobalMessageAdapter.GlobalMessageHolder> {
 
     private ArrayList<MyMessage> messages;

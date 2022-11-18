@@ -159,6 +159,10 @@ public class AllListsActivity extends AppCompatActivity {
         /*Saving the tokens in the database so that we can access them later
          to send notification to that particular UID.*/
 
+        
+        /*Saving the tokens in the database so that we can access them later 
+         to send notification to that particular UID.*/
+        
         FirebaseDatabase.getInstance().getReference("Tokens")
                 .child(FirebaseAuth.getInstance().getUid()).setValue(token1);
     }
