@@ -121,7 +121,8 @@ public class PetsEditorActivity extends AppCompatActivity{
         petKey = UUID.randomUUID().toString();
         booleanLocationData = intent.getBooleanExtra("locationData",false);
 
-        CircularProgressDrawable circularProgressDrawable = new CircularProgressDrawable(PetsEditorActivity.this);
+        CircularProgressDrawable circularProgressDrawable =
+                new CircularProgressDrawable(PetsEditorActivity.this);
         circularProgressDrawable.setStrokeWidth(5f);
         circularProgressDrawable.setCenterRadius(30f);
         circularProgressDrawable.start();
@@ -274,7 +275,8 @@ public class PetsEditorActivity extends AppCompatActivity{
                     });
                 }
                 else{
-                    Toast.makeText(getApplicationContext(),task.getException().getLocalizedMessage(),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),task.getException().getLocalizedMessage()
+                            ,Toast.LENGTH_SHORT).show();
                 }
                 progressDialog.dismiss();
             }
@@ -313,7 +315,8 @@ public class PetsEditorActivity extends AppCompatActivity{
     private void savePetsData(){
         String key = UUID.randomUUID().toString();
         try {
-            FirebaseDatabase.getInstance().getReference("user's_pet/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/pet/" + key)
+            FirebaseDatabase.getInstance().getReference("user's_pet/"
+                    + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/pet/" + key)
                     .setValue(new Pets(petKey, key, animalName_et.getText().toString(), animal_et.getText().toString(), breed_et.getText().toString(),
                             age_et.getText().toString(), size_et.getText().toString(), mGender,desc_et.getText().toString(),PetPicUrl
                             , FirebaseAuth.getInstance().getCurrentUser().getUid(), userData.getName(), userData.getEmail(), userData.getProfilePic()
@@ -327,9 +330,11 @@ public class PetsEditorActivity extends AppCompatActivity{
         }
         catch (Exception e){
             e.printStackTrace();
-            Toast.makeText(getApplicationContext(), "Slow Internet Connection", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Slow Internet Connection",
+                    Toast.LENGTH_SHORT).show();
         }
-        Toast.makeText(getApplicationContext(), "Your pet has been added.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Your pet has been added.",
+                Toast.LENGTH_SHORT).show();
         startActivity(new Intent(PetsEditorActivity.this, AllListsActivity.class));
         finish();
     }
@@ -337,7 +342,8 @@ public class PetsEditorActivity extends AppCompatActivity{
     //Updating the already created pet data.
     private void updatePetsData() {
         try {
-            FirebaseDatabase.getInstance().getReference("user's_pet/" + FirebaseAuth.getInstance().getUid() + "/pet/" + mKey)
+            FirebaseDatabase.getInstance().getReference("user's_pet/"
+                    + FirebaseAuth.getInstance().getUid() + "/pet/" + mKey)
                     .setValue(new Pets(petKey, mKey, animalName_et.getText().toString(), animal_et.getText().toString(), breed_et.getText().toString(),
                             age_et.getText().toString(), size_et.getText().toString(), mGender,desc_et.getText().toString(), PetPicUrl
                             , FirebaseAuth.getInstance().getCurrentUser().getUid(), userData.getName(), userData.getEmail(), userData.getProfilePic(),
@@ -351,9 +357,12 @@ public class PetsEditorActivity extends AppCompatActivity{
         }
         catch (Exception e){
             e.printStackTrace();
-            Toast.makeText(getApplicationContext(), "Slow Internet Connection", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Slow Internet Connection",
+                    Toast.LENGTH_SHORT).show();
         }
-        Toast.makeText(getApplicationContext(), "Your pet has been updated.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Your pet has been updated.",
+                Toast.LENGTH_SHORT).show();
+
         startActivity(new Intent(PetsEditorActivity.this, AllListsActivity.class));
         finish();
     }
@@ -417,38 +426,47 @@ public class PetsEditorActivity extends AppCompatActivity{
 
     private boolean checkData() {
         if(PetPicUrl.isEmpty()){
-            Toast.makeText(getApplicationContext(), "Please upload pet picture.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Please upload pet picture.",
+                    Toast.LENGTH_SHORT).show();
             return false;
         }
         if(animal_et.getText().toString().isEmpty()){
-            Toast.makeText(getApplicationContext(), "Please enter pet type.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Please enter pet type.",
+                    Toast.LENGTH_SHORT).show();
             return false;
         }
         if(animalName_et.getText().toString().isEmpty()) {
-            Toast.makeText(getApplicationContext(), "Please enter pet name.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Please enter pet name.",
+                    Toast.LENGTH_SHORT).show();
             return false;
         }
         if(breed_et.getText().toString().isEmpty()){
-            Toast.makeText(getApplicationContext(), "Please enter pet breed.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Please enter pet breed.",
+                    Toast.LENGTH_SHORT).show();
             return false;
         }
         if(size_et.getText().toString().isEmpty()){
-            Toast.makeText(getApplicationContext(), "Please enter pet size.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Please enter pet size.",
+                    Toast.LENGTH_SHORT).show();
             return false;
         }
         if(age_et.getText().toString().isEmpty()){
-            Toast.makeText(getApplicationContext(), "Please enter pet age.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Please enter pet age.",
+                    Toast.LENGTH_SHORT).show();
             return false;
         }
         if(mGender.isEmpty()){
-            Toast.makeText(getApplicationContext(), "Please enter pet gender.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Please enter pet gender.",
+                    Toast.LENGTH_SHORT).show();
             return false;
         }
         if(desc_et.getText().toString().isEmpty()){
-            Toast.makeText(getApplicationContext(),"Please enter something about your pet.",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"Please enter something about your pet.",
+                    Toast.LENGTH_SHORT).show();
         }
         if(mLat.isEmpty() || mLong.isEmpty() || LocAdd.isEmpty()){
-            Toast.makeText(getApplicationContext(), "Please set pet location.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Please set pet location.",
+                    Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
@@ -463,11 +481,15 @@ public class PetsEditorActivity extends AppCompatActivity{
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        FirebaseDatabase.getInstance().getReference("user's_pet/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/pet")
+                        FirebaseDatabase.getInstance().getReference("user's_pet/"
+                                +FirebaseAuth.getInstance().getCurrentUser().getUid()+"/pet")
                                 .child(mKey).removeValue();
                         FirebaseDatabase.getInstance().getReference("pet")
                                 .child(mKey).removeValue();
-                        Toast.makeText(getApplicationContext(), "Pet Deleted", Toast.LENGTH_SHORT).show();
+
+                        Toast.makeText(getApplicationContext(), "Pet Deleted",
+                                Toast.LENGTH_SHORT).show();
+
                         startActivity(new Intent(PetsEditorActivity.this, AllListsActivity.class));
                     }
                 }).show();
