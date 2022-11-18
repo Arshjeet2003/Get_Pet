@@ -69,7 +69,8 @@ public class ProfileActivity extends AppCompatActivity {
             number_tv.setText(intent.getStringExtra("sender_number"));
         }
 
-        CircularProgressDrawable circularProgressDrawable = new CircularProgressDrawable(ProfileActivity.this);
+        CircularProgressDrawable circularProgressDrawable =
+                new CircularProgressDrawable(ProfileActivity.this);
         circularProgressDrawable.setStrokeWidth(5f);
         circularProgressDrawable.setCenterRadius(30f);
         circularProgressDrawable.start();
@@ -168,11 +169,13 @@ public class ProfileActivity extends AppCompatActivity {
                             }
                         }
                     });
-                    Toast.makeText(ProfileActivity.this, "Image Uploaded", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ProfileActivity.this, "Image Uploaded",
+                            Toast.LENGTH_SHORT).show();
                 }
 
                 else{
-                    Toast.makeText(ProfileActivity.this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ProfileActivity.this, task.getException().getLocalizedMessage(),
+                            Toast.LENGTH_SHORT).show();
                 }
                 progressDialog.dismiss(); //on completion in either case dismiss process dialog
 
