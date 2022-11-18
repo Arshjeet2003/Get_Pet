@@ -45,6 +45,7 @@
     <string name="breed_text_user_per_holder">breed</string>
     <string name="gender_User_Pet_holder">gender</string>
     <string name="animal_text_pet_Holder">animal</string>
+    <string name="flag_Val">flag_Val</string>
 
 
 </resources>
