@@ -143,7 +143,8 @@ public class ChatActivity extends AppCompatActivity {
     //Retrieving messages from database, adding in messages arraylist.
     private void attachMessageListener(){
         try {
-            FirebaseDatabase.getInstance().getReference("messages/" + mChatroomId).addValueEventListener(new ValueEventListener() {
+            FirebaseDatabase.getInstance().getReference("messages/" + mChatroomId)
+                    .addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     messages.clear();
@@ -166,7 +167,8 @@ public class ChatActivity extends AppCompatActivity {
             });
         }
         catch (Exception e){
-            Toast.makeText(getApplicationContext(), "Slow Internet Connection", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Slow Internet Connection",
+                    Toast.LENGTH_SHORT).show();
         }
     }
 

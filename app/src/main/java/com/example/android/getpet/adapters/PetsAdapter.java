@@ -20,7 +20,8 @@ import com.example.android.getpet.models.Pets;
 import java.util.ArrayList;
 
 //Adapter for petList.
-public class PetsAdapter extends RecyclerView.Adapter<PetsAdapter.PetsHolder> implements Filterable{
+public class PetsAdapter extends
+        RecyclerView.Adapter<PetsAdapter.PetsHolder> implements Filterable{
 
     private ArrayList<Pets> petsListBackup;
     private ArrayList<Pets> pets;

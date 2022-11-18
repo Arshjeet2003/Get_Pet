@@ -68,7 +68,9 @@ public class loginPage extends AppCompatActivity {
             public void onClick(View view) {
                 //Checking that text entered in the email and password is empty or not.
                 if(email.getText().toString().isEmpty() || pass.getText().toString().isEmpty()){
-                    Toast.makeText(getApplicationContext(),"Invalid Input",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"Invalid Input",
+                            Toast.LENGTH_SHORT).show();
+
                     return;
                 }
                 handleLogin();
@@ -93,7 +95,7 @@ public class loginPage extends AppCompatActivity {
                  if(task.isSuccessful()){ //Checking if the task to sign in user was successful or not.
 
                      FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                     //If the user's email is verified then send him to allListsActivity where he can see all the pets added.
+                     //If the user's email is verified then send him to allListsActivity
                      if(firebaseUser.isEmailVerified()){
                          Toast.makeText(getApplicationContext(),"Logged in successful",Toast.LENGTH_SHORT).show();
                          startActivity(new Intent(loginPage.this, AllListsActivity.class));
@@ -108,7 +110,8 @@ public class loginPage extends AppCompatActivity {
                  }
                  else{
                      //If the task is not successful toast the exception.
-                     Toast.makeText(getApplicationContext(), "Slow Internet Connection", Toast.LENGTH_SHORT).show();
+                     Toast.makeText(getApplicationContext(), "Slow Internet Connection",
+                             Toast.LENGTH_SHORT).show();
                  }
              }
          });
@@ -123,8 +126,11 @@ public class loginPage extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                        Intent intent = new Intent(Intent.ACTION_MAIN);
+
                        intent.addCategory(Intent.CATEGORY_APP_EMAIL); //To open an email app
-                       intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //To open email app in new window not within our app so that on pressing back our app does not close.
+
+                        //To open email app in new window not within our app so that on pressing back our app does not close.
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                     }
                 }).show();

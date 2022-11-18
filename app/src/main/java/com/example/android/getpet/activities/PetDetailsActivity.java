@@ -143,12 +143,14 @@ public class PetDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Fetching the token of pet owner using his UUID which is saved in ownerKey.
-                FirebaseDatabase.getInstance().getReference().child("Tokens").child(ownerKey).child("token")
+                FirebaseDatabase.getInstance().getReference().child("Tokens").child(ownerKey)
+                        .child("token")
                         .addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 String usertoken=snapshot.getValue(String.class);
-                                sendNotifications(usertoken,"Request for pet adoption!", senderName + " wants to adopt "+petName);
+                                sendNotifications(usertoken,"Request for pet adoption!",
+                                        senderName + " wants to adopt "+petName);
                             }
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {
@@ -164,14 +166,20 @@ public class PetDetailsActivity extends AppCompatActivity {
         try {
             final Pets[] pet = {null};
             //Getting the data if the pet is favourites of the user from database.
-            FirebaseDatabase.getInstance().getReference("favourites/" + FirebaseAuth.getInstance().getUid() + "/" + key).addListenerForSingleValueEvent(new ValueEventListener() {
+            FirebaseDatabase.getInstance().getReference("favourites/"
+                    + FirebaseAuth.getInstance().getUid() + "/" + key)
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     pet[0] = snapshot.getValue(Pets.class);
-                    if (pet[0] == null) { //Getting null value means the current pet is not favourites of the user so set background accordingly.
-                        favourites.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.fav_empty));
+                    if (pet[0] == null) {
+                        //Getting null value means the current pet is not favourites of the user so set background accordingly.
+                        favourites.setBackground(ContextCompat.getDrawable(getApplicationContext(),
+                                R.drawable.fav_empty));
                     } else {
-                       favourites.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.fav_back));
+                       favourites.setBackground(ContextCompat.getDrawable(getApplicationContext(),
+                               R.drawable.fav_back));
                     }
                 }
 
@@ -183,12 +191,15 @@ public class PetDetailsActivity extends AppCompatActivity {
         }
         catch (Exception e){
             e.printStackTrace();
-            Toast.makeText(getApplicationContext(), "Slow Internet Connection", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Slow Internet Connection",
+                    Toast.LENGTH_SHORT).show();
         }
 
         try {
             //Getting data about user from database.
-            FirebaseDatabase.getInstance().getReference("users/" + FirebaseAuth.getInstance().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            FirebaseDatabase.getInstance().getReference("users/" +
+                    FirebaseAuth.getInstance().getUid())
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     senderName = snapshot.getValue(User.class).getName();
@@ -204,23 +215,28 @@ public class PetDetailsActivity extends AppCompatActivity {
         }
         catch (Exception e){
             e.printStackTrace();
-            Toast.makeText(getApplicationContext(), "Slow Internet Connection", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),
+                    "Slow Internet Connection", Toast.LENGTH_SHORT).show();
         }
 
-        CircularProgressDrawable circularProgressDrawable = new CircularProgressDrawable(PetDetailsActivity.this);
+        CircularProgressDrawable circularProgressDrawable =
+                new CircularProgressDrawable(PetDetailsActivity.this);
+
         circularProgressDrawable.setStrokeWidth(5f);
         circularProgressDrawable.setCenterRadius(30f);
         circularProgressDrawable.start();
 
         //Using Glide library to put image of pet in imageView.
         if (imageUrl.isEmpty()) {
-            Glide.with(getApplicationContext()).load(R.drawable.account_img).error(R.drawable.account_img)
+            Glide.with(getApplicationContext()).load(R.drawable.account_img)
+                    .error(R.drawable.account_img)
                     .placeholder(circularProgressDrawable)
                     .into(pic_details_et);
         } else {
 
 
-            Glide.with(getApplicationContext()).load(imageUrl).error(R.drawable.account_img)
+            Glide.with(getApplicationContext()).load(imageUrl)
+                    .error(R.drawable.account_img)
                     .placeholder(circularProgressDrawable)
                     .into(pic_details_et);
         }
@@ -230,7 +246,8 @@ public class PetDetailsActivity extends AppCompatActivity {
         }
         else{
 
-            Glide.with(getApplicationContext()).load(ownerPic).error(R.drawable.account_img)
+            Glide.with(getApplicationContext()).load(ownerPic)
+                    .error(R.drawable.account_img)
                     .placeholder(circularProgressDrawable)
                     .into(ownerPic_tv);
         }
@@ -267,18 +284,22 @@ public class PetDetailsActivity extends AppCompatActivity {
                 try {
                     final Pets[] pet = {null};
                     //Getting the data if the pet is favourites of the user from database.
-                    FirebaseDatabase.getInstance().getReference("favourites/" + FirebaseAuth.getInstance().getUid() + "/" + key).addListenerForSingleValueEvent(new ValueEventListener() {
+                    FirebaseDatabase.getInstance().getReference("favourites/"
+                            + FirebaseAuth.getInstance().getUid() + "/" + key)
+                            .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             pet[0] = snapshot.getValue(Pets.class);
-                            if (pet[0] == null) { //Getting null value means the current pet is not favourites of the user so set background accordingly.
-                                FirebaseDatabase.getInstance().getReference("favourites/" + FirebaseAuth.getInstance().getUid() + "/" + key)
+                            if (pet[0] == null) { //Getting null value means the current pet is not favourites of the user.
+                                FirebaseDatabase.getInstance().getReference("favourites/"
+                                        + FirebaseAuth.getInstance().getUid() + "/" + key)
                                         .setValue(new Pets(petKey, key, petName, animal, breed, age, size, gender,petDescription, imageUrl,
                                                 ownerKey, ownerName, ownerEmail, ownerPic, petLat, petLong,addLoc));
                                 favourites.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.fav_back));
 
                             } else { //Removing the pet from favourites if it is already the favourites of the user.
-                                FirebaseDatabase.getInstance().getReference("favourites/" + FirebaseAuth.getInstance().getUid() + "/").child(key).removeValue();
+                                FirebaseDatabase.getInstance().getReference("favourites/"
+                                        + FirebaseAuth.getInstance().getUid() + "/").child(key).removeValue();
                                 favourites.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.fav_empty));
                             }
                         }
@@ -291,7 +312,8 @@ public class PetDetailsActivity extends AppCompatActivity {
                 }
                 catch (Exception e){
                     e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), "Slow Internet Connection", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Slow Internet Connection",
+                            Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -302,7 +324,8 @@ public class PetDetailsActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 //Checking if we have permission for location.
-                if(ContextCompat.checkSelfPermission(PetDetailsActivity.this,Manifest.permission.ACCESS_FINE_LOCATION)
+                if(ContextCompat.checkSelfPermission(PetDetailsActivity.this,
+                        Manifest.permission.ACCESS_FINE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED){
                     sendIntentToLocationActivity();
                 }
@@ -316,7 +339,8 @@ public class PetDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Checking if we have permission for location.
-                if(ContextCompat.checkSelfPermission(PetDetailsActivity.this,Manifest.permission.ACCESS_FINE_LOCATION)
+                if(ContextCompat.checkSelfPermission(PetDetailsActivity.this,
+                        Manifest.permission.ACCESS_FINE_LOCATION)
                         == PackageManager.PERMISSION_GRANTED){
                     sendIntentToLocationActivity();
                 }
@@ -334,7 +358,8 @@ public class PetDetailsActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<String> task) {
                         if(!task.isSuccessful()){
-                            Toast.makeText(PetDetailsActivity.this, "New token failed", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(PetDetailsActivity.this,
+                                    "New token failed", Toast.LENGTH_SHORT).show();
                             return;
                         }
                         String token = task.getResult();
@@ -346,7 +371,8 @@ public class PetDetailsActivity extends AppCompatActivity {
     private void updateToken(String token) {
         Token token1 = new Token(token);
         //Adding the token to the database so that it can be retrieved to send notifications to the user.
-        FirebaseDatabase.getInstance().getReference("Tokens").child(FirebaseAuth.getInstance().getUid()).setValue(token1);
+        FirebaseDatabase.getInstance().getReference("Tokens")
+                .child(FirebaseAuth.getInstance().getUid()).setValue(token1);
     }
 
     //This Method Sends the notifications combining all class of
@@ -361,9 +387,13 @@ public class PetDetailsActivity extends AppCompatActivity {
                 if (response.code() == 200) {
                     assert response.body() != null;
                     if (response.body().success != 1) {
-                        Toast.makeText(PetDetailsActivity.this, "Sorry Pet owner could not be informed. Please try again later.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(PetDetailsActivity.this,
+                                "Sorry Pet owner could not be informed. Please try again later.",
+                                Toast.LENGTH_LONG).show();
                     }else {
-                        Toast.makeText(getApplicationContext(),"Pet owner of this pet has been informed.",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),
+                                "Pet owner of this pet has been informed.",
+                                Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -408,7 +438,8 @@ public class PetDetailsActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
+                    public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest,
+                                                                   PermissionToken permissionToken) {
                         //Continuing permission request
                         permissionToken.continuePermissionRequest();
                     }

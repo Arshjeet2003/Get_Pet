@@ -17,7 +17,8 @@ import com.example.android.getpet.R;
 import java.util.ArrayList;
 
 //Adapter for Global Message Activity
-public class GlobalMessageAdapter extends RecyclerView.Adapter<GlobalMessageAdapter.GlobalMessageHolder> {
+public class GlobalMessageAdapter extends
+        RecyclerView.Adapter<GlobalMessageAdapter.GlobalMessageHolder> {
 
     private ArrayList<MyMessage> messages;
     private Context context;
@@ -50,16 +51,22 @@ public class GlobalMessageAdapter extends RecyclerView.Adapter<GlobalMessageAdap
         /*Using Constraints to stick the messages send by sender to right and stick the messages
           of the receiver to the left*/
         if(messages.get(position).getSenderEmail().equals(senderEmail)){
-            Glide.with(context).load(messages.get(position).getSenderPic()).error(R.drawable.account_img).placeholder(R.drawable.account_img)
+            Glide.with(context).load(messages.get(position).getSenderPic())
+                    .error(R.drawable.account_img)
+                    .placeholder(R.drawable.account_img)
                     .into(holder.profImg);
+
             ConstraintSet constraintSet = new ConstraintSet();
             constraintSet.clone(constraintLayout);
             constraintSet.clear(R.id.global_chat_sender_name_tv,constraintSet.LEFT);
             constraintSet.clear(R.id.global_message_cardView,ConstraintSet.LEFT);
             constraintSet.clear(R.id.global_msg_tv,ConstraintSet.LEFT);
-            constraintSet.connect(R.id.global_message_cardView,ConstraintSet.RIGHT,R.id.constraintView,ConstraintSet.RIGHT,0);
-            constraintSet.connect(R.id.global_chat_sender_name_tv,ConstraintSet.RIGHT,R.id.constraintView,ConstraintSet.RIGHT,0);
-            constraintSet.connect(R.id.global_msg_tv,ConstraintSet.RIGHT,R.id.global_message_cardView,ConstraintSet.LEFT,0);
+            constraintSet.connect(R.id.global_message_cardView,
+                    ConstraintSet.RIGHT,R.id.constraintView,ConstraintSet.RIGHT,0);
+            constraintSet.connect(R.id.global_chat_sender_name_tv,
+                    ConstraintSet.RIGHT,R.id.constraintView,ConstraintSet.RIGHT,0);
+            constraintSet.connect(R.id.global_msg_tv,
+                    ConstraintSet.RIGHT,R.id.global_message_cardView,ConstraintSet.LEFT,0);
             constraintSet.applyTo(constraintLayout);
         }
         else{
@@ -70,9 +77,12 @@ public class GlobalMessageAdapter extends RecyclerView.Adapter<GlobalMessageAdap
             constraintSet.clear(R.id.global_chat_sender_name_tv,ConstraintSet.RIGHT);
             constraintSet.clear(R.id.global_message_cardView,ConstraintSet.RIGHT);
             constraintSet.clear(R.id.global_msg_tv,ConstraintSet.RIGHT);
-            constraintSet.connect(R.id.global_message_cardView,ConstraintSet.LEFT,R.id.constraintView,ConstraintSet.LEFT,0);
-            constraintSet.connect(R.id.global_chat_sender_name_tv,ConstraintSet.LEFT,R.id.constraintView,ConstraintSet.LEFT,0);
-            constraintSet.connect(R.id.global_msg_tv,ConstraintSet.LEFT,R.id.global_message_cardView,ConstraintSet.RIGHT,0);
+            constraintSet.connect(R.id.global_message_cardView,
+                    ConstraintSet.LEFT,R.id.constraintView,ConstraintSet.LEFT,0);
+            constraintSet.connect(R.id.global_chat_sender_name_tv,
+                    ConstraintSet.LEFT,R.id.constraintView,ConstraintSet.LEFT,0);
+            constraintSet.connect(R.id.global_msg_tv,
+                    ConstraintSet.LEFT,R.id.global_message_cardView,ConstraintSet.RIGHT,0);
             constraintSet.applyTo(constraintLayout);
         }
     }
