@@ -23,7 +23,8 @@ public class UserPetAdapter extends RecyclerView.Adapter<UserPetAdapter.UserPets
     private Context context;
     private OnUserPetsClickListener onUserPetsClickListener;
 
-    public UserPetAdapter(ArrayList<Pets> userPets, Context context, UserPetAdapter.OnUserPetsClickListener onUserPetsClickListener) {
+    public UserPetAdapter(ArrayList<Pets> userPets, Context context,
+                          UserPetAdapter.OnUserPetsClickListener onUserPetsClickListener) {
         this.userPets = userPets;
         this.context = context;
         this.onUserPetsClickListener = onUserPetsClickListener;
@@ -48,13 +49,16 @@ public class UserPetAdapter extends RecyclerView.Adapter<UserPetAdapter.UserPets
         holder.User_breed.setText(userPets.get(position).getBreed());
         holder.User_location.setText(userPets.get(position).getLocation());
 
-        CircularProgressDrawable circularProgressDrawable = new CircularProgressDrawable(context);
+        CircularProgressDrawable circularProgressDrawable =
+                new CircularProgressDrawable(context);
         circularProgressDrawable.setStrokeWidth(5f);
         circularProgressDrawable.setCenterRadius(30f);
         circularProgressDrawable.start();
 
-        Glide.with(context).load(userPets.get(position).getProfilePic()).error(R.drawable.account_img)
-                .placeholder(circularProgressDrawable).into(holder.User_pic);
+        Glide.with(context).load(userPets.get(position).getProfilePic())
+                .error(R.drawable.account_img)
+                .placeholder(circularProgressDrawable)
+                .into(holder.User_pic);
 
     }
 
