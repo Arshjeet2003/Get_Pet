@@ -29,23 +29,31 @@
     <string name="PetDetailsActivity_intent_PetKey">PetKey</string>
     <string name="PetDetailsActivity_intent_PetLat">PetLat</string>
     <string name="PetDetailsActivity_intent_PetLong">PetLong</string>
+
     <string name="tabHeading_Pets">PETS</string>
     <string name="tabHeading_Chats">CHATS</string>
-    <string name="tabHeading_Favourirtes">FAVOURITES</string>
+    <string name="tabHeading_Favourites">FAVOURITES</string>
     <string name="tabHeading_My_Pets">MY PETS</string>
+
     <string name="set_location_Activity_location">Set Location</string>
+
     <string name="email_hint_Activity_login_page">E-mail</string>
     <string name="password_hint_Activity_login_page">Password</string>
+
     <string name="name_hint_Activity_main">John</string>
     <string name="email_hint_Activity_main">mail@gmail.com</string>
     <string name="number_hint_Activity_main">Number</string>
     <string name="password_hint_Activity_main">Password</string>
+
     <string name="animalName_hint_Pets_Editor">Tommy</string>
     <string name="breed_hint_Pets_editor">German Shepherd</string>
+
     <string name="breed_text_user_per_holder">breed</string>
     <string name="gender_User_Pet_holder">gender</string>
     <string name="animal_text_pet_Holder">animal</string>
+
     <string name="flag_Val">flag_Val</string>
+
 
 
 </resources>
