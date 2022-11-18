@@ -20,14 +20,16 @@ import com.example.android.getpet.R;
 import java.util.ArrayList;
 
 //Adapter for menuChats Activity.
-public class MenuChatsAdapter extends RecyclerView.Adapter<MenuChatsAdapter.MenuChatsHolder> implements Filterable {
+public class MenuChatsAdapter extends
+        RecyclerView.Adapter<MenuChatsAdapter.MenuChatsHolder> implements Filterable {
 
     private ArrayList<DetailsOfChatRoom> chatRoomsBackup;
     private ArrayList<DetailsOfChatRoom> chatRooms;
     private Context context;
     private MenuChatsAdapter.OnChatClickListener onChatClickListener;
 
-    public MenuChatsAdapter(ArrayList<DetailsOfChatRoom> chatRooms, Context context, MenuChatsAdapter.OnChatClickListener onChatClickListener) {
+    public MenuChatsAdapter(ArrayList<DetailsOfChatRoom> chatRooms, Context context,
+                            MenuChatsAdapter.OnChatClickListener onChatClickListener) {
         this.chatRooms = chatRooms;
         this.context = context;
         this.onChatClickListener = onChatClickListener;
@@ -63,7 +65,8 @@ public class MenuChatsAdapter extends RecyclerView.Adapter<MenuChatsAdapter.Menu
         circularProgressDrawable.setCenterRadius(30f);
         circularProgressDrawable.start();
 
-        Glide.with(context).load(chatRooms.get(position).getReceiverProfilePic()).error(R.drawable.account_img)
+        Glide.with(context).load(chatRooms.get(position).getReceiverProfilePic())
+                .error(R.drawable.account_img)
                 .placeholder(circularProgressDrawable).into(holder.User_pic);
 
     }
@@ -85,7 +88,9 @@ public class MenuChatsAdapter extends RecyclerView.Adapter<MenuChatsAdapter.Menu
             }
             else {
                 for (DetailsOfChatRoom detailsOfChatRoom : chatRoomsBackup){
-                    if(detailsOfChatRoom.getReceiverName().toLowerCase().trim().contains(constraint.toString().toLowerCase())){
+                    if(detailsOfChatRoom.getReceiverName()
+                            .toLowerCase().trim()
+                            .contains(constraint.toString().toLowerCase())){
                         filteredChatRooms.add(detailsOfChatRoom);
                     }
                 }
