@@ -83,7 +83,7 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
         //Getting data from the PetDetailsActivity
         Intent intent = getIntent();
         mFlag = intent.getBooleanExtra(getResources().getString(R.string.flag_Val),false);
-        if(mFlag){ //If mFlag is true then we got data from PetDetailsActivity and we have to directly show location to the user.
+        if(mFlag){ //If mFlag is true then we got data from PetDetailsActivity
             mLat = Double.parseDouble(intent.getStringExtra(getResources().getString(R.string.LocationActivity_intent_latitudeData)));
             mLong = Double.parseDouble(intent.getStringExtra(getResources().getString(R.string.LocationActivity_intent_longitudeData)));
             petName = intent.getStringExtra(getResources().getString(R.string.LocationActivity_intent_PetNameData));
@@ -166,7 +166,9 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
                         //Initialize address List
                         try {
                             //addresses contains the address of the place based on latitude and longitude.
-                            List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                            List<Address> addresses = geocoder.getFromLocation(location.getLatitude(),
+                                    location.getLongitude(), 1);
+
                             mLat = addresses.get(0).getLatitude();
                             mLong = addresses.get(0).getLongitude();
                             LatLng currentLocationLatLng = new LatLng(mLat, mLong);
@@ -178,7 +180,8 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocationLatLng, 18));
                         } catch (IOException e) {
                             e.printStackTrace();
-                            Toast.makeText(getApplicationContext(), "Slow Internet Connection", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Slow Internet Connection",
+                                    Toast.LENGTH_SHORT).show();
                         }
 
                     }
@@ -237,12 +240,15 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
         List<Address> addresses;
         try {
-            addresses = geocoder.getFromLocation(mMap.getCameraPosition().target.latitude,mMap.getCameraPosition().target.longitude,1);
+            addresses = geocoder.getFromLocation(mMap.getCameraPosition().target.latitude,
+                    mMap.getCameraPosition().target.longitude,1);
+
             mLat = addresses.get(0).getLatitude();
             mLong = addresses.get(0).getLongitude();
             setAddress(addresses.get(0));
         } catch (IOException | IndexOutOfBoundsException e) {
-            Toast.makeText(getApplicationContext(), "Slow Internet Connection", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Slow Internet Connection",
+                    Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
     }
