@@ -79,14 +79,18 @@ public class GlobalChatActivity extends AppCompatActivity {
 
     private void attachMessageListener(){
         try {
-            FirebaseDatabase.getInstance().getReference("globalMessages").addValueEventListener(new ValueEventListener() {
+            FirebaseDatabase.getInstance().getReference("globalMessages")
+                    .addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     messages.clear();
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                         messages.add(dataSnapshot.getValue(MyMessage.class));
                     }
-                    globalMessageAdapter = new GlobalMessageAdapter(messages, FirebaseAuth.getInstance().getCurrentUser().getEmail(), GlobalChatActivity.this);
+                    globalMessageAdapter = new GlobalMessageAdapter(messages,
+                            FirebaseAuth.getInstance().getCurrentUser().getEmail(),
+                            GlobalChatActivity.this);
+
                     globalMessageAdapter.notifyDataSetChanged();
                     recyclerView.setLayoutManager(new LinearLayoutManager(GlobalChatActivity.this));
                     recyclerView.setAdapter(globalMessageAdapter);
@@ -102,7 +106,8 @@ public class GlobalChatActivity extends AppCompatActivity {
             });
         }
         catch (Exception e){
-            Toast.makeText(getApplicationContext(), "Slow Internet Connection", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Slow Internet Connection",
+                    Toast.LENGTH_SHORT).show();
         }
     }
 
