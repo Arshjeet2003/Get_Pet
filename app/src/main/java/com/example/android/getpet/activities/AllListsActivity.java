@@ -57,7 +57,9 @@ public class AllListsActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
 
         //Setting up VP adapter and adding fragments to be shown.
-        VPadapter vPadapter = new VPadapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        VPadapter vPadapter = new VPadapter(getSupportFragmentManager(),
+                FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+
         vPadapter.addFragment(new PetList(),"Pets");
         vPadapter.addFragment(new UserChats(),"Chats");
         vPadapter.addFragment(new UserPetList(),"My Pets");
@@ -77,11 +79,12 @@ public class AllListsActivity extends AppCompatActivity {
     //Setting what happens when any menu item is clicked.
     public boolean onOptionsItemSelected(MenuItem item){
         if(item.getItemId()==R.id.menu_item_profile){
-            if(!senderName.isEmpty()) { //After receiving data from the database senderName will not be empty.
+            if(!senderName.isEmpty()) { //Data received
 
                 //Sending data to profile activity.
                 Intent intent = new Intent(AllListsActivity.this, ProfileActivity.class);
-                intent.putExtra("update_from_allList",true); //Sending boolean value which can be used to check the data is coming from allList
+
+                intent.putExtra("update_from_allList",true);
                 intent.putExtra("sender_name", senderName);
                 intent.putExtra("sender_pic", senderPic);
                 intent.putExtra("sender_number",senderNumber);
