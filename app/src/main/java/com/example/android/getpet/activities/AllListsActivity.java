@@ -43,7 +43,7 @@ public class AllListsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_lists);
 
-        //Updating user tokens to send notifications
+        //Updating user tokens
         UpdateToken();
 
         //Getting user data to be sent to Global Chat Activity and Profile Activity.
@@ -92,7 +92,7 @@ public class AllListsActivity extends AppCompatActivity {
             }
         }
         if(item.getItemId()==R.id.menu_item_globalChat){
-            if(!senderName.isEmpty()) { //After receiving data from the database senderName will not be empty.
+            if(!senderName.isEmpty()) { //Data received
 
                 //Sending data to globalChat activity.
                 Intent intent = new Intent(AllListsActivity.this, GlobalChatActivity.class);
@@ -109,7 +109,9 @@ public class AllListsActivity extends AppCompatActivity {
         try {
 
             //Getting data about user from database.
-            FirebaseDatabase.getInstance().getReference("users/" + FirebaseAuth.getInstance().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            FirebaseDatabase.getInstance().getReference("users/" + 
+                    FirebaseAuth.getInstance().getUid())
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
 
@@ -128,7 +130,8 @@ public class AllListsActivity extends AppCompatActivity {
         }
         catch (Exception e){
             e.printStackTrace();
-            Toast.makeText(getApplicationContext(), "Slow Internet Connection", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"Slow Internet Connection",
+                    Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -139,7 +142,8 @@ public class AllListsActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<String> task) {
                         if(!task.isSuccessful()){ //If the task is not successful we give toast and return.
-                            Toast.makeText(AllListsActivity.this, "New token failed", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AllListsActivity.this, "New token failed",
+                                    Toast.LENGTH_SHORT).show();
                             return;
                         }
                         //String token contains the result of the task i.e tokens
@@ -151,8 +155,11 @@ public class AllListsActivity extends AppCompatActivity {
 
     private void updateToken(String token) {
         Token token1 = new Token(token);
-
-        //Saving the tokens in the database so that we can access them later to send notification to that particular UID.
-        FirebaseDatabase.getInstance().getReference("Tokens").child(FirebaseAuth.getInstance().getUid()).setValue(token1);
+        
+        /*Saving the tokens in the database so that we can access them later 
+         to send notification to that particular UID.*/
+        
+        FirebaseDatabase.getInstance().getReference("Tokens")
+                .child(FirebaseAuth.getInstance().getUid()).setValue(token1);
     }
 }
