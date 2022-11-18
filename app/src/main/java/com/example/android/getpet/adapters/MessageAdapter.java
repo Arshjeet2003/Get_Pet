@@ -20,7 +20,8 @@ import java.util.ArrayList;
 //Adapter for ChatActivity
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageHolder> {
 
-    public MessageAdapter(ArrayList<Message> messages, String senderImg, String receiverImg, Context context) {
+    public MessageAdapter(ArrayList<Message> messages, String senderImg,
+                          String receiverImg, Context context) {
         this.messages = messages;
         this.senderImg = senderImg;
         this.receiverImg = receiverImg;
@@ -56,19 +57,24 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageH
             constraintSet.clone(constraintLayout);
             constraintSet.clear(R.id.message_cardView,ConstraintSet.LEFT);
             constraintSet.clear(R.id.msg_tv,ConstraintSet.LEFT);
-            constraintSet.connect(R.id.message_cardView,ConstraintSet.RIGHT,R.id.constraintView,ConstraintSet.RIGHT,0);
-            constraintSet.connect(R.id.msg_tv,ConstraintSet.RIGHT,R.id.message_cardView,ConstraintSet.LEFT,0);
+            constraintSet.connect(R.id.message_cardView,
+                    ConstraintSet.RIGHT,R.id.constraintView,ConstraintSet.RIGHT,0);
+            constraintSet.connect(R.id.msg_tv,
+                    ConstraintSet.RIGHT,R.id.message_cardView,ConstraintSet.LEFT,0);
             constraintSet.applyTo(constraintLayout);
         }
         else{
-            Glide.with(context).load(receiverImg).error(R.drawable.account_img).placeholder(R.drawable.account_img)
+            Glide.with(context).load(receiverImg).error(R.drawable.account_img)
+                    .placeholder(R.drawable.account_img)
                     .into(holder.profImg);
             ConstraintSet constraintSet = new ConstraintSet();
             constraintSet.clone(constraintLayout);
             constraintSet.clear(R.id.message_cardView,ConstraintSet.RIGHT);
             constraintSet.clear(R.id.msg_tv,ConstraintSet.RIGHT);
-            constraintSet.connect(R.id.message_cardView,ConstraintSet.LEFT,R.id.constraintView,ConstraintSet.LEFT,0);
-            constraintSet.connect(R.id.msg_tv,ConstraintSet.LEFT,R.id.message_cardView,ConstraintSet.RIGHT,0);
+            constraintSet.connect(R.id.message_cardView,
+                    ConstraintSet.LEFT,R.id.constraintView,ConstraintSet.LEFT,0);
+            constraintSet.connect(R.id.msg_tv,
+                    ConstraintSet.LEFT,R.id.message_cardView,ConstraintSet.RIGHT,0);
             constraintSet.applyTo(constraintLayout);
         }
     }
