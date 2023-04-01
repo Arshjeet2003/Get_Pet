@@ -18,7 +18,7 @@ Welcome to our pet adoption app! Our app provides a seamless and convenient way 
   1) Java
   2) Firebase Auth
   3) Firebase Realtime Database
-  4) Firebase Realtime DataBase
+  4) Firebase Messaging API
   5) Firebase Storage
   6) Google Maps SDK
   7) Places API
