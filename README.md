@@ -24,6 +24,12 @@ Welcome to our pet adoption app! Our app provides a seamless and convenient way 
   7) Places API
   8) Dexter Library
 
+## Scrrenshots:
+![image](https://user-images.githubusercontent.com/95087717/229319150-5979cc11-e723-4a36-abb4-aac5a59cf890.png)
+![image](https://user-images.githubusercontent.com/95087717/229319158-e707de6c-0183-42a5-abb5-7fffdf001199.png)
+![image](https://user-images.githubusercontent.com/95087717/229319170-d6d3b745-b669-4995-b214-15158bf04548.png
+![image](https://user-images.githubusercontent.com/95087717/229319184-228c6a66-f57e-4ca4-9c74-95bb006bbc18.png)
+![image](https://user-images.githubusercontent.com/95087717/229319212-82175e80-60b7-435b-9141-63437075aa12.png)
 
 ## Contributors:
 
